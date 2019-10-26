@@ -4,9 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.music.fm544.Fragment.CollectFragment;
 import com.music.fm544.Fragment.ImportFragment;
 import com.music.fm544.Fragment.MineFragment;
-import com.music.fm544.Fragment.SearchFragment;
+
 /**
  * menu适配器
  */
@@ -28,7 +29,7 @@ public class MainMenuAdapter extends FragmentPagerAdapter{
                 fragment = new ImportFragment();
                 break;
             case 2:
-                fragment = new SearchFragment();
+                fragment = new CollectFragment();
                 break;
             default:
                 break;
