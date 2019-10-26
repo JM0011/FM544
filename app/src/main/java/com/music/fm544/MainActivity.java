@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     //菜单名
-    private final int[] menu_title = new int[]{R.string.menu_mine,R.string.menu_import,R.string.menu_search};
+    private final int[] menu_title = new int[]{R.string.menu_mine,R.string.menu_import,R.string.menu_collect};
     //菜单图标
     private final int[] menu_img = new int[]{R.drawable.tab_main_mine_selector,R.drawable.tab_main_import_selector,R.drawable.tab_main_collect_selector};
 

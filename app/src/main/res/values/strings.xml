@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">FM544</string>
 
+    <!--主菜单menu-->
     <string name="menu_mine">我的</string>
     <string name="menu_import">导入</string>
-    <string name="menu_search">我的收藏</string>
+    <string name="menu_collect">我的收藏</string>
+
+    <!--collect页面标签-->
+    <string name="CollectMenu_One">歌曲</string>
+    <string name="CollectMenu_Two">专辑</string>
+    <string name="CollectMenu_Three">歌手</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

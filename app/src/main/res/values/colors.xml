@@ -22,9 +22,9 @@
 
     <!-- 主页 -->
     <color name="menu_gray">#8a8a8a</color>
-    <color name="menu_green">#45c01a</color>
+    <color name="menu_green">#ff0000</color>
 
     <!-- 微信 -->
-    <color name="wx_head_selected">#45c01a</color>
-    <color name="wx_head_default">#5b666f</color>
+    <color name="wx_head_selected">#ff0000</color>
+    <color name="wx_head_default">#000</color>
 </resources>
