@@ -38,17 +38,17 @@ public class CollectSubFragmentAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 fragment = new CollectSubOneFragment();
-                bundle.putString("name", "1");
+                bundle.putString("name", names.get(position));
                 fragment.setArguments(bundle);
                 break;
             case 1:
                 fragment = new CollectSubTwoFragment();
-                bundle.putString("name", "2");
+                bundle.putString("name",names.get(position));
                 fragment.setArguments(bundle);
                 break;
             case 2:
                 fragment = new CollectSubThreeFragment();
-                bundle.putString("name", names.get(2));
+                bundle.putString("name", names.get(position));
                 fragment.setArguments(bundle);
                 break;
             default:

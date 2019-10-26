@@ -13,38 +13,91 @@
 
         <ImageView
             android:id="@+id/log_img"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:layout_marginTop="11dip"
+            android:layout_marginTop="11dp"
             android:src="@drawable/music"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="0dp"
             android:layout_weight="5"
-            android:layout_height="54dip"
-            app:tabIndicatorHeight="0dip" />
+            android:layout_height="54dp"
+            app:tabIndicatorHeight="0dp" />
 
         <ImageView
             android:id="@+id/search_img"
             android:layout_weight="1"
-            android:layout_width="25dip"
-            android:layout_height="25dip"
-            android:layout_marginTop="15dip"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="17dp"
             android:src="@drawable/search_default" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dip"
+        android:layout_height="0.5dp"
         android:background="@color/line_gray" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <com.music.fm544.Controls.CircleImageView
+            android:id="@+id/music_img"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/background"
+            />
+
+        <TextView
+            android:id="@+id/music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/music_img"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="FM" />
+
+        <TextView
+            android:id="@+id/music_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/music_name"
+            android:layout_below="@+id/music_name"
+            android:text="544"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/music_play"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignTop="@+id/music_next"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/music_next"
+            android:src="@drawable/play" />
+
+        <ImageView
+            android:id="@+id/music_next"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/next_music" />
+
+    </RelativeLayout>
 
 </LinearLayout>

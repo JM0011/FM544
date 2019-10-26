@@ -6,25 +6,15 @@
 
     <!--menu分割线-->
     <color name="line_gray">#dcdcdc</color>
-
+    <color name="tabIndicator">#ff0000</color>
 
 
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="line_gray_light">#f1f1f1</color>
-    <color name="gray_page_bg">#ecedf1</color>
-    <color name="gray_text">#5b5b5b</color>
-    <color name="gray_text_dark">#292929</color>
-    <color name="gray_text_light">#979797</color>
-    <color name="window_half_transparent">#90000000</color>
-    <color name="blue_white">#0eabe5</color>
 
-    <!-- 主页 -->
-    <color name="menu_gray">#8a8a8a</color>
-    <color name="menu_green">#ff0000</color>
 
-    <!-- 微信 -->
-    <color name="wx_head_selected">#ff0000</color>
-    <color name="wx_head_default">#000</color>
+    <!-- tab颜色 -->
+    <color name="head_selected">#ff0000</color>
+    <color name="head_default">#000</color>
 </resources>
