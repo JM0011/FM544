@@ -29,11 +29,11 @@ public class SearchActivity extends AppCompatActivity {
     private List<Music> getData() {
 
         List<Music> list1 = new ArrayList<Music>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             Music m = new Music();
             m.setImgId(R.drawable.song);
-            m.setSongName("音乐");
-            m.setSinger("作者");
+            m.setSongName("成都");
+            m.setSinger("赵磊");
             list1.add(m);
         }
         return list1;
