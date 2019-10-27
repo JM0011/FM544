@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/back_btn"
+            android:layout_centerVertical="true"
+            android:text="最近播放"
+            android:textSize="20dp"
+            android:textColor="@color/black"/>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/line_gray"
+            android:layout_below="@id/back_btn"
+            />
+
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_weight="15"
+        android:divider="@null"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp">
+
+        <com.music.fm544.Controls.CircleImageView
+            android:id="@+id/music_img"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/song"
+            />
+
+        <TextView
+            android:id="@+id/music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/music_img"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/music_img"
+            android:text="成都"
+            android:textColor="@color/black"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/music_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/music_name"
+            android:layout_below="@+id/music_name"
+            android:text="赵雷"
+            android:textSize="8dp" />
+
+        <ImageView
+            android:id="@+id/music_play"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/music_next"
+            android:src="@drawable/all_play" />
+
+        <ImageView
+            android:id="@+id/music_next"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="17dp"
+            android:src="@drawable/next_music" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -12,20 +12,30 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".PlayingActivity"
             android:label="@string/title_activity_playing"
-            android:theme="@style/AppTheme" >
-
-        </activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SubActivity.MineSubOneActivity"
+            android:label="@string/title_activity_mine_sub_one"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SubActivity.MineSubTwoActivity"
+            android:label="@string/title_activity_mine_sub_two"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SubActivity.MineSubThreeActivity"
+            android:label="@string/title_activity_mine_sub_three"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

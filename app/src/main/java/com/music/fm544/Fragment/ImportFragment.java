@@ -46,6 +46,8 @@ public class ImportFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+
+
         return view;
     }
 

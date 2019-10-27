@@ -24,6 +24,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_playing">PlayingActivity</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_mine_sub_one">MineSubOneActivity</string>
+    <string name="title_activity_mine_sub_two">MineSubTwoActivity</string>
+    <string name="title_activity_mine_sub_three">MineSubThreeActivity</string>
 
 
 </resources>
