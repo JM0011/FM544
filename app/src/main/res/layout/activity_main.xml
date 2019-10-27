@@ -55,23 +55,24 @@
 
         <com.music.fm544.Controls.CircleImageView
             android:id="@+id/music_img"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="8dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/background"
+            android:src="@drawable/song"
             />
 
         <TextView
             android:id="@+id/music_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_alignTop="@+id/music_img"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/music_img"
-            android:layout_marginLeft="10dp"
-            android:textSize="20dp"
+            android:text="成都"
             android:textColor="@color/black"
-            android:text="FM" />
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/music_singer"
@@ -79,25 +80,26 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/music_name"
             android:layout_below="@+id/music_name"
-            android:text="544"
-            android:textSize="15dp" />
+            android:text="赵雷"
+            android:textSize="8dp" />
 
         <ImageView
             android:id="@+id/music_play"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignTop="@+id/music_next"
-            android:layout_marginEnd="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/music_next"
             android:src="@drawable/all_play" />
 
         <ImageView
             android:id="@+id/music_next"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="17dp"
             android:src="@drawable/next_music" />
 
     </RelativeLayout>
