@@ -1,5 +1,6 @@
 package com.music.fm544;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -19,9 +20,9 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     //菜单名
-    private final int[] menu_title = new int[]{R.string.menu_mine,R.string.menu_import,R.string.menu_collect};
+    private final int[] menu_title = new int[]{R.string.menu_mine,R.string.menu_collect,R.string.menu_import};
     //菜单图标
-    private final int[] menu_img = new int[]{R.drawable.tab_main_mine_selector,R.drawable.tab_main_import_selector,R.drawable.tab_main_collect_selector};
+    private final int[] menu_img = new int[]{R.drawable.tab_main_mine_selector,R.drawable.tab_main_collect_selector,R.drawable.tab_main_import_selector};
 
     //页卡适配器
     private PagerAdapter adapter;
@@ -30,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
+    @BindView(R.id.search_img)
+    ImageView searchBtn;
+    @BindView(R.id.log_img)
+    ImageView playingBtn;
 
     //退出时间
     private long exitTime;
@@ -38,14 +43,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
-
 
         // 初始化页卡
         initPager();
 
         setTabs(tabLayout, getLayoutInflater(), menu_title, menu_img);
+
+        searchBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this,SearchActivity.class);
+                startActivity(i);
+            }
+        });
+
+        playingBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this,PlayingActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
 

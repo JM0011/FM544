@@ -26,10 +26,10 @@ public class MainMenuAdapter extends FragmentPagerAdapter{
                 fragment = new MineFragment();
                 break;
             case 1:
-                fragment = new ImportFragment();
+                fragment = new CollectFragment();
                 break;
             case 2:
-                fragment = new CollectFragment();
+                fragment = new ImportFragment();
                 break;
             default:
                 break;
