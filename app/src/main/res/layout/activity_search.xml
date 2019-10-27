@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:src="@drawable/back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/searchview"/>
+
+    <SearchView
+        android:id="@+id/searchview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#ababa6"
+        app:layout_constraintLeft_toRightOf="@+id/back"
+        app:layout_constraintRight_toRightOf="parent">
+    </SearchView>
+
+    <ListView
+        android:id="@+id/listview"
+        android:divider="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/searchview" />
+
+</android.support.constraint.ConstraintLayout>
