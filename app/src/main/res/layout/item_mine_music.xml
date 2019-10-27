@@ -30,6 +30,7 @@
         android:layout_toEndOf="@id/item_music_img1"
         android:src="@drawable/hq"/>
 
+
     <TextView
         android:id="@+id/item_music_name2"
         android:layout_width="wrap_content"
@@ -46,18 +47,21 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/item_music_choose"
-        android:layout_marginRight="8dp"
+        android:layout_toStartOf="@+id/item_music_more"
+        android:layout_marginRight="1dp"
         android:src="@drawable/play" />
 
-    <RadioButton
-        android:id="@+id/item_music_choose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:layout_marginRight="10dp"
+    <ImageView
+        android:id="@+id/item_music_more"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:src="@drawable/more"/>
 
 </RelativeLayout>

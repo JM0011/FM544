@@ -45,6 +45,8 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_weight="1" />
 
     <RelativeLayout
@@ -82,12 +84,12 @@
 
         <ImageView
             android:id="@+id/music_play"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignTop="@+id/music_next"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/music_next"
-            android:src="@drawable/play" />
+            android:src="@drawable/all_play" />
 
         <ImageView
             android:id="@+id/music_next"

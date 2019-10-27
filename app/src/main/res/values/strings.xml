@@ -11,6 +11,14 @@
     <string name="CollectMenu_Two">专辑</string>
     <string name="CollectMenu_Three">歌手</string>
 
+    <!--mine页面-->
+    <string name="headline">歌曲列表</string>
+    <string name="navigation">本地歌曲</string>
+    <string name="all_play">全部播放</string>
+
+    <string name="tv1">本地歌曲</string>
+    <string name="tv2">已下载歌曲</string>
+    <string name="tv3">取消</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
