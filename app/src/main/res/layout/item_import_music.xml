@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
 
-    <ImageView
+    <com.music.fm544.Controls.CircleImageView
         android:id="@+id/item_music_img1"
         android:layout_marginLeft="15dp"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_centerVertical="true"
         android:src="@drawable/music"/>
 
     <TextView
         android:id="@+id/item_music_name1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="18dp"
         android:layout_toEndOf="@id/item_music_img1"
         android:textSize="12dp"
         android:text="成都"/>
@@ -22,7 +25,7 @@
         android:id="@+id/item_music_name2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="18dp"
         android:layout_below="@id/item_music_name1"
         android:layout_toEndOf="@id/item_music_img1"
         android:textSize="8dp"
@@ -30,14 +33,22 @@
 
 
     <ImageView
-        android:id="@+id/item_music_img2"
+        android:id="@+id/item_music_play"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginRight="20dp"
-        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
         android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/item_music_choose"
+        android:layout_marginRight="12dp"
         android:src="@drawable/play" />
 
-
+    <RadioButton
+        android:id="@+id/item_music_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
 
 </RelativeLayout>
