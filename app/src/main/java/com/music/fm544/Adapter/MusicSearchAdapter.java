@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.music.fm544.R;
@@ -14,9 +13,6 @@ import com.music.fm544.bean.Music;
 
 import java.util.List;
 
-/**
- * Created by jm on 2019/10/27/0027.
- */
 
 public class MusicSearchAdapter extends BaseAdapter {
 
@@ -25,11 +21,11 @@ public class MusicSearchAdapter extends BaseAdapter {
     private Context context;
     private int resid;
 
-    public class Info
+    static class Info
     {
-        private ImageView imgview;
-        private TextView tv1;
-        private TextView tv2;
+        ImageView imgview;
+        TextView tv1;
+        TextView tv2;
     }
     public MusicSearchAdapter(Context context,int resid,List<Music> data)
     {
@@ -54,23 +50,24 @@ public class MusicSearchAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Info info = new Info();
-        LinearLayout l1 = null;
+        Info info = null;
         if (view != null) {
-            l1 = (LinearLayout)view;
+            info = (Info) view.getTag();
         }
         else{
-            l1 = (LinearLayout) LayoutInflater.from(context).inflate(resid,null);
+            view = LayoutInflater.from(context).inflate(resid,null);
+            info = new Info();
+            info.imgview = (ImageView)view.findViewById(R.id.item_music_img1);
+            info.tv1 = (TextView)view.findViewById(R.id.item_music_name1);
+            info.tv2 = (TextView)view.findViewById(R.id.item_music_name2);
+            view.setTag(info);
         }
-        info.imgview = (ImageView)l1.findViewById(R.id.item_music_img1);
-        info.tv1 = (TextView)l1.findViewById(R.id.item_music_name1);
-        info.tv2 = (TextView)l1.findViewById(R.id.item_music_name2);
 
         Music m = (Music) getItem(i);
         info.imgview.setImageResource(m.getImgId());
         info.tv1.setText(m.getSongName());
         info.tv2.setText(m.getSinger());
-        return l1;
+        return view;
     }
 
 }
