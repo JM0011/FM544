@@ -8,6 +8,7 @@
         android:id="@+id/item_music_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:theme="@style/My_CheckBox"
         android:layout_marginTop="9dp"
         android:layout_marginRight="10dp"
         android:layout_alignParentStart="true"

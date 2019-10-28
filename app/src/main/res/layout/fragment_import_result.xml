@@ -73,13 +73,13 @@
             android:layout_centerVertical="true"/>
 
         <TextView
-            android:id="@+id/localMusic_name"
+            android:id="@+id/isAllChoose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dp"
             android:layout_toEndOf="@id/chosse_all"
-            android:text="本地音乐"
+            android:text="全选"
             android:textColor="@color/black"/>
 
         <Button
@@ -98,7 +98,7 @@
             android:layout_height="0.5dp"
             android:layout_marginTop="9dp"
             android:background="@color/line_gray"
-            android:layout_below="@id/localMusic_name"
+            android:layout_below="@id/isAllChoose"
             />
     </RelativeLayout>
 

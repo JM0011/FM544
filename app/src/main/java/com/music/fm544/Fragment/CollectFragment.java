@@ -29,9 +29,6 @@ public class CollectFragment extends Fragment {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
-    //页面切换标签
-    private final int[] subMenu_title = new int[]{R.string.CollectMenu_One,R.string.CollectMenu_One,R.string.CollectMenu_One};
-
 
     private CollectSubFragmentAdapter adapter;
 

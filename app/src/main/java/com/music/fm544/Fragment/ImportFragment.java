@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.music.fm544.Adapter.MusicImportAdapter;
 import com.music.fm544.R;
@@ -29,9 +31,12 @@ public class ImportFragment extends Fragment {
     private List<MusicImport> musics;
 
      private RecyclerView recyclerView;
-
-
-
+    //全选按钮
+     private CheckBox checkBox;
+    //扫描歌曲按钮
+     private Button scan_btn;
+    //全选文本
+    private TextView chooseText;
 
     public ImportFragment() {
         // Required empty public constructor
@@ -49,8 +54,11 @@ public class ImportFragment extends Fragment {
         setMusicAdapter(view);
 
 
-        final Button scan_btn = view.findViewById(R.id.scaning_btn);
+        scan_btn = view.findViewById(R.id.scaning_btn);
+        checkBox = view.findViewById(R.id.choose_all);
+        chooseText = view.findViewById(R.id.isAllChoose);
 
+        //设置扫描歌曲监听事件
         scan_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,9 +68,25 @@ public class ImportFragment extends Fragment {
                     scan_btn.setText("重新扫描");
                 }else if(text.equals("重新扫描")){
                     reinit();
-                    adapter.notifyDataSetChanged();
+                    checkBox.setChecked(false);
+                    chooseText.setText("全选");
+                    adapter.notifyIsAllCheck(false);
                 }
 
+            }
+        });
+
+        //设置全选按钮监听事件
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkBox.isChecked()){
+                    chooseText.setText("取消全选");
+                    adapter.notifyIsAllCheck(true);
+                }else{
+                    chooseText.setText("全选");
+                    adapter.notifyIsAllCheck(false);
+                }
             }
         });
 
@@ -82,7 +106,7 @@ public class ImportFragment extends Fragment {
         MusicImport music = new MusicImport(R.drawable.song,"成都","赵雷",false);
         MusicImport music1 = new MusicImport(R.drawable.song2,"红色高跟鞋","蔡健雅",false);
         MusicImport music2 = new MusicImport(R.drawable.song3,"雅俗共赏","许嵩",false);
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 20; i++) {
             musics.add(music);
             musics.add(music1);
             musics.add(music2);
@@ -106,7 +130,7 @@ public class ImportFragment extends Fragment {
                 music2 = new MusicImport(R.drawable.song,"成都","赵雷",false);
                 break;
         }
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 30; i++) {
             musics.add(music2);
         }
     }

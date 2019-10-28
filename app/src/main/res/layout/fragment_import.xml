@@ -40,18 +40,6 @@
             app:layout_constraintStart_toEndOf="@id/music_logo"
             app:layout_constraintTop_toBottomOf="@id/music_name1" />
 
-        <!--<Button-->
-            <!--android:id="@+id/scaning_btn"-->
-            <!--android:visibility="invisible"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:layout_marginEnd="15dp"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent"-->
-            <!--android:text="扫描歌曲"-->
-            <!--android:textSize="12dp"/>-->
 
         <!--<View-->
             <!--android:id="@+id/line1"-->
@@ -65,18 +53,19 @@
             android:id="@+id/choose_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:theme="@style/My_CheckBox"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/music_logo"/>
 
         <TextView
-            android:id="@+id/localMusic_name"
+            android:id="@+id/isAllChoose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="7dp"
             app:layout_constraintTop_toTopOf="@id/choose_all"
             app:layout_constraintLeft_toRightOf="@id/choose_all"
-            android:text="本地音乐"
+            android:text="全选"
             android:textColor="@color/black"/>
 
         <Button
@@ -109,8 +98,9 @@
 
     <Button
         android:id="@+id/scaning_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:background="@drawable/import_btn"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="10dp"
