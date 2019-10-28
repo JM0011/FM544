@@ -42,11 +42,12 @@ public class ImportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_import_result, container, false);
-        View view_default = inflater.inflate(R.layout.fragment_import,container,false);
+//        View view_default = inflater.inflate(R.layout.fragment_import_result, container, false);
+        View view = inflater.inflate(R.layout.fragment_import,container,false);
 
         initMusic();
         setMusicAdapter(view);
+
 
         final Button scan_btn = view.findViewById(R.id.scaning_btn);
 
