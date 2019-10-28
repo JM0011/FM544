@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/music_logo"
             android:layout_width="42dp"
             android:layout_height="42dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/music_import"
              />
 
@@ -44,6 +42,7 @@
 
         <!--<Button-->
             <!--android:id="@+id/scaning_btn"-->
+            <!--android:visibility="invisible"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="40dp"-->
             <!--android:layout_marginBottom="8dp"-->
@@ -61,35 +60,33 @@
             <!--android:layout_marginTop="4dp"-->
             <!--android:background="@color/white"-->
             <!--app:layout_constraintTop_toBottomOf="@id/music_logo" />-->
-    </android.support.constraint.ConstraintLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="38dp">
 
         <CheckBox
-            android:id="@+id/chosse_all"
+            android:id="@+id/choose_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"/>
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/music_logo"/>
 
         <TextView
             android:id="@+id/localMusic_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="3dp"
-            android:layout_toEndOf="@id/chosse_all"
+            android:layout_marginTop="7dp"
+            app:layout_constraintTop_toTopOf="@id/choose_all"
+            app:layout_constraintLeft_toRightOf="@id/choose_all"
             android:text="本地音乐"
             android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/import_btn"
             android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginRight="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="2dp"
+            app:layout_constraintTop_toBottomOf="@id/music_logo"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="导入"
             android:textSize="10dp"/>
 
@@ -97,26 +94,28 @@
             android:id="@+id/line2"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="5dp"
             android:background="@color/line_gray"
-            android:layout_below="@id/localMusic_name"
+            app:layout_constraintTop_toBottomOf="@id/choose_all"
              />
-    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/line2"
+        android:visibility="invisible"
+        />
 
     <Button
         android:id="@+id/scaning_btn"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginVertical="500dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="扫描歌曲"
-        android:textSize="12dp"/>
-
-
-
-</LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="扫描歌曲" />
+</android.support.constraint.ConstraintLayout>
