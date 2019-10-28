@@ -13,9 +13,6 @@ import com.music.fm544.bean.MusicImport;
 
 import java.util.List;
 
-/**
- * Created by jm on 2019/10/27/0027.
- */
 
 public class MusicImportAdapter extends RecyclerView.Adapter<MusicImportAdapter.ViewHolder>{
     Context context;

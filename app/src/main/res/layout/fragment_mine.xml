@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_toEndOf="@id/music_logo"
-            android:text="导入歌曲"
+            android:text="本地歌曲"
             android:textColor="@color/black"
             android:textSize="17dp"
              />

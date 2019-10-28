@@ -2,6 +2,8 @@ package com.music.fm544;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.music.fm544.Adapter.MusicSearchAdapter;
@@ -23,6 +25,16 @@ public class SearchActivity extends AppCompatActivity {
         List<Music> list1 = getData();
         MusicSearchAdapter adapter = new MusicSearchAdapter(getApplicationContext(),R.layout.item_mine_music,list1);
         list.setAdapter(adapter);
+
+        ImageView back =  (ImageView) this.findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
     }
 

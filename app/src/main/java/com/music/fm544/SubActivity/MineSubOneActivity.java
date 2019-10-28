@@ -2,6 +2,8 @@ package com.music.fm544.SubActivity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -47,6 +49,16 @@ public class MineSubOneActivity extends AppCompatActivity {
 
         //关联适配器
         listView.setAdapter(simpleAdapter);
+
+        ImageView back =  (ImageView) this.findViewById(R.id.back_btn);
+
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
 }
