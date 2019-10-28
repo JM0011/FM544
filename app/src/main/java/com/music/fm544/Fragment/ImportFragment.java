@@ -30,8 +30,10 @@ public class ImportFragment extends Fragment {
     private List<MusicImport> musics;
 
      private RecyclerView recyclerView;
-
-
+    //全选按钮
+     private CheckBox checkBox;
+    //扫描歌曲按钮
+     private Button scan_btn;
 
 
     public ImportFragment() {
@@ -50,7 +52,7 @@ public class ImportFragment extends Fragment {
         setMusicAdapter(view);
 
 
-        final Button scan_btn = view.findViewById(R.id.scaning_btn);
+        scan_btn = view.findViewById(R.id.scaning_btn);
         //设置扫描歌曲监听事件
         scan_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,18 +63,23 @@ public class ImportFragment extends Fragment {
                     scan_btn.setText("重新扫描");
                 }else if(text.equals("重新扫描")){
                     reinit();
-                    adapter.notifyDataSetChanged();
+                    checkBox.setChecked(false);
+                    adapter.notifyIsAllCheck(false);
                 }
 
             }
         });
 
         //设置全选按钮监听事件
-        final CheckBox checkBox = view.findViewById(R.id.choose_all);
+        checkBox = view.findViewById(R.id.choose_all);
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recyclerView.getChildItemId()
+                if(checkBox.isChecked()){
+                    adapter.notifyIsAllCheck(true);
+                }else{
+                    adapter.notifyIsAllCheck(false);
+                }
             }
         });
 
