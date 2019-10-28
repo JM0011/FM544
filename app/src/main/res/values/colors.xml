@@ -13,6 +13,10 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
 
+    <!--状态栏-->
+    <color name="statusTab">#FFFAFAFA</color>
+    <!--collect界面子标签-->
+    <color name="subTab">#FFFAFAFA</color>
 
     <!-- tab颜色 -->
     <color name="head_selected">#ff0000</color>

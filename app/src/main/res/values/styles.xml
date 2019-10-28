@@ -15,6 +15,12 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <!--CheckBox-->
+    <style name="My_CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox">
+        <item name="android:colorControlActivated">@color/red</item>
+    </style>
+
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

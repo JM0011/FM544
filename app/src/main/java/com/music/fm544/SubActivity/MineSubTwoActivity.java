@@ -1,5 +1,6 @@
 package com.music.fm544.SubActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.music.fm544.R;
+import com.music.fm544.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ public class MineSubTwoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_sub_two);
+        initStatusBar();
 
         //1.拿到ListView对象
         ListView listView = this.findViewById(R.id.listview);
@@ -59,6 +62,15 @@ public class MineSubTwoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //设置状态栏颜色
+    private void initStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtils.setStatusBarColor(MineSubTwoActivity.this, R.color.statusTab);
+        }
     }
 
 }
