@@ -12,17 +12,16 @@
 
         <ImageView
             android:id="@+id/music_logo"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/music_import"
-             />
+            />
 
         <TextView
             android:id="@+id/music_name1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:text="导入歌曲"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -35,32 +34,32 @@
             android:id="@+id/music_name2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="1dp"
             android:text="聆听好声音"
             android:textSize="10dp"
             app:layout_constraintStart_toEndOf="@id/music_logo"
             app:layout_constraintTop_toBottomOf="@id/music_name1" />
 
-        <!--<Button-->
-            <!--android:id="@+id/scaning_btn"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:layout_marginEnd="15dp"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent"-->
-            <!--android:text="扫描歌曲"-->
-            <!--android:textSize="12dp"/>-->
+        <Button
+            android:id="@+id/scaning_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="扫描歌曲"
+            android:textSize="12dp"/>
 
         <!--<View-->
-            <!--android:id="@+id/line1"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0.5dp"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--android:background="@color/white"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/music_logo" />-->
+        <!--android:id="@+id/line1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0.5dp"-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:background="@color/white"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/music_logo" />-->
     </android.support.constraint.ConstraintLayout>
 
     <RelativeLayout
@@ -100,23 +99,14 @@
             android:layout_marginTop="9dp"
             android:background="@color/line_gray"
             android:layout_below="@id/localMusic_name"
-             />
+            />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/scaning_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginVertical="500dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="扫描歌曲"
-        android:textSize="12dp"/>
-
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        />
 
 </LinearLayout>
