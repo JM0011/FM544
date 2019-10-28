@@ -21,7 +21,7 @@
             android:id="@+id/music_name1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_toEndOf="@id/music_logo"
             android:text="本地歌曲"
             android:textColor="@color/black"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/music_name1"
             android:layout_toEndOf="@id/music_logo"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="1dp"
             android:text="聆听好声音"
             android:textSize="10dp" />
