@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.music.fm544.Adapter.MusicImportAdapter;
 import com.music.fm544.R;
@@ -50,7 +51,7 @@ public class ImportFragment extends Fragment {
 
 
         final Button scan_btn = view.findViewById(R.id.scaning_btn);
-
+        //设置扫描歌曲监听事件
         scan_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +64,15 @@ public class ImportFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 }
 
+            }
+        });
+
+        //设置全选按钮监听事件
+        final CheckBox checkBox = view.findViewById(R.id.choose_all);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerView.getChildItemId()
             }
         });
 
@@ -106,7 +116,7 @@ public class ImportFragment extends Fragment {
                 music2 = new MusicImport(R.drawable.song,"成都","赵雷",false);
                 break;
         }
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 12; i++) {
             musics.add(music2);
         }
     }
