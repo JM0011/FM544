@@ -29,6 +29,7 @@
     <string name="title_activity_mine_sub_one">MineSubOneActivity</string>
     <string name="title_activity_mine_sub_two">MineSubTwoActivity</string>
     <string name="title_activity_mine_sub_three">MineSubThreeActivity</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
 
 
 </resources>
