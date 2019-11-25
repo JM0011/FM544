@@ -66,7 +66,7 @@ public class MusicSearchAdapter extends BaseAdapter implements View.OnClickListe
             view.setTag(info);
         }
         Music m = (Music)getItem(i);
-        info.imgview.setImageResource(R.drawable.music);
+        info.imgview.setImageResource(m.getImgId());
         info.tv1.setText(m.getSongName());
         info.tv2.setText(m.getSinger());
         info.imgview2.setOnClickListener(this);

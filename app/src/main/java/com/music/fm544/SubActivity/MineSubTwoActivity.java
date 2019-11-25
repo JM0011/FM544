@@ -1,77 +1,41 @@
 package com.music.fm544.SubActivity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.music.fm544.PlayingMusicActivity;
+import com.music.fm544.Adapter.MusicSearchAdapter;
 import com.music.fm544.R;
+import com.music.fm544.bean.Music;
 import com.music.fm544.utils.StatusBarUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class MineSubTwoActivity extends AppCompatActivity {
+public class MineSubTwoActivity extends AppCompatActivity implements MusicSearchAdapter.InnerItemOnclickListener,AdapterView.OnItemClickListener{
+    private ListView list;
+    private MusicSearchAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_sub_two);
         initStatusBar();
+        //获取ListView对象
+        list = this.findViewById(R.id.listview);
 
-        //1.拿到ListView对象
-        ListView listView = this.findViewById(R.id.listview);
-
-        //2.准备数据源
-        List<Map<String,Object>> list = new ArrayList<Map<String, Object>>();
-
-        Map<String,Object> map = new HashMap<String, Object>();
-        map.put("item_music_img1",R.drawable.song);
-        map.put("item_music_name1","成都");
-        map.put("item_music_name2","赵雷");
-
-        Map<String,Object> map2 = new HashMap<String, Object>();
-        map2.put("item_music_img1",R.drawable.song2);
-        map2.put("item_music_name1","红色高跟鞋");
-        map2.put("item_music_name2","蔡健雅");
-
-        for (int i = 0; i < 15; i++) {
-            list.add(map);
-            list.add(map2);
-        }
-
-        // 3.设置适配器
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this,list, R.layout.item_mine_music,
-                new String[]{"item_music_img1","item_music_name1","item_music_name2"},
-                new int[]{R.id.item_music_img1,R.id.item_music_name1,R.id.item_music_name2});
-
-        //关联适配器
-        listView.setAdapter(simpleAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView tv_name = (TextView) view.findViewById(R.id.item_music_name1);
-                TextView tv_name2 = (TextView) view.findViewById(R.id.item_music_name2);
-                String song = tv_name.getText().toString();
-                String songer = tv_name2.getText().toString();
-                Intent intent = new Intent(MineSubTwoActivity.this,PlayingMusicActivity.class);
-                intent.putExtra("songName",song);
-                intent.putExtra("songer",songer);
-                startActivity(intent);
-
-            }
-        });
-
+        List<Music> list1 = getData();
+        mAdapter = new MusicSearchAdapter(getApplicationContext(),list1);
+        mAdapter.setOnInnerItemOnclickListener(this);
+        list.setAdapter(mAdapter);
+        list.setOnItemClickListener(this);
 
         ImageView back =  (ImageView) this.findViewById(R.id.back_btn);
 
@@ -82,7 +46,102 @@ public class MineSubTwoActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
+    private List<Music> getData() {
+
+        List<Music> list1 = new ArrayList<Music>();
+        for (int i = 0; i < 20; i++) {
+            Music m = new Music();
+            Music m1 = new Music();
+            m1.setImgId(R.drawable.song3);
+            m1.setSongName("当你");
+            m1.setSinger("林俊杰");
+            m.setImgId(R.drawable.song);
+            m.setSongName("成都");
+            m.setSinger("赵磊");
+            list1.add(m);
+            list1.add(m1);
+        }
+        return list1;
+
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Music music = (Music) mAdapter.getItem(i);
+        toPlayMusic(music);
+    }
+
+    @Override
+    public void itemClick(View view) {
+        int positon;
+        positon = (Integer) view.getTag();
+        Music music;
+        switch (view.getId()){
+            case R.id.item_music_play:
+                music = (Music) mAdapter.getItem(positon);
+                toPlayMusic(music);
+                break;
+            case R.id.item_music_more:
+                music = (Music) mAdapter.getItem(positon);
+                Toast toast1 = Toast.makeText(this,"菜单",Toast.LENGTH_SHORT);
+                toast1.show();
+                showPopupMenu(view,music);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    private void showPopupMenu(View view, final Music music)
+    {
+        PopupMenu menu = new PopupMenu(this,view);
+        menu.getMenuInflater().inflate(R.menu.more,menu.getMenu());
+        //设置点击事件
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                if (menuItem.getTitle().equals("加入播放列表")){
+                    addIntoPlayList(music);
+                }else{
+                    addLikeMusic(music);
+                }
+                return false;
+            }
+        });
+        //设置关闭事件
+        menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu popupMenu) {
+
+            }
+        });
+        menu.show();
+    }
+
+    private void toPlayMusic(Music music){
+        Toast toast1 = Toast.makeText(this,"播放歌曲： "+music.getSongName(),Toast.LENGTH_SHORT);
+        toast1.show();
+    }
+
+    //添加喜爱歌曲
+    private void addLikeMusic(Music music) {
+        Toast toast1 = Toast.makeText(this,"添加喜爱歌曲: "+music.getSongName(),Toast.LENGTH_SHORT);
+        toast1.show();
+    }
+
+    /**
+     * 添加到播放列表
+     */
+    private void addIntoPlayList(Music music) {
+        Toast toast1 = Toast.makeText(this,"添加到播放列表: "+music.getSongName(),Toast.LENGTH_SHORT);
+        toast1.show();
+    }
+
 
     //设置状态栏颜色
     private void initStatusBar() {
