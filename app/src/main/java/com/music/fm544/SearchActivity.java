@@ -22,7 +22,6 @@ public class SearchActivity extends AppCompatActivity implements MusicSearchAdap
 
     private ListView list;
     private MusicSearchAdapter mAdapter;
-    private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class SearchActivity extends AppCompatActivity implements MusicSearchAdap
         for (int i = 0; i < 20; i++) {
             Music m = new Music();
             Music m1 = new Music();
-            m1.setImgId(R.drawable.song);
+            m1.setImgId(R.drawable.song2);
             m1.setSongName("当你");
             m1.setSinger("林俊杰");
             m.setImgId(R.drawable.song);
