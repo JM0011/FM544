@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.music.fm544.bean.MusicPO;
 import com.music.fm544.utils.StatusBarUtils;
 import com.music.fm544.views.PlayMusicView;
 
@@ -50,7 +51,17 @@ public class PlayingMusicActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPlayMusicView.destory();
+    }
+
     private void initView(){
+        MusicPO music = new MusicPO();
+        music.setMusic_author("赵雷");
+        music.setMusic_name("成都");
+        music.setMusic_path(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3");
         int imgUrl = R.drawable.song2;
         imageView = findViewById(R.id.iv_bg);
         Glide.with(this)
@@ -62,7 +73,8 @@ public class PlayingMusicActivity extends AppCompatActivity {
 //        mPlayMusicView.playMusic("http://res.lgdsunday.club/Nostalgic%20Piano.mp3");
 //        mPlayMusicView.playMusic("http://www.170mv.com/kw/antiserver.kuwo.cn/anti.s?rid=MUSIC_11736829&response=res&format=mp3|aac&type=convert_url&br=128kmp3&agent=iPhone&callback=getlink&jpcallback=getlink.mp3");
         String url = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3";
-        mPlayMusicView.playMusic(url);
+        mPlayMusicView.setMusic(music);
+        mPlayMusicView.playMusic();
     }
 
     //设置状态栏颜色

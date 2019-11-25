@@ -24,10 +24,6 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".PlayingActivity"
-            android:label="@string/title_activity_playing"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme" />
