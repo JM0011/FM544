@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.music.fm544.Adapter.MainMenuAdapter;
 import com.music.fm544.utils.StatusBarUtils;
+import com.music.fm544.views.PlayMusicTab;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        PlayMusicTab musicTab = findViewById(R.id.music_tab);
+        musicTab.initView();
     }
 
     //设置状态栏颜色

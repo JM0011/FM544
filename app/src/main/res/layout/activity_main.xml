@@ -52,6 +52,7 @@
          />
 
     <com.music.fm544.views.PlayMusicTab
+        android:id="@+id/music_tab"
         android:layout_weight="6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

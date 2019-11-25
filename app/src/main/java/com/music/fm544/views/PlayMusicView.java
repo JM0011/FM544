@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.music.fm544.MyApplication;
 import com.music.fm544.R;
 import com.music.fm544.bean.MusicPO;
 import com.music.fm544.helps.MediaPlayerHelp;
@@ -32,12 +33,24 @@ public class PlayMusicView extends FrameLayout{
     private MusicPO mMusic;
 
     private MediaPlayerHelp mMediaPlayerHelp;
-    private boolean isPlaying,isBindService;
+    private boolean isBindService;
     private String mPath;
     private View myView;
     private FrameLayout mFlPlayMusic;
     private ImageView mIvNeedle,mIvIcon,mIvPlay;
     private Animation mPlayMusicAnim,mPlayNeedleAnim,mStopNeedleAnim;
+
+    private ServiceConnection conn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mMusicBind = (MusicService.MusicBind) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+        }
+    };
+
 
     public PlayMusicView(@NonNull Context context) {
         super(context);
@@ -60,6 +73,7 @@ public class PlayMusicView extends FrameLayout{
     }
 
     private void init(Context context){
+
         myContext = context;
         myView = LayoutInflater.from(myContext).inflate(R.layout.play_music,this,false);
         mIvIcon = myView.findViewById(R.id.iv_icon);
@@ -76,18 +90,41 @@ public class PlayMusicView extends FrameLayout{
         mPlayNeedleAnim = AnimationUtils.loadAnimation(myContext,R.anim.play_needle_anim);
         mStopNeedleAnim = AnimationUtils.loadAnimation(myContext,R.anim.stop_needle_anim);
 
-
         addView(myView);
-
-//        mMediaPlayerHelp = MediaPlayerHelp.getInstance(myContext);
+        initAnim();
     }
 
+
+    public void initAnim(){
+        MyApplication app = (MyApplication) myContext.getApplicationContext();
+//        if (mServiceIntent == null){
+//            mServiceIntent = new Intent(myContext, MusicService.class);
+//            myContext.startService(mServiceIntent);
+//        }
+        mServiceIntent = app.getServiceIntent();
+        //绑定service
+        if (!isBindService){
+            isBindService = true;
+            myContext.bindService(mServiceIntent,conn,Context.BIND_AUTO_CREATE);
+        }
+        if (app.isPlaying()){
+            mIvPlay.setVisibility(View.GONE);
+            mFlPlayMusic.startAnimation(mPlayMusicAnim);
+            mIvNeedle.startAnimation(mPlayNeedleAnim);
+        }else{
+            mIvPlay.setVisibility(View.VISIBLE);
+            mFlPlayMusic.clearAnimation();
+            mIvNeedle.startAnimation(mStopNeedleAnim);
+        }
+
+    }
 
     /**
      * 切换播放状态
      */
     private void trigger(){
-        if (isPlaying){
+        MyApplication app = (MyApplication) myContext.getApplicationContext();
+        if (app.isPlaying()){
             stopMusic();
         }else{
             playMusic();
@@ -98,31 +135,32 @@ public class PlayMusicView extends FrameLayout{
      * 播放音乐
      */
     public void playMusic(){
-        isPlaying = true;
         mIvPlay.setVisibility(View.GONE);
         mFlPlayMusic.startAnimation(mPlayMusicAnim);
         mIvNeedle.startAnimation(mPlayNeedleAnim);
 
-//        if (mMediaPlayerHelp.getPath() != null && mMediaPlayerHelp.getPath().equals(path)){
-//            mMediaPlayerHelp.start();
-//        }else {
-//            mMediaPlayerHelp.setPath(path);
-//            mMediaPlayerHelp.setOnMediaPlayerHelperListener(new MediaPlayerHelp.OnMediaPlayerHelperListener() {
-//                @Override
-//                public void onPrepared(MediaPlayer mediaPlayer) {
-//                    mMediaPlayerHelp.start();
-//                }
-//            });
+
+        mMusicBind.playMusic();
+
+//        if (mServiceIntent == null){
+//            mServiceIntent = new Intent(myContext, MusicService.class);
+//            myContext.startService(mServiceIntent);
 //        }
-        //启动音乐服务
-        startMusicService();
+//        else {
+//            mMusicBind.playMusic();
+//        }
+
+//        //绑定service
+//        if (!isBindService){
+//            isBindService = true;
+//            myContext.bindService(mServiceIntent,conn,Context.BIND_AUTO_CREATE);
+//        }
     }
 
     /**
      * 停止播放
      */
     public void stopMusic(){
-        isPlaying = false;
         mIvPlay.setVisibility(View.VISIBLE);
         mFlPlayMusic.clearAnimation();
         mIvNeedle.startAnimation(mStopNeedleAnim);
@@ -130,7 +168,6 @@ public class PlayMusicView extends FrameLayout{
 //        mMediaPlayerHelp.pause();
         //暂停音乐服务
         if (mMusicBind != null){
-
             mMusicBind.stopMusic();
         }
     }
@@ -154,26 +191,6 @@ public class PlayMusicView extends FrameLayout{
         mMusic = music;
     }
 
-    /**
-     * 启动音乐服务
-     */
-    private void startMusicService(){
-        //启动service
-        if (mServiceIntent == null){
-            mServiceIntent = new Intent(myContext, MusicService.class);
-            myContext.startService(mServiceIntent);
-        }
-        else {
-            mMusicBind.playMusic();
-        }
-
-        //绑定service
-        if (!isBindService){
-            isBindService = true;
-            myContext.bindService(mServiceIntent,conn,Context.BIND_AUTO_CREATE);
-        }
-
-    }
 
     /**
      * 取消绑定
@@ -186,16 +203,5 @@ public class PlayMusicView extends FrameLayout{
     }
 
 
-    ServiceConnection conn = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mMusicBind = (MusicService.MusicBind) service;
-            mMusicBind.setMusic(mMusic);
-            mMusicBind = (MusicService.MusicBind) service;
-        }
 
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-        }
-    };
 }

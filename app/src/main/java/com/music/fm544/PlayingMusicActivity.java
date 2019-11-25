@@ -72,10 +72,12 @@ public class PlayingMusicActivity extends AppCompatActivity {
         mPlayMusicView.setMusicIcon(imgUrl);
 //        mPlayMusicView.playMusic("http://res.lgdsunday.club/Nostalgic%20Piano.mp3");
 //        mPlayMusicView.playMusic("http://www.170mv.com/kw/antiserver.kuwo.cn/anti.s?rid=MUSIC_11736829&response=res&format=mp3|aac&type=convert_url&br=128kmp3&agent=iPhone&callback=getlink&jpcallback=getlink.mp3");
-        String url = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3";
-        mPlayMusicView.setMusic(music);
-        mPlayMusicView.playMusic();
+//        String url = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3";
+//        mPlayMusicView.setMusic(music);
+//        mPlayMusicView.playMusic();
+//        mPlayMusicView.initAnim();
     }
+
 
     //设置状态栏颜色
     private void initStatusBar() {
