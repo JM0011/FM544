@@ -3,9 +3,13 @@ package com.music.fm544;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.music.fm544.Adapter.MusicSearchAdapter;
 import com.music.fm544.bean.Music;
@@ -14,9 +18,11 @@ import com.music.fm544.utils.StatusBarUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements MusicSearchAdapter.InnerItemOnclickListener,AdapterView.OnItemClickListener{
 
-    ListView list;
+    private ListView list;
+    private MusicSearchAdapter mAdapter;
+    private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +32,10 @@ public class SearchActivity extends AppCompatActivity {
 
         list = findViewById(R.id.listview);
         List<Music> list1 = getData();
-        MusicSearchAdapter adapter = new MusicSearchAdapter(getApplicationContext(),R.layout.item_mine_music,list1);
-        list.setAdapter(adapter);
+        mAdapter = new MusicSearchAdapter(getApplicationContext(),list1);
+        mAdapter.setOnInnerItemOnclickListener(this);
+        list.setAdapter(mAdapter);
+        list.setOnItemClickListener(this);
 
         ImageView back =  (ImageView) this.findViewById(R.id.back);
 
@@ -46,14 +54,94 @@ public class SearchActivity extends AppCompatActivity {
         List<Music> list1 = new ArrayList<Music>();
         for (int i = 0; i < 20; i++) {
             Music m = new Music();
+            Music m1 = new Music();
+            m1.setImgId(R.drawable.song);
+            m1.setSongName("当你");
+            m1.setSinger("林俊杰");
             m.setImgId(R.drawable.song);
             m.setSongName("成都");
             m.setSinger("赵磊");
             list1.add(m);
+            list1.add(m1);
         }
         return list1;
 
     }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Music music = (Music) mAdapter.getItem(i);
+       toPlayMusic(music);
+    }
+
+    @Override
+    public void itemClick(View view) {
+        int positon;
+        positon = (Integer) view.getTag();
+        Music music;
+        switch (view.getId()){
+            case R.id.item_music_play:
+                music = (Music) mAdapter.getItem(positon);
+                toPlayMusic(music);
+                break;
+            case R.id.item_music_more:
+                music = (Music) mAdapter.getItem(positon);
+                Toast toast1 = Toast.makeText(this,"菜单",Toast.LENGTH_SHORT);
+                toast1.show();
+                showPopupMenu(view,music);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    private void showPopupMenu(View view, final Music music)
+    {
+        PopupMenu menu = new PopupMenu(this,view);
+        menu.getMenuInflater().inflate(R.menu.more,menu.getMenu());
+        //设置点击事件
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                if (menuItem.getTitle().equals("加入播放列表")){
+                    addIntoPlayList(music);
+                }else{
+                    addLikeMusic(music);
+                }
+                return false;
+            }
+        });
+        //设置关闭事件
+        menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu popupMenu) {
+
+            }
+        });
+        menu.show();
+    }
+
+    private void toPlayMusic(Music music){
+        Toast toast1 = Toast.makeText(this,"播放歌曲： "+music.getSongName(),Toast.LENGTH_SHORT);
+        toast1.show();
+    }
+
+    //添加喜爱歌曲
+    private void addLikeMusic(Music music) {
+        Toast toast1 = Toast.makeText(this,"添加喜爱歌曲: "+music.getSongName(),Toast.LENGTH_SHORT);
+        toast1.show();
+    }
+
+    /**
+     * 添加到播放列表
+     */
+    private void addIntoPlayList(Music music) {
+        Toast toast1 = Toast.makeText(this,"添加到播放列表: "+music.getSongName(),Toast.LENGTH_SHORT);
+        toast1.show();
+    }
+
 
     //设置状态栏颜色
     private void initStatusBar() {

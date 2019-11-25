@@ -1,13 +1,17 @@
 package com.music.fm544.SubActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import com.music.fm544.PlayingMusicActivity;
 import com.music.fm544.R;
 import com.music.fm544.utils.StatusBarUtils;
 
@@ -52,6 +56,21 @@ public class MineSubThreeActivity extends AppCompatActivity {
 
         //关联适配器
         listView.setAdapter(simpleAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView tv_name = (TextView) view.findViewById(R.id.item_music_name1);
+                TextView tv_name2 = (TextView) view.findViewById(R.id.item_music_name2);
+                String song = tv_name.getText().toString();
+                String songer = tv_name2.getText().toString();
+                Intent intent = new Intent(MineSubThreeActivity.this,PlayingMusicActivity.class);
+                intent.putExtra("songName",song);
+                intent.putExtra("songer",songer);
+                startActivity(intent);
+
+            }
+        });
 
         ImageView back =  (ImageView) this.findViewById(R.id.back_btn);
 

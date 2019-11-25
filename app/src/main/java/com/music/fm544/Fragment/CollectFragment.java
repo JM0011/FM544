@@ -48,7 +48,7 @@ public class CollectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_collect, container, false);
         ButterKnife.bind(this, view);
 
@@ -63,7 +63,7 @@ public class CollectFragment extends Fragment {
 
     private void initData() {
         names = new ArrayList<>();
-        names.add("歌曲");
+//        names.add("歌曲");
         names.add("专辑");
         names.add("歌手");
     }

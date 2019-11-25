@@ -18,9 +18,6 @@ import com.bumptech.glide.Glide;
 import com.music.fm544.R;
 import com.music.fm544.helps.MediaPlayerHelp;
 
-/**
- * Created by jm on 2019/11/24/0024.
- */
 
 public class PlayMusicView extends FrameLayout{
 
@@ -132,5 +129,6 @@ public class PlayMusicView extends FrameLayout{
         Glide.with(myContext)
                 .load(icon)
                 .into(mIvIcon);
+
     }
 }

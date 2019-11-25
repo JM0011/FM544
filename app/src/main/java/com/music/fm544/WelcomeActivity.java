@@ -21,6 +21,13 @@ public class WelcomeActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
+
     private void init() {
         mTimer = new Timer();
         mTimer.schedule(new TimerTask() {
@@ -29,7 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
                 startActivity(intent);
             }
-        },2*1000);
+        },3*500);
     }
 
 

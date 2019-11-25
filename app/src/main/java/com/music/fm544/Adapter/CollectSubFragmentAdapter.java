@@ -6,15 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.music.fm544.Fragment.CollectSub.CollectSubOneFragment;
-import com.music.fm544.Fragment.CollectSub.CollectSubThreeFragment;
 import com.music.fm544.Fragment.CollectSub.CollectSubTwoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jm on 2019/10/26/0026.
-        */
+
 
 public class CollectSubFragmentAdapter extends FragmentPagerAdapter {
     private List<String> names ;
@@ -46,11 +43,11 @@ public class CollectSubFragmentAdapter extends FragmentPagerAdapter {
                 bundle.putString("name",names.get(position));
                 fragment.setArguments(bundle);
                 break;
-            case 2:
-                fragment = new CollectSubThreeFragment();
-                bundle.putString("name", names.get(position));
-                fragment.setArguments(bundle);
-                break;
+//            case 2:
+//                fragment = new CollectSubThreeFragment();
+//                bundle.putString("name", names.get(position));
+//                fragment.setArguments(bundle);
+//                break;
             default:
                 break;
         }
