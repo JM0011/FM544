@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
-        <com.music.fm544.Controls.CircleImageView
+        <com.music.fm544.Views.CircleImageView
             android:id="@+id/music_img"
             android:layout_width="34dp"
             android:layout_height="34dp"

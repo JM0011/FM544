@@ -1,4 +1,4 @@
-package com.music.fm544.views;
+package com.music.fm544.Views;
 
 
 import android.content.ComponentName;
@@ -18,8 +18,8 @@ import com.bumptech.glide.Glide;
 import com.music.fm544.MyApplication;
 import com.music.fm544.PlayingMusicActivity;
 import com.music.fm544.R;
-import com.music.fm544.bean.MusicPO;
-import com.music.fm544.service.MusicService;
+import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Service.MusicService;
 
 public class PlayMusicTab extends RelativeLayout {
     private Intent mServiceIntent;

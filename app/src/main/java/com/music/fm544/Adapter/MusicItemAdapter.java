@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.music.fm544.R;
-import com.music.fm544.bean.MusicPO;
+import com.music.fm544.Bean.MusicPO;
 
 import java.util.List;
 
@@ -60,7 +60,6 @@ public class MusicItemAdapter extends BaseAdapter implements View.OnClickListene
             view = LayoutInflater.from(context).inflate(R.layout.item_mine_music,null);
             info = new Info();
             info.imgview = (ImageView)view.findViewById(R.id.item_music_img1);
-            info.imgview2 = (ImageView)view.findViewById(R.id.item_music_play);
             info.imgview3 = (ImageView)view.findViewById(R.id.item_music_more);
             info.tv1 = (TextView)view.findViewById(R.id.item_music_name1);
             info.tv2 = (TextView)view.findViewById(R.id.item_music_name2);
@@ -74,9 +73,7 @@ public class MusicItemAdapter extends BaseAdapter implements View.OnClickListene
                 .into(info.imgview);
         info.tv1.setText(m.getMusic_name());
         info.tv2.setText(m.getMusic_author());
-        info.imgview2.setOnClickListener(this);
         info.imgview3.setOnClickListener(this);
-        info.imgview2.setTag(i);
         info.imgview3.setTag(i);
         return view;
     }

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.music.fm544.utils.StatusBarUtils;
+import com.music.fm544.Utils.StatusBarUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;

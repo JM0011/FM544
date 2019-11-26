@@ -1,9 +1,9 @@
-package com.music.fm544.helps;
+package com.music.fm544.Helps;
 
 
 import android.os.Environment;
 
-import com.music.fm544.bean.MusicPO;
+import com.music.fm544.Bean.MusicPO;
 
 public class DateBaseHelp {
 

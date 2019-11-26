@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.music.fm544.Adapter.MainMenuAdapter;
-import com.music.fm544.utils.StatusBarUtils;
-import com.music.fm544.views.PlayMusicTab;
+import com.music.fm544.Utils.StatusBarUtils;
+import com.music.fm544.Views.PlayMusicTab;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

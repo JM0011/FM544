@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         />
 
-    <com.music.fm544.Controls.CircleImageView
+    <com.music.fm544.Views.CircleImageView
         android:id="@+id/item_music_img1"
         android:layout_toEndOf="@id/item_music_choose"
         android:layout_width="30dp"

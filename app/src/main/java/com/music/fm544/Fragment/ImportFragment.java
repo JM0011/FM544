@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.music.fm544.Adapter.MusicImportAdapter;
 import com.music.fm544.R;
-import com.music.fm544.bean.MusicImport;
+import com.music.fm544.Bean.MusicImport;
 
 import java.util.ArrayList;
 import java.util.List;

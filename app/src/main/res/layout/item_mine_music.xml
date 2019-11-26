@@ -4,7 +4,7 @@
     android:layout_height="60dp"
     android:minHeight="50dp">
 
-    <com.music.fm544.Controls.CircleImageView
+    <com.music.fm544.Views.CircleImageView
         android:id="@+id/item_music_img1"
         android:layout_marginLeft="15dp"
         android:layout_width="30dp"
@@ -43,23 +43,24 @@
         android:text="赵磊"/>
 
 
-    <ImageView
-        android:id="@+id/item_music_play"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/item_music_more"
-        android:layout_marginRight="1dp"
-        android:src="@drawable/play" />
+    <!--<ImageView-->
+        <!--android:id="@+id/item_music_play"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginEnd="5dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_toStartOf="@+id/item_music_more"-->
+        <!--android:layout_marginRight="1dp"-->
+        <!--android:src="@drawable/play" />-->
 
     <ImageView
         android:id="@+id/item_music_more"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="15dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"

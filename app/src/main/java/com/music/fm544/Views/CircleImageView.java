@@ -1,4 +1,4 @@
-package com.music.fm544.Controls;
+package com.music.fm544.Views;
 
 
 import android.content.Context;

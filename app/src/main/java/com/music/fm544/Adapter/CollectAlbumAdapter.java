@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.music.fm544.R;
-import com.music.fm544.bean.Album;
+import com.music.fm544.Bean.Album;
 
 import java.util.List;
 

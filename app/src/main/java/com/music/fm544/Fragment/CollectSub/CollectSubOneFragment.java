@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.music.fm544.Adapter.CollectAlbumAdapter;
 import com.music.fm544.R;
-import com.music.fm544.bean.Album;
+import com.music.fm544.Bean.Album;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"/>
 
 
-    <com.music.fm544.views.PlayMusicTab
+    <com.music.fm544.Views.PlayMusicTab
         android:id="@+id/plaing_tab"
         android:layout_weight="6"
         android:layout_width="match_parent"

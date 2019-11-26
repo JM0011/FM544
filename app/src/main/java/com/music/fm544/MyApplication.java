@@ -3,9 +3,9 @@ package com.music.fm544;
 import android.app.Application;
 import android.content.Intent;
 
-import com.music.fm544.bean.MusicPO;
-import com.music.fm544.helps.DateBaseHelp;
-import com.music.fm544.service.MusicService;
+import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Helps.DateBaseHelp;
+import com.music.fm544.Service.MusicService;
 
 public class MyApplication extends Application{
     private boolean isPlaying;

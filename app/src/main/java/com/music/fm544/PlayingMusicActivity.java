@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.music.fm544.bean.MusicPO;
-import com.music.fm544.utils.StatusBarUtils;
-import com.music.fm544.views.PlayMusicView;
+import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Utils.StatusBarUtils;
+import com.music.fm544.Views.PlayMusicView;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 

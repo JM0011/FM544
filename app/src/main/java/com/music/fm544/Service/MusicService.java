@@ -1,4 +1,4 @@
-package com.music.fm544.service;
+package com.music.fm544.Service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,9 +7,9 @@ import android.os.Binder;
 import android.os.IBinder;
 
 import com.music.fm544.MyApplication;
-import com.music.fm544.bean.MusicPO;
-import com.music.fm544.helps.DateBaseHelp;
-import com.music.fm544.helps.MediaPlayerHelp;
+import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Helps.DateBaseHelp;
+import com.music.fm544.Helps.MediaPlayerHelp;
 
 public class MusicService extends Service {
 

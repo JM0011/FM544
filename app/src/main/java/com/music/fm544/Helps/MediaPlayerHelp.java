@@ -1,4 +1,4 @@
-package com.music.fm544.helps;
+package com.music.fm544.Helps;
 
 import android.content.Context;
 import android.media.MediaPlayer;

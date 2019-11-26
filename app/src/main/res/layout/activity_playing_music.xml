@@ -14,7 +14,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/song"/>
 
-    <com.music.fm544.views.PlayMusicView
+    <com.music.fm544.Views.PlayMusicView
         android:id="@+id/play_music_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -18,9 +18,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.music.fm544.Adapter.MusicItemAdapter;
-import com.music.fm544.bean.MusicPO;
-import com.music.fm544.service.MusicService;
-import com.music.fm544.utils.StatusBarUtils;
+import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Service.MusicService;
+import com.music.fm544.Utils.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,20 +133,26 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
         int positon;
         positon = (Integer) view.getTag();
         MusicPO music;
-        switch (view.getId()){
-            case R.id.item_music_play:
-                music = (MusicPO) mAdapter.getItem(positon);
-                toPlayMusic(music);
-                break;
-            case R.id.item_music_more:
-                music = (MusicPO) mAdapter.getItem(positon);
-                Toast toast1 = Toast.makeText(this,"菜单",Toast.LENGTH_SHORT);
-                toast1.show();
-                showPopupMenu(view,music);
-                break;
-            default:
-                break;
+        if (view.getId() == R.id.item_music_more){
+            music = (MusicPO) mAdapter.getItem(positon);
+            Toast toast1 = Toast.makeText(this,"菜单",Toast.LENGTH_SHORT);
+            toast1.show();
+            showPopupMenu(view,music);
         }
+//        switch (view.getId()){
+//            case R.id.item_music_play:
+//                music = (MusicPO) mAdapter.getItem(positon);
+//                toPlayMusic(music);
+//                break;
+//            case R.id.item_music_more:
+//                music = (MusicPO) mAdapter.getItem(positon);
+//                Toast toast1 = Toast.makeText(this,"菜单",Toast.LENGTH_SHORT);
+//                toast1.show();
+//                showPopupMenu(view,music);
+//                break;
+//            default:
+//                break;
+//        }
     }
 
 

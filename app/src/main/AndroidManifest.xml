@@ -42,7 +42,7 @@
             android:theme="@style/AppTheme" />
 
         <service
-            android:name=".service.MusicService"
+            android:name=".Service.MusicService"
             android:enabled="true"
             android:exported="true" />
 
