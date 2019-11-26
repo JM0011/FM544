@@ -8,8 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.music.fm544.R;
-import com.music.fm544.bean.Music;
+import com.music.fm544.bean.MusicPO;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class MusicItemAdapter extends BaseAdapter implements View.OnClickListener{
 
     //data就是要显示的信息
-    private List<Music> data;
+    private List<MusicPO> data;
     private Context context;
     private InnerItemOnclickListener listener;
 
@@ -29,7 +30,7 @@ public class MusicItemAdapter extends BaseAdapter implements View.OnClickListene
         private TextView tv1;
         private TextView tv2;
     }
-    public MusicItemAdapter(Context context, List<Music> data)
+    public MusicItemAdapter(Context context, List<MusicPO> data)
     {
         this.data = data;
         this.context = context;
@@ -65,16 +66,21 @@ public class MusicItemAdapter extends BaseAdapter implements View.OnClickListene
             info.tv2 = (TextView)view.findViewById(R.id.item_music_name2);
             view.setTag(info);
         }
-        Music m = (Music)getItem(i);
-        info.imgview.setImageResource(m.getImgId());
-        info.tv1.setText(m.getSongName());
-        info.tv2.setText(m.getSinger());
+        MusicPO m = (MusicPO) getItem(i);
+
+//        String url = Environment.getExternalStorageDirectory().getAbsolutePath() + m.getMusic_pic_path();
+        Glide.with(context)
+                .load(m.getMusic_pic_path())
+                .into(info.imgview);
+        info.tv1.setText(m.getMusic_name());
+        info.tv2.setText(m.getMusic_author());
         info.imgview2.setOnClickListener(this);
         info.imgview3.setOnClickListener(this);
         info.imgview2.setTag(i);
         info.imgview3.setTag(i);
         return view;
     }
+
 
 
     public interface InnerItemOnclickListener{

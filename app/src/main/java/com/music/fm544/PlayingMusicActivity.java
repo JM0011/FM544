@@ -3,7 +3,6 @@ package com.music.fm544;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,17 +27,17 @@ public class PlayingMusicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
         Intent intent = getIntent();
-        initStatusBar();
-        initView();
+
 
 
 
         ImageView back =  (ImageView) this.findViewById(R.id.back_btn);
         mSongName = (TextView) this.findViewById(R.id.songName);
         mSinger = (TextView) this.findViewById(R.id.singer);
+        mPlayMusicView = (PlayMusicView) this.findViewById(R.id.play_music_view);
 
-        mSongName.setText(intent.getStringExtra("songName"));
-        mSinger.setText(intent.getStringExtra("songer"));
+        initStatusBar();
+        initView();
 
         back.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -58,18 +57,22 @@ public class PlayingMusicActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        MusicPO music = new MusicPO();
-        music.setMusic_author("赵雷");
-        music.setMusic_name("成都");
-        music.setMusic_path(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3");
-        int imgUrl = R.drawable.song2;
+//        MusicPO music = new MusicPO();
+//        music.setMusic_author("赵雷");
+//        music.setMusic_name("成都");
+//        music.setMusic_path(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3");
+        MyApplication app = (MyApplication) getApplication();
+        MusicPO music = app.getMusic();
+        mSongName.setText(music.getMusic_name());
+        mSinger.setText(music.getMusic_author());
         imageView = findViewById(R.id.iv_bg);
         Glide.with(this)
-                .load(imgUrl)
+                .load(music.getMusic_pic_path())
                 .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
                 .into(imageView);
-        mPlayMusicView = findViewById(R.id.play_music_view);
-        mPlayMusicView.setMusicIcon(imgUrl);
+
+//        mPlayMusicView = findViewById(R.id.play_music_view);
+//        mPlayMusicView.setMusicIcon(imgUrl);
 //        mPlayMusicView.playMusic("http://res.lgdsunday.club/Nostalgic%20Piano.mp3");
 //        mPlayMusicView.playMusic("http://www.170mv.com/kw/antiserver.kuwo.cn/anti.s?rid=MUSIC_11736829&response=res&format=mp3|aac&type=convert_url&br=128kmp3&agent=iPhone&callback=getlink&jpcallback=getlink.mp3");
 //        String url = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3";

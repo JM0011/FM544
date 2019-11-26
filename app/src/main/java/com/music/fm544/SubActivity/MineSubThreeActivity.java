@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -14,13 +15,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.music.fm544.Adapter.MusicItemAdapter;
 import com.music.fm544.MyApplication;
 import com.music.fm544.R;
-import com.music.fm544.bean.Music;
 import com.music.fm544.bean.MusicPO;
 import com.music.fm544.service.MusicService;
 import com.music.fm544.utils.StatusBarUtils;
@@ -60,7 +59,7 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         list = this.findViewById(R.id.listview);
         mPlayMusicTab = this.findViewById(R.id.plaing_tab);
 
-        List<Music> list1 = getData();
+        List<MusicPO> list1 = getData();
         mAdapter = new MusicItemAdapter(getApplicationContext(),list1);
         mAdapter.setOnInnerItemOnclickListener(this);
         list.setAdapter(mAdapter);
@@ -78,6 +77,7 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         //绑定Msuic服务
         initBind();
     }
+
 
 
     //绑定服务
@@ -99,20 +99,30 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
             isBindService = false;
             this.unbindService(conn);
         }
+        mPlayMusicTab.destory();
     }
 
-    private List<Music> getData() {
+    private List<MusicPO> getData() {
 
-        List<Music> list1 = new ArrayList<Music>();
+        List<MusicPO> list1 = new ArrayList<MusicPO>();
         for (int i = 0; i < 20; i++) {
-            Music m = new Music();
-            Music m1 = new Music();
-            m1.setImgId(R.drawable.song3);
-            m1.setSongName("当你");
-            m1.setSinger("林俊杰");
-            m.setImgId(R.drawable.song);
-            m.setSongName("成都");
-            m.setSinger("赵磊");
+            MusicPO m = new MusicPO();
+            MusicPO m1 = new MusicPO();
+            String url = Environment.getExternalStorageDirectory().getAbsolutePath();
+            m.setMusic_name("成都");
+            m.setMusic_author("赵雷");
+            m.setMusic_path(url+"/Music/song.mp3");
+            m.setMusic_pic_path(url+"/Music/song.jpg");
+            m1.setMusic_name("当你");
+            m1.setMusic_author("林俊杰");
+            m1.setMusic_path(url+"/Music/song1.mp3");
+            m1.setMusic_pic_path(url+"/Music/song2.jpg");
+//            m1.setImgId(R.drawable.song3);
+//            m1.setSongName("当你");
+//            m1.setSinger("林俊杰");
+//            m.setImgId(R.drawable.song);
+//            m.setSongName("成都");
+//            m.setSinger("赵磊");
             list1.add(m);
             list1.add(m1);
         }
@@ -123,7 +133,7 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Music music = (Music) mAdapter.getItem(i);
+        MusicPO music = (MusicPO) mAdapter.getItem(i);
         toPlayMusic(music);
     }
 
@@ -131,14 +141,14 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
     public void itemClick(View view) {
         int positon;
         positon = (Integer) view.getTag();
-        Music music;
+        MusicPO music;
         switch (view.getId()){
             case R.id.item_music_play:
-                music = (Music) mAdapter.getItem(positon);
+                music = (MusicPO) mAdapter.getItem(positon);
                 toPlayMusic(music);
                 break;
             case R.id.item_music_more:
-                music = (Music) mAdapter.getItem(positon);
+                music = (MusicPO) mAdapter.getItem(positon);
                 Toast toast1 = Toast.makeText(this,"菜单",Toast.LENGTH_SHORT);
                 toast1.show();
                 showPopupMenu(view,music);
@@ -149,7 +159,7 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
     }
 
 
-    private void showPopupMenu(View view, final Music music)
+    private void showPopupMenu(View view, final MusicPO music)
     {
         PopupMenu menu = new PopupMenu(this,view);
         menu.getMenuInflater().inflate(R.menu.more,menu.getMenu());
@@ -175,50 +185,30 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         menu.show();
     }
 
-    private void toPlayMusic(Music music){
+    private void toPlayMusic(MusicPO music){
         if (mMusicBind != null){
             mMusicBind.nextMusic();
-            resetPlayTabStatus(null);
+            mPlayMusicTab.resetPlayTabStatus(music);
         }
-        Toast toast1 = Toast.makeText(this,"播放歌曲： "+music.getSongName(),Toast.LENGTH_SHORT);
+        Toast toast1 = Toast.makeText(this,"播放歌曲： "+music.getMusic_name(),Toast.LENGTH_SHORT);
         toast1.show();
     }
 
     //添加喜爱歌曲
-    private void addLikeMusic(Music music) {
-        Toast toast1 = Toast.makeText(this,"添加喜爱歌曲: "+music.getSongName(),Toast.LENGTH_SHORT);
+    private void addLikeMusic(MusicPO music) {
+        Toast toast1 = Toast.makeText(this,"添加喜爱歌曲: "+music.getMusic_name(),Toast.LENGTH_SHORT);
         toast1.show();
     }
 
     /**
      * 添加到播放列表
      */
-    private void addIntoPlayList(Music music) {
-        Toast toast1 = Toast.makeText(this,"添加到播放列表: "+music.getSongName(),Toast.LENGTH_SHORT);
+    private void addIntoPlayList(MusicPO music) {
+        Toast toast1 = Toast.makeText(this,"添加到播放列表: "+music.getMusic_name(),Toast.LENGTH_SHORT);
         toast1.show();
     }
 
 
-    //修改PlayingTab信息状态
-    private void resetPlayTabStatus(MusicPO music){
-        ImageView song_img = mPlayMusicTab.getPlay_music_img();
-        TextView song_name = mPlayMusicTab.getSong_txt();
-        TextView singer_name = mPlayMusicTab.getSinger_txt();
-        ImageView play_btn = mPlayMusicTab.getPlay_btn();
-
-        //未完成
-//        play_btn.setImageResource(R.mipmap.play_stop);
-//        song_img.setImageResource(R.drawable.song3);
-//        song_name.setText(music.getMusic_name());
-//        singer_name.setText(music.getMusic_author());
-
-
-        play_btn.setImageResource(R.mipmap.play_stop);
-        song_img.setImageResource(R.drawable.song3);
-        song_name.setText("当你");
-        singer_name.setText("林俊杰");
-
-    }
 
     //设置状态栏颜色
     private void initStatusBar() {

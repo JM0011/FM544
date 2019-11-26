@@ -14,9 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.music.fm544.MyApplication;
 import com.music.fm544.PlayingMusicActivity;
 import com.music.fm544.R;
+import com.music.fm544.bean.MusicPO;
 import com.music.fm544.service.MusicService;
 
 public class PlayMusicTab extends RelativeLayout {
@@ -34,21 +36,7 @@ public class PlayMusicTab extends RelativeLayout {
     private Context mContext;
 
 
-    public ImageView getPlay_btn() {
-        return play_btn;
-    }
 
-    public ImageView getPlay_music_img() {
-        return play_music_img;
-    }
-
-    public TextView getSong_txt() {
-        return song_txt;
-    }
-
-    public TextView getSinger_txt() {
-        return singer_txt;
-    }
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
@@ -111,6 +99,8 @@ public class PlayMusicTab extends RelativeLayout {
         });
     }
 
+
+
     public void initView() {
         MyApplication app = (MyApplication) mContext.getApplicationContext();
         if (app.isPlaying()){
@@ -145,8 +135,16 @@ public class PlayMusicTab extends RelativeLayout {
         }
     }
 
+    //修改PlayingTab信息状态
+    public void resetPlayTabStatus(MusicPO music){
+        play_btn.setImageResource(R.mipmap.play_stop);
 
-
+        Glide.with(mContext)
+                .load(music.getMusic_pic_path())
+                .into(play_music_img);
+        song_txt.setText(music.getMusic_name());
+        singer_txt.setText(music.getMusic_author());
+    }
 
     /**
      * 取消绑定

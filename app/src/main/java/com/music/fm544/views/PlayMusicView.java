@@ -21,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.music.fm544.MyApplication;
 import com.music.fm544.R;
 import com.music.fm544.bean.MusicPO;
-import com.music.fm544.helps.MediaPlayerHelp;
 import com.music.fm544.service.MusicService;
 
 
@@ -31,10 +30,8 @@ public class PlayMusicView extends FrameLayout{
     private Intent mServiceIntent;
     private MusicService.MusicBind mMusicBind;
     private MusicPO mMusic;
-
-    private MediaPlayerHelp mMediaPlayerHelp;
     private boolean isBindService;
-    private String mPath;
+
     private View myView;
     private FrameLayout mFlPlayMusic;
     private ImageView mIvNeedle,mIvIcon,mIvPlay;
@@ -78,17 +75,19 @@ public class PlayMusicView extends FrameLayout{
         myView = LayoutInflater.from(myContext).inflate(R.layout.play_music,this,false);
         mIvIcon = myView.findViewById(R.id.iv_icon);
         mFlPlayMusic = myView.findViewById(R.id.fl_play_music);
+        mIvNeedle = myView.findViewById(R.id.iv_needle);
+        mIvPlay = myView.findViewById(R.id.iv_play);
+
+
+        mPlayMusicAnim = AnimationUtils.loadAnimation(myContext,R.anim.play_music_anim);
+        mPlayNeedleAnim = AnimationUtils.loadAnimation(myContext,R.anim.play_needle_anim);
+        mStopNeedleAnim = AnimationUtils.loadAnimation(myContext,R.anim.stop_needle_anim);
         mFlPlayMusic.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 trigger();
             }
         });
-        mIvNeedle = myView.findViewById(R.id.iv_needle);
-        mIvPlay = myView.findViewById(R.id.iv_play);
-        mPlayMusicAnim = AnimationUtils.loadAnimation(myContext,R.anim.play_music_anim);
-        mPlayNeedleAnim = AnimationUtils.loadAnimation(myContext,R.anim.play_needle_anim);
-        mStopNeedleAnim = AnimationUtils.loadAnimation(myContext,R.anim.stop_needle_anim);
 
         addView(myView);
         initAnim();
@@ -98,6 +97,11 @@ public class PlayMusicView extends FrameLayout{
     public void initAnim(){
         MyApplication app = (MyApplication) myContext.getApplicationContext();
         mServiceIntent = app.getServiceIntent();
+        MusicPO music = app.getMusic();
+        Glide.with(myContext)
+                .load(music.getMusic_pic_path())
+                .into(mIvIcon);
+
         //绑定service
         if (!isBindService){
             isBindService = true;
@@ -158,11 +162,11 @@ public class PlayMusicView extends FrameLayout{
 
     /**
      * 设置光盘中显示得音乐的封面图片
-     * @param icon
      */
-    public void setMusicIcon(int icon){
+    public void setMusicIcon(String url){
+//        String url = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song.jpg";
         Glide.with(myContext)
-                .load(icon)
+                .load(url)
                 .into(mIvIcon);
 
     }
