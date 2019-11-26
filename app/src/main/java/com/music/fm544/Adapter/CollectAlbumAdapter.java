@@ -14,6 +14,9 @@ import com.music.fm544.bean.Album;
 
 import java.util.List;
 
+/**
+ * 收藏页面（专辑适配器）
+ */
 public class CollectAlbumAdapter extends BaseAdapter {
 
     //data就是要显示的信息

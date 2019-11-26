@@ -97,10 +97,6 @@ public class PlayMusicView extends FrameLayout{
 
     public void initAnim(){
         MyApplication app = (MyApplication) myContext.getApplicationContext();
-//        if (mServiceIntent == null){
-//            mServiceIntent = new Intent(myContext, MusicService.class);
-//            myContext.startService(mServiceIntent);
-//        }
         mServiceIntent = app.getServiceIntent();
         //绑定service
         if (!isBindService){
@@ -139,22 +135,9 @@ public class PlayMusicView extends FrameLayout{
         mFlPlayMusic.startAnimation(mPlayMusicAnim);
         mIvNeedle.startAnimation(mPlayNeedleAnim);
 
-
         mMusicBind.playMusic();
 
-//        if (mServiceIntent == null){
-//            mServiceIntent = new Intent(myContext, MusicService.class);
-//            myContext.startService(mServiceIntent);
-//        }
-//        else {
-//            mMusicBind.playMusic();
-//        }
 
-//        //绑定service
-//        if (!isBindService){
-//            isBindService = true;
-//            myContext.bindService(mServiceIntent,conn,Context.BIND_AUTO_CREATE);
-//        }
     }
 
     /**

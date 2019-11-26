@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.music.fm544.MyApplication;
@@ -23,11 +24,31 @@ public class PlayMusicTab extends RelativeLayout {
     private MusicService.MusicBind mMusicBind;
     private boolean isBindService;
 
+    //基本控件
     private ImageView play_music_img;
     private ImageView play_btn;
     private ImageView next_btn;
     private ImageView list_btn;
+    private TextView song_txt;
+    private TextView singer_txt;
     private Context mContext;
+
+
+    public ImageView getPlay_btn() {
+        return play_btn;
+    }
+
+    public ImageView getPlay_music_img() {
+        return play_music_img;
+    }
+
+    public TextView getSong_txt() {
+        return song_txt;
+    }
+
+    public TextView getSinger_txt() {
+        return singer_txt;
+    }
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
@@ -49,6 +70,8 @@ public class PlayMusicTab extends RelativeLayout {
         play_btn = (ImageView) findViewById(R.id.music_play);
         next_btn = (ImageView) findViewById(R.id.music_next);
         list_btn = (ImageView) findViewById(R.id.music_list);
+        song_txt = (TextView) findViewById(R.id.music_name);
+        singer_txt = (TextView) findViewById(R.id.music_singer);
 
         initView();
 

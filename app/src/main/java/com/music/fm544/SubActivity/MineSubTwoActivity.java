@@ -1,7 +1,12 @@
 package com.music.fm544.SubActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
@@ -9,12 +14,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.music.fm544.Adapter.MusicSearchAdapter;
+import com.music.fm544.MyApplication;
 import com.music.fm544.R;
 import com.music.fm544.bean.Music;
+import com.music.fm544.bean.MusicPO;
+import com.music.fm544.service.MusicService;
 import com.music.fm544.utils.StatusBarUtils;
+import com.music.fm544.views.PlayMusicTab;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +33,24 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicSearch
     private ListView list;
     private MusicSearchAdapter mAdapter;
 
+    private Intent mServiceIntent;
+    private MusicService.MusicBind mMusicBind;
+    private boolean isBindService;
+
+    //获取tab中的控件
+    private PlayMusicTab mPlayMusicTab;
+
+    private ServiceConnection conn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mMusicBind = (MusicService.MusicBind) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +58,7 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicSearch
         initStatusBar();
         //获取ListView对象
         list = this.findViewById(R.id.listview);
+        mPlayMusicTab = this.findViewById(R.id.plaing_tab);
 
         List<Music> list1 = getData();
         mAdapter = new MusicSearchAdapter(getApplicationContext(),list1);
@@ -46,8 +75,32 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicSearch
             }
         });
 
-
+        //绑定Msuic服务
+        initBind();
     }
+
+
+    //绑定服务
+    private void initBind() {
+        MyApplication app = (MyApplication) getApplication();
+        mServiceIntent = app.getServiceIntent();
+        //绑定service
+        if (!isBindService){
+            isBindService = true;
+            this.bindService(mServiceIntent,conn, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //取消服务绑定
+        if(isBindService){
+            isBindService = false;
+            this.unbindService(conn);
+        }
+    }
+
 
     private List<Music> getData() {
 
@@ -124,6 +177,10 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicSearch
     }
 
     private void toPlayMusic(Music music){
+        if (mMusicBind != null){
+            mMusicBind.nextMusic();
+            resetPlayTabStatus(null);
+        }
         Toast toast1 = Toast.makeText(this,"播放歌曲： "+music.getSongName(),Toast.LENGTH_SHORT);
         toast1.show();
     }
@@ -140,6 +197,28 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicSearch
     private void addIntoPlayList(Music music) {
         Toast toast1 = Toast.makeText(this,"添加到播放列表: "+music.getSongName(),Toast.LENGTH_SHORT);
         toast1.show();
+    }
+
+
+    //修改PlayingTab信息状态
+    private void resetPlayTabStatus(MusicPO music){
+        ImageView song_img = mPlayMusicTab.getPlay_music_img();
+        TextView song_name = mPlayMusicTab.getSong_txt();
+        TextView singer_name = mPlayMusicTab.getSinger_txt();
+        ImageView play_btn = mPlayMusicTab.getPlay_btn();
+
+        //未完成
+//        play_btn.setImageResource(R.mipmap.play_stop);
+//        song_img.setImageResource(R.drawable.song3);
+//        song_name.setText(music.getMusic_name());
+//        singer_name.setText(music.getMusic_author());
+
+
+        play_btn.setImageResource(R.mipmap.play_stop);
+        song_img.setImageResource(R.drawable.song3);
+        song_name.setText("当你");
+        singer_name.setText("林俊杰");
+
     }
 
 

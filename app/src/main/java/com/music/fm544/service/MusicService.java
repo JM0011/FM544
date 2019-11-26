@@ -110,7 +110,6 @@ public class MusicService extends Service {
         public void stopMusic() {
             MyApplication app = (MyApplication)getApplication();
             app.setPlaying(false);
-            System.out.println("关闭");
             mMediaPlayerHelp.pause();
         }
     }
