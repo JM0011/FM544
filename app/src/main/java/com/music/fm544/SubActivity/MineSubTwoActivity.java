@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.music.fm544.Adapter.MusicSearchAdapter;
+import com.music.fm544.Adapter.MusicItemAdapter;
 import com.music.fm544.MyApplication;
 import com.music.fm544.R;
 import com.music.fm544.bean.Music;
@@ -29,9 +29,9 @@ import com.music.fm544.views.PlayMusicTab;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MineSubTwoActivity extends AppCompatActivity implements MusicSearchAdapter.InnerItemOnclickListener,AdapterView.OnItemClickListener{
+public class MineSubTwoActivity extends AppCompatActivity implements MusicItemAdapter.InnerItemOnclickListener,AdapterView.OnItemClickListener{
     private ListView list;
-    private MusicSearchAdapter mAdapter;
+    private MusicItemAdapter mAdapter;
 
     private Intent mServiceIntent;
     private MusicService.MusicBind mMusicBind;
@@ -61,7 +61,7 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicSearch
         mPlayMusicTab = this.findViewById(R.id.plaing_tab);
 
         List<Music> list1 = getData();
-        mAdapter = new MusicSearchAdapter(getApplicationContext(),list1);
+        mAdapter = new MusicItemAdapter(getApplicationContext(),list1);
         mAdapter.setOnInnerItemOnclickListener(this);
         list.setAdapter(mAdapter);
         list.setOnItemClickListener(this);

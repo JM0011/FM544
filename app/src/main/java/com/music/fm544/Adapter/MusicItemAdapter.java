@@ -14,7 +14,7 @@ import com.music.fm544.bean.Music;
 import java.util.List;
 
 
-public class MusicSearchAdapter extends BaseAdapter implements View.OnClickListener{
+public class MusicItemAdapter extends BaseAdapter implements View.OnClickListener{
 
     //data就是要显示的信息
     private List<Music> data;
@@ -29,7 +29,7 @@ public class MusicSearchAdapter extends BaseAdapter implements View.OnClickListe
         private TextView tv1;
         private TextView tv2;
     }
-    public MusicSearchAdapter(Context context,List<Music> data)
+    public MusicItemAdapter(Context context, List<Music> data)
     {
         this.data = data;
         this.context = context;
