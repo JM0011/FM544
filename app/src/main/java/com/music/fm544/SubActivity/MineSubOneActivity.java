@@ -180,7 +180,7 @@ public class MineSubOneActivity extends AppCompatActivity implements MusicItemAd
         //设置播放音乐--------未完成
 //        app.setMusic(music);
         if (mMusicBind != null){
-            mMusicBind.nextMusic();
+            mMusicBind.insertMusic(music);
             mPlayMusicTab.resetPlayTabStatus(music);
 
         }

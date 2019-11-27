@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.music.fm544.R;
 import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.R;
 
 import java.util.List;
 
@@ -68,9 +68,16 @@ public class MusicItemAdapter extends BaseAdapter implements View.OnClickListene
         MusicPO m = (MusicPO) getItem(i);
 
 //        String url = Environment.getExternalStorageDirectory().getAbsolutePath() + m.getMusic_pic_path();
-        Glide.with(context)
-                .load(m.getMusic_pic_path())
-                .into(info.imgview);
+//        Glide.with(context)
+//                .load(m.getMusic_pic_path())
+//                .into(info.imgview);
+        if (m.getMusic_pic_path() == null || m.getMusic_pic_path().equals("")){
+            info.imgview.setImageResource(R.drawable.icon_logo);
+        }else {
+            Glide.with(context)
+                    .load(m.getMusic_pic_path())
+                    .into(info.imgview);
+        }
         info.tv1.setText(m.getMusic_name());
         info.tv2.setText(m.getMusic_author());
         info.imgview3.setOnClickListener(this);

@@ -34,7 +34,7 @@ public class LocalAudioUtils {
 
             do {
                 music = new MusicPO();
-                String name,singer,album,type,pic_path,path,file_name;
+                String name,singer,album,type,pic_path = null,path,file_name;
                 int time,album_id;
                 Long size;
 //                System.out.println(cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
@@ -53,6 +53,9 @@ public class LocalAudioUtils {
                     type = "wma";
                 }
                 pic_path = getAlbumArt(album_id);
+                if (pic_path == "" || pic_path == null || pic_path.equals("null")){
+                    pic_path="";
+                }
                 System.out.println(name);
                 System.out.println(singer);
                 System.out.println(album);

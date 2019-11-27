@@ -109,11 +109,26 @@ public class PlayMusicTab extends RelativeLayout {
 
     public void initView() {
         MyApplication app = (MyApplication) mContext.getApplicationContext();
+        MusicPO music = app.getMusic();
         if (app.isPlaying()){
             play_btn.setImageResource(R.mipmap.play_stop);
         }else{
             play_btn.setImageResource(R.drawable.all_play);
         }
+        System.out.println(music.getMusic_pic_path());
+        if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
+//            Glide.with(mContext)
+//                    .load(music.getMusic_pic_path())
+//                    .into(play_music_img);
+            play_music_img.setImageResource(R.drawable.icon_logo);
+        }else {
+            Glide.with(mContext)
+                    .load(music.getMusic_pic_path())
+                    .into(play_music_img);
+        }
+        song_txt.setText(music.getMusic_name());
+        singer_txt.setText(music.getMusic_author());
+
         mServiceIntent = app.getServiceIntent();
         //绑定service
         if (!isBindService){
@@ -144,10 +159,17 @@ public class PlayMusicTab extends RelativeLayout {
     //修改PlayingTab信息状态
     public void resetPlayTabStatus(MusicPO music){
         play_btn.setImageResource(R.mipmap.play_stop);
+        System.out.println("更新图片" + music.getMusic_pic_path());
 
-        Glide.with(mContext)
-                .load(music.getMusic_pic_path())
-                .into(play_music_img);
+        if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
+            System.out.println("更新图片1" + music.getMusic_pic_path());
+            play_music_img.setImageResource(R.drawable.icon_logo);
+        }else {
+            Glide.with(mContext)
+                    .load(music.getMusic_pic_path())
+                    .into(play_music_img);
+        }
+//        play_music_img.setImageResource(R.drawable.icon_logo);
         song_txt.setText(music.getMusic_name());
         singer_txt.setText(music.getMusic_author());
     }

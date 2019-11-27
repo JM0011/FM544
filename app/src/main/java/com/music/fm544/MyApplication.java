@@ -69,6 +69,7 @@ public class MyApplication extends Application{
                 "/storage/emulated/0/Music/music/夜空中最亮的星.mp3",0);
         MusicDao musicDao = new MusicDao(datebaseHelper,this);
 
+        music = music1;
 //        musicDao.create_music_table_row(music1);
 //        musicDao.create_music_table_row(music2);
 //        musicDao.create_music_table_row(music3);

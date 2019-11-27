@@ -197,7 +197,7 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
 
     private void toPlayMusic(MusicPO music){
         if (mMusicBind != null){
-            mMusicBind.nextMusic();
+            mMusicBind.insertMusic(music);
             mPlayMusicTab.resetPlayTabStatus(music);
         }
         Toast toast1 = Toast.makeText(this,"播放歌曲： "+music.getMusic_name(),Toast.LENGTH_SHORT);

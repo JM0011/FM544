@@ -98,10 +98,20 @@ public class PlayMusicView extends FrameLayout{
         MyApplication app = (MyApplication) myContext.getApplicationContext();
         mServiceIntent = app.getServiceIntent();
         MusicPO music = app.getMusic();
-        Glide.with(myContext)
-                .load(music.getMusic_pic_path())
-                .into(mIvIcon);
+//        Glide.with(myContext)
+//                .load(music.getMusic_pic_path())
+//                .into(mIvIcon);
+        if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
+//            Glide.with(myContext)
+//                    .load(R.drawable.icon_logo)
+//                    .into(mIvIcon);
+            mIvIcon.setImageResource(R.drawable.icon_logo);
 
+        }else {
+            Glide.with(myContext)
+                    .load(music.getMusic_pic_path())
+                    .into(mIvIcon);
+        }
         //绑定service
         if (!isBindService){
             isBindService = true;
@@ -165,10 +175,18 @@ public class PlayMusicView extends FrameLayout{
      */
     public void setMusicIcon(String url){
 //        String url = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song.jpg";
-        Glide.with(myContext)
-                .load(url)
-                .into(mIvIcon);
-
+//        Glide.with(myContext)
+//                .load(url)
+//                .into(mIvIcon);
+        if (url == null || url.equals("")){
+            Glide.with(myContext)
+                    .load(R.drawable.icon_logo)
+                    .into(mIvIcon);
+        }else {
+            Glide.with(myContext)
+                    .load(url)
+                    .into(mIvIcon);
+        }
 
     }
 
