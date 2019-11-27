@@ -8,34 +8,36 @@ import android.database.sqlite.SQLiteDatabase;
 import com.music.fm544.Bean.MusicPO;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class MusicDao{
 
     private SQLiteDatabase database;
-    private Cursor cursor = null;
     private DatabaseHelper helper;
     private Context context;
 
     public MusicDao(DatabaseHelper helper, Context context) {
         this.helper = helper;
         this.context = context;
+        database = helper.getWritableDatabase();
     }
 
-    //创建歌曲行
+    //创建歌曲行(已测试）
     public void create_music_table_row(MusicPO musicpo){
 
-        String sql = "insert into music_table(music_name,music_album,music_author,music_time,music_pic_path,music_path) values('" +musicpo.getMusic_name()+"','"
+        String sql = "insert into music_table(music_name,music_album,music_author,music_time,music_pic_path,music_path,music_like_status) values('" +musicpo.getMusic_name()+"','"
                 +musicpo.getMusic_album()+"','"
                 +musicpo.getMusic_author()+"','"
                 +musicpo.getMusic_time()+"','"
                 +musicpo.getMusic_pic_path()+"','"
-                +musicpo.getMusic_path()+"')" ;
+                +musicpo.getMusic_path()+"','"
+                +musicpo.getMusic_like_status()+"')" ;
 
         database.execSQL(sql);
 
     }
 
-    //创建播放列表行
+    //创建播放列表行（已测试）
     public void create_play_table_row(MusicPO musicpo){
 
         String sql = "insert into play_table(music_name,music_album,music_author,music_time,music_pic_path,music_path,playing,played) values('"
@@ -65,12 +67,12 @@ public class MusicDao{
 
     }
 
-    //通过歌曲名查找歌曲信息
+    //通过歌曲名查找music_table歌曲信息(已测试)
     public MusicPO search_music_table(String music_name){
         String[] args = null;
         args = new String[]{music_name};
         String sql = "select * from music_table where music_name = ?";
-        cursor = database.rawQuery(sql,args);
+        Cursor cursor = database.rawQuery(sql,args);
         cursor.moveToFirst();
         MusicPO musicpo = new MusicPO();
         musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -83,50 +85,49 @@ public class MusicDao{
         return musicpo;
     }
 
-    //添加到喜欢列表
-    public void add_like_table(String music_name){
-        //先从music_table获取到相关音乐的信息
-        String[] args = null;
-        args = new String[]{music_name};
-        String sql = "select * from music_table where music_name = ?";
-        cursor = database.rawQuery(sql,args);
-        cursor.moveToFirst();
-        String music_album = cursor.getString(cursor.getColumnIndex("music_album"));
-        String music_author = cursor.getString(cursor.getColumnIndex("music_author"));
-        int music_time = cursor.getInt(cursor.getColumnIndex("music_time"));
-        String music_pic_path = cursor.getString(cursor.getColumnIndex("music_pic_path"));
-        String music_path = cursor.getString(cursor.getColumnIndex("music_path"));
-        MusicPO musicPO = new MusicPO(0,music_name,music_album,music_author,music_time,music_pic_path,music_path);
-        //然后把获得的数据作为参数添加到喜欢列表中
-        create_like_table_row(musicPO);
+    //设置歌曲为喜欢（已测试）
+    public void set_like_status(String music_name){
+        String sql = "update music_table set music_like_status=1 " +"where music_name = '" + music_name +"'";
+        database.execSQL(sql);
+
     }
 
-    //从喜欢列表取消
+    //从喜欢列表取消(已测试)
     public void cancel_like(String music_name){
-        String[] args = null;
-        args = new String[]{music_name};
-        String sql = "delete from like_table where music_name = ?";
-        database.execSQL(sql,args);
+        String sql = "update music_table set music_like_status=0 " +"where music_name = '" + music_name +"'";
+        database.execSQL(sql);
 
     }
 
-    //设置 已经播放
+    //设置 已经播放（已测试）
     public void add_already_played(MusicPO musicpo){
-        String sql = "update play_table set played=1 and playing = 0" +"where music_name = '" + musicpo.getMusic_name()+"'";
+        String sql = "update play_table set played=1 and playing=0 " +"where music_name = '" + musicpo.getMusic_name()+"'";
         database.execSQL(sql);
     }
 
-    //设置 正在播放
+    //设置 正在播放(已测试)
     public void add_is_playing(MusicPO musicpo){
-        String sql = "update play_table set playing=1"+" where music_name = '"+musicpo.getMusic_name()+"'";
+        String sql = "update play_table set playing=1 and played=0 "+" where music_name = '"+musicpo.getMusic_name()+"'";
         database.execSQL(sql);
     }
 
+    //初始化歌曲表music_table(已测试)
+    public void init_music_table(List<MusicPO> musics){
+        String sql = "delete from music_table";
+        database.execSQL(sql);
+        for (MusicPO music : musics) {
+            if (music != null){
+                music.setMusic_like_status(0);
+                create_music_table_row(music);
+            }
+        }
+
+    }
 
     //播放完毕移除播放列表第一行
     public void after_playing(){
         String sql = "select * from play_table";
-        cursor = database.rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql,null);
         cursor.moveToFirst();
         String music_name = cursor.getString(cursor.getColumnIndex("music_name"));
         String sql2 = "delete from play_table where music_name = '"+music_name+"'";
@@ -134,11 +135,11 @@ public class MusicDao{
 
     }
 
-    //遍历歌曲列表,返回对象列表
+    //遍历歌曲列表,返回对象列表(已测试)
     public LinkedList<MusicPO> select_all_music_table(){
         LinkedList<MusicPO> list = new LinkedList<>();
         String sql = "select * from music_table";
-        cursor = database.rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql,null);
         if(cursor.moveToFirst()){
             MusicPO musicpo = new MusicPO();
             musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -148,6 +149,7 @@ public class MusicDao{
             musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
             list.add(musicpo);
         }
         while(cursor.moveToNext()){
@@ -159,16 +161,17 @@ public class MusicDao{
             musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
             list.add(musicpo);
         }
         return  list;
     }
 
-    //遍历播放列表
+    //遍历播放列表(已测试)
     public LinkedList<MusicPO> select_all_play_table(){
         LinkedList<MusicPO> list = new LinkedList<>();
         String sql = "select * from play_table";
-        cursor = database.rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql,null);
         if(cursor.moveToFirst()){
             MusicPO musicpo = new MusicPO();
             musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -178,6 +181,7 @@ public class MusicDao{
             musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            musicpo.setMusic_like_status(get_like_status(musicpo.getMusic_name()));
             list.add(musicpo);
         }
         while(cursor.moveToNext()){
@@ -189,17 +193,26 @@ public class MusicDao{
             musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            musicpo.setMusic_like_status(get_like_status(musicpo.getMusic_name()));
             list.add(musicpo);
         }
         return  list;
     }
 
 
-    //遍历喜爱列表
+    //根据音乐名，查询是否喜爱（已测试）
+    public Integer get_like_status(String music_name){
+        String sql = "select music_like_status from music_table where music_name = '"+ music_name +"'";
+        Cursor cursor = database.rawQuery(sql,null);
+        cursor.moveToFirst();
+        return cursor.getInt(cursor.getColumnIndex("music_like_status"));
+    }
+
+    //遍历喜爱列表(已测试)
     public LinkedList<MusicPO> select_all_like_table(){
         LinkedList<MusicPO> list = new LinkedList<>();
-        String sql = "select * from like_table";
-        cursor = database.rawQuery(sql,null);
+        String sql = "select * from music_table where music_like_status = 1";
+        Cursor cursor = database.rawQuery(sql,null);
         if(cursor.moveToFirst()){
             MusicPO musicpo = new MusicPO();
             musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -209,6 +222,7 @@ public class MusicDao{
             musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
             list.add(musicpo);
         }
         while(cursor.moveToNext()){
@@ -220,6 +234,7 @@ public class MusicDao{
             musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
             list.add(musicpo);
         }
         return  list;
@@ -262,7 +277,7 @@ public class MusicDao{
     //获取正在播放的音乐信息
     public MusicPO get_playing(){
         String sql = "select * from play_table where playing = 1";
-        cursor = database.rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql,null);
         cursor.moveToFirst();
         MusicPO musicpo = new MusicPO();
         musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -279,7 +294,7 @@ public class MusicDao{
     //获取下一首播放信息
     public MusicPO get_next_music() {
         String sql = "select * from play_table where playing = 1";
-        cursor = database.rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         if (cursor.moveToNext()) {
             MusicPO musicpo = new MusicPO();
@@ -300,7 +315,7 @@ public class MusicDao{
     //获取id，music_table表
     public int get_id_from_music_table(MusicPO musicpo){
         String sql = "select id from music_table where id = '"+musicpo.getId()+"'";
-        cursor = database.rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql,null);
         cursor.moveToFirst();
         int id = cursor.getInt(cursor.getColumnIndex("id"));
         return id;
@@ -309,7 +324,7 @@ public class MusicDao{
     //获取id，play_table表
     public int get_id_from_play_table(MusicPO musicpo){
         String sql = "select id from play_table where id = '"+musicpo.getId()+"'";
-        cursor = database.rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql,null);
         cursor.moveToFirst();
         int id = cursor.getInt(cursor.getColumnIndex("id"));
         return id;
@@ -318,7 +333,7 @@ public class MusicDao{
     //获取id，like_table表
     public int get_id_from_like_table(MusicPO musicpo){
         String sql = "select id from like_table where id = '"+musicpo.getId()+"'";
-        cursor = database.rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql,null);
         cursor.moveToFirst();
         int id = cursor.getInt(cursor.getColumnIndex("id"));
         return id;

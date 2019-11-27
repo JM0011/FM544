@@ -9,11 +9,12 @@ public class MusicPO {
     private Integer music_time;
     private String music_pic_path;
     private String music_path;
+    private Integer music_like_status;
 
     public MusicPO() {
     }
 
-    public MusicPO(Integer id, String music_name, String music_album, String music_author, Integer music_time, String music_pic_path, String music_path) {
+    public MusicPO(Integer id, String music_name, String music_album, String music_author, Integer music_time, String music_pic_path, String music_path, Integer music_like_status) {
         this.id = id;
         this.music_name = music_name;
         this.music_album = music_album;
@@ -21,6 +22,15 @@ public class MusicPO {
         this.music_time = music_time;
         this.music_pic_path = music_pic_path;
         this.music_path = music_path;
+        this.music_like_status = music_like_status;
+    }
+
+    public Integer getMusic_like_status() {
+        return music_like_status;
+    }
+
+    public void setMusic_like_status(Integer music_like_status) {
+        this.music_like_status = music_like_status;
     }
 
     public Integer getId() {
@@ -77,5 +87,19 @@ public class MusicPO {
 
     public void setMusic_path(String music_path) {
         this.music_path = music_path;
+    }
+
+    @Override
+    public String toString() {
+        return "MusicPO{" +
+                "id=" + id +
+                ", music_name='" + music_name + '\'' +
+                ", music_album='" + music_album + '\'' +
+                ", music_author='" + music_author + '\'' +
+                ", music_time=" + music_time +
+                ", music_pic_path='" + music_pic_path + '\'' +
+                ", music_path='" + music_path + '\'' +
+                ", music_like_status=" + music_like_status +
+                '}';
     }
 }

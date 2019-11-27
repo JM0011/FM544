@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -18,9 +17,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.music.fm544.Adapter.MusicItemAdapter;
+import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Helps.MusicDao;
 import com.music.fm544.MyApplication;
 import com.music.fm544.R;
-import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.Service.MusicService;
 import com.music.fm544.Utils.StatusBarUtils;
 import com.music.fm544.Views.PlayMusicTab;
@@ -105,27 +105,9 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicItemAd
     private List<MusicPO> getData() {
 
         List<MusicPO> list1 = new ArrayList<MusicPO>();
-        for (int i = 0; i < 20; i++) {
-            MusicPO m = new MusicPO();
-            MusicPO m1 = new MusicPO();
-            String url = Environment.getExternalStorageDirectory().getAbsolutePath();
-            m.setMusic_name("成都");
-            m.setMusic_author("赵雷");
-            m.setMusic_path(url+"/Music/song.mp3");
-            m.setMusic_pic_path(url+"/Music/song.jpg");
-            m1.setMusic_name("当你");
-            m1.setMusic_author("林俊杰");
-            m1.setMusic_path(url+"/Music/song1.mp3");
-            m1.setMusic_pic_path(url+"/Music/song2.jpg");
-//            m1.setImgId(R.drawable.song3);
-//            m1.setSongName("当你");
-//            m1.setSinger("林俊杰");
-//            m.setImgId(R.drawable.song);
-//            m.setSongName("成都");
-//            m.setSinger("赵磊");
-            list1.add(m);
-            list1.add(m1);
-        }
+        MyApplication app = (MyApplication) this.getApplication();
+        MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),this);
+        list1 = musicDao.select_all_play_table();
         return list1;
 
     }
