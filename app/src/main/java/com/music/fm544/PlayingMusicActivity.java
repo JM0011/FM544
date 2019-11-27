@@ -66,6 +66,19 @@ public class PlayingMusicActivity extends AppCompatActivity {
         mSongName.setText(music.getMusic_name());
         mSinger.setText(music.getMusic_author());
         imageView = findViewById(R.id.iv_bg);
+
+        Glide.with(this)
+                .load(music.getMusic_pic_path())
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
+                .into(imageView);
+
+//        String url = "/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831377660";
+
+//        Glide.with(this)
+//                .load(url)
+//                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
+//                .into(imageView);
+
         Glide.with(this)
                 .load(music.getMusic_pic_path())
                 .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))

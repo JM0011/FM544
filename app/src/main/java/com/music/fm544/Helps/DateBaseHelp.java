@@ -19,12 +19,14 @@ public class DateBaseHelp {
 
     public MusicPO getNextMusic(MusicPO musicPO){
         MusicPO music = new MusicPO();
-        music.setMusic_author("赵雷");
-        music.setMusic_name("成都");
         if (musicPO == null || musicPO.getMusic_path().equals(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song.mp3")){
+            music.setMusic_author("赵雷");
+            music.setMusic_name("成都");
             music.setMusic_pic_path(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song.jpg");
             music.setMusic_path(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3");
         }else {
+            music.setMusic_author("当你");
+            music.setMusic_name("林俊杰");
             music.setMusic_pic_path(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.jpg");
             music.setMusic_path(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song.mp3");
         }

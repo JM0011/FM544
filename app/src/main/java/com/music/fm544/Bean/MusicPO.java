@@ -10,6 +10,19 @@ public class MusicPO {
     private String music_pic_path;
     private String music_path;
 
+    public MusicPO() {
+    }
+
+    public MusicPO(Integer id, String music_name, String music_album, String music_author, Integer music_time, String music_pic_path, String music_path) {
+        this.id = id;
+        this.music_name = music_name;
+        this.music_album = music_album;
+        this.music_author = music_author;
+        this.music_time = music_time;
+        this.music_pic_path = music_pic_path;
+        this.music_path = music_path;
+    }
+
     public Integer getId() {
         return id;
     }

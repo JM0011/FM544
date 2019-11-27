@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.music.fm544.Helps.DateBaseHelp;
 import com.music.fm544.MyApplication;
 import com.music.fm544.PlayingMusicActivity;
 import com.music.fm544.R;
@@ -84,6 +85,11 @@ public class PlayMusicTab extends RelativeLayout {
                 if (mMusicBind != null){
                     mMusicBind.nextMusic();
                 }
+                MyApplication app = (MyApplication)mContext.getApplicationContext();
+                DateBaseHelp dateBaseHelp = new DateBaseHelp();
+                MusicPO mMusic = dateBaseHelp.getNextMusic(app.getMusic());
+                resetPlayTabStatus(mMusic);
+
                 play_btn.setImageResource(R.mipmap.play_stop);
                 Toast toast = Toast.makeText(mContext,"下一首",Toast.LENGTH_SHORT);
                 toast.show();

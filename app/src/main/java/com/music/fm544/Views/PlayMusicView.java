@@ -18,9 +18,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.MyApplication;
 import com.music.fm544.R;
-import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.Service.MusicService;
 
 
@@ -168,6 +168,7 @@ public class PlayMusicView extends FrameLayout{
         Glide.with(myContext)
                 .load(url)
                 .into(mIvIcon);
+
 
     }
 
