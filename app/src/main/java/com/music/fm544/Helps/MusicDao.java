@@ -24,7 +24,12 @@ public class MusicDao{
     //创建歌曲行
     public void create_music_table_row(MusicPO musicpo){
 
-        String sql = "insert into music_table(music_name,music_album,music_author,music_time,music_pic_path,music_path) values('" +musicpo.getMusic_name()+"','"+musicpo.getMusic_album()+"','"+musicpo.getMusic_author()+"','"+musicpo.getMusic_time()+"','"+musicpo.getMusic_pic_path()+"','"+musicpo.getMusic_path()+"')" ;
+        String sql = "insert into music_table(music_name,music_album,music_author,music_time,music_pic_path,music_path) values('" +musicpo.getMusic_name()+"','"
+                +musicpo.getMusic_album()+"','"
+                +musicpo.getMusic_author()+"','"
+                +musicpo.getMusic_time()+"','"
+                +musicpo.getMusic_pic_path()+"','"
+                +musicpo.getMusic_path()+"')" ;
 
         database.execSQL(sql);
 
@@ -290,5 +295,32 @@ public class MusicDao{
             return null;
         }
 
+    }
+
+    //获取id，music_table表
+    public int get_id_from_music_table(MusicPO musicpo){
+        String sql = "select id from music_table where id = '"+musicpo.getId()+"'";
+        cursor = database.rawQuery(sql,null);
+        cursor.moveToFirst();
+        int id = cursor.getInt(cursor.getColumnIndex("id"));
+        return id;
+    }
+
+    //获取id，play_table表
+    public int get_id_from_play_table(MusicPO musicpo){
+        String sql = "select id from play_table where id = '"+musicpo.getId()+"'";
+        cursor = database.rawQuery(sql,null);
+        cursor.moveToFirst();
+        int id = cursor.getInt(cursor.getColumnIndex("id"));
+        return id;
+    }
+
+    //获取id，like_table表
+    public int get_id_from_like_table(MusicPO musicpo){
+        String sql = "select id from like_table where id = '"+musicpo.getId()+"'";
+        cursor = database.rawQuery(sql,null);
+        cursor.moveToFirst();
+        int id = cursor.getInt(cursor.getColumnIndex("id"));
+        return id;
     }
 }

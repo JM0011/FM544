@@ -37,7 +37,7 @@ public class LocalAudioUtils {
                 String name,singer,album,type,pic_path,path,file_name;
                 int time,album_id;
                 Long size;
-                System.out.println(cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
+//                System.out.println(cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
                 name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
                 singer = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
                 time = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
@@ -53,13 +53,12 @@ public class LocalAudioUtils {
                     type = "wma";
                 }
                 pic_path = getAlbumArt(album_id);
-                System.out.println("id: "+album_id);
-                System.out.println(pic_path);
-                System.out.println(type);
+                System.out.println(name);
+                System.out.println(singer);
                 System.out.println(album);
-                System.out.println("长度"+time);
-                System.out.println("大小"+size);
-                System.out.println("路径"+ path);
+                System.out.println(time);
+                System.out.println(pic_path);
+                System.out.println(path);
                 music.setMusic_name(name);
                 music.setMusic_author(singer);
                 music.setMusic_album(album);
