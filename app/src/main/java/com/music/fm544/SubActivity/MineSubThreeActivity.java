@@ -12,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -62,6 +64,7 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         list = this.findViewById(R.id.listview);
         mPlayMusicTab = this.findViewById(R.id.plaing_tab);
         mPlayMusicTab.setFragmentManager(getFragmentManager());
+        initView();
 
         List<MusicPO> list1 = getData();
         mAdapter = new MusicItemAdapter(getApplicationContext(),list1);
@@ -82,6 +85,13 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         initBind();
     }
 
+    //屏幕适应--限制listView
+    private void initView() {
+        int srHeight = this.getResources().getDisplayMetrics().heightPixels;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)srHeight*9/11);
+        list.setLayoutParams(layoutParams);
+
+    }
 
 
     //绑定服务
