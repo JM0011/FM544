@@ -72,7 +72,9 @@ public class MusicItemAdapter extends BaseAdapter implements View.OnClickListene
 //                .load(m.getMusic_pic_path())
 //                .into(info.imgview);
         if (m.getMusic_pic_path() == null || m.getMusic_pic_path().equals("")){
-            info.imgview.setImageResource(R.drawable.icon_logo);
+            Glide.with(context)
+                    .load(R.mipmap.default_music_img)
+                    .into(info.imgview);
         }else {
             Glide.with(context)
                     .load(m.getMusic_pic_path())

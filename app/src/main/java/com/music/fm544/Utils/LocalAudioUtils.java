@@ -35,6 +35,7 @@ public class LocalAudioUtils {
             do {
                 music = new MusicPO();
                 String name,singer,album,type,pic_path = null,path,file_name;
+                boolean isHighQuality = false;
                 int time,album_id;
                 Long size;
 //                System.out.println(cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
@@ -56,18 +57,23 @@ public class LocalAudioUtils {
                 if (pic_path == "" || pic_path == null || pic_path.equals("null")){
                     pic_path="";
                 }
-                System.out.println(name);
-                System.out.println(singer);
-                System.out.println(album);
-                System.out.println(time);
-                System.out.println(pic_path);
-                System.out.println(path);
+                //判断是否为高品质音乐（未实现）
+                if (size > 0){
+                    isHighQuality = true;
+                }
+//                System.out.println(name);
+//                System.out.println(singer);
+//                System.out.println(album);
+//                System.out.println(time);
+//                System.out.println(pic_path);
+//                System.out.println(path);
                 music.setMusic_name(name);
                 music.setMusic_author(singer);
                 music.setMusic_album(album);
                 music.setMusic_time(time);
                 music.setMusic_pic_path(pic_path);
                 music.setMusic_path(path);
+                music.setHighQuality(isHighQuality);
                 songs.add(music);
             }while (cursor.moveToNext());
             cursor.close();

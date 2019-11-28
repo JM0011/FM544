@@ -1,5 +1,6 @@
 package com.music.fm544;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView searchBtn;
     @BindView(R.id.log_img)
     ImageView playingBtn;
+
+    FragmentManager fragmentManager;
 
     //退出时间
     private long exitTime;
@@ -103,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPager() {
+
+        PlayMusicTab tab = findViewById(R.id.music_tab);
+        tab.setFragmentManager(getFragmentManager());
+
         adapter = new MainMenuAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 

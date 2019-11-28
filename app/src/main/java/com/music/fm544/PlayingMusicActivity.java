@@ -68,7 +68,7 @@ public class PlayingMusicActivity extends AppCompatActivity {
         imageView = findViewById(R.id.iv_bg);
         if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
             Glide.with(this)
-                    .load(R.drawable.icon_logo)
+                    .load(R.mipmap.default_music_center)
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
                     .into(imageView);
         }else {

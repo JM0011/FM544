@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.music.fm544.Bean.MusicListItem;
 import com.music.fm544.MyApplication;
 import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.Helps.DateBaseHelp;
@@ -13,7 +14,6 @@ import com.music.fm544.Helps.MediaPlayerHelp;
 
 public class MusicService extends Service {
 
-    private boolean isPlaying;
     private MediaPlayerHelp mMediaPlayerHelp;
     private MusicPO mMusic;
     private DateBaseHelp mDateBaseHelp;
@@ -30,14 +30,6 @@ public class MusicService extends Service {
             return mMusic;
         }
 
-        /**
-         * 返回音乐播放状态
-         *
-         * @return
-         */
-        public boolean getPlayingStatus() {
-            return isPlaying;
-        }
 
         /**
          * 设置音乐对象
@@ -78,12 +70,12 @@ public class MusicService extends Service {
         public void nextMusic() {
             //获取下一首歌路径
             MyApplication app = (MyApplication)getApplication();
-            mMusic = mDateBaseHelp.getNextMusic(mMusic);
+            MusicPO musicPO = app.getMusic();
+            mMusic = app.getNextMusic();
             if (mMusic == null) {
                 //列表播放完毕
                 return;
             }
-            isPlaying = true;
             if (mMediaPlayerHelp.getPath() == null ||
                     !mMediaPlayerHelp.getPath().equals(mMusic.getMusic_path())) {
                 mMediaPlayerHelp.setPath(mMusic.getMusic_path());
@@ -108,19 +100,21 @@ public class MusicService extends Service {
 //         * 插入立即播放
 //         */
         public void insertMusic(MusicPO music){
-            //获取下一首歌路径
-//            mMusic = mDateBaseHelp.getNextMusic(mMusic);
-            if (mMusic == null) {
+            MyApplication app = (MyApplication)getApplication();
+            if (music == null) {
                 //列表播放完毕
                 return;
             }
             mMusic = music;
-            MyApplication app = (MyApplication)getApplication();
-            isPlaying = true;
             if (mMediaPlayerHelp.getPath() == null ||
                     !mMediaPlayerHelp.getPath().equals(mMusic.getMusic_path())) {
                 mMediaPlayerHelp.setPath(mMusic.getMusic_path());
                 app.setMusic(mMusic);
+                if (app.findMusicIndex(new MusicListItem(music,false)) == -1){
+                    app.insertPlayMusic(mMusic);
+                }else {
+                    app.resetPlayMusic(mMusic);
+                }
                 app.setPlaying(true);
                 mMediaPlayerHelp.setOnMediaPlayerHelperListener(new MediaPlayerHelp.OnMediaPlayerHelperListener() {
                     @Override
@@ -155,14 +149,25 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mDateBaseHelp = new DateBaseHelp();
         mMediaPlayerHelp = MediaPlayerHelp.getInstance(this);
-        isPlaying = false;
-//        //初始化进入程序，首次启动service的音乐播放路径
-//        //从数据库中读取相应的播放音乐
-//        Log.i(TAG, "onCreate: Service"+mDateBaseHelp.getCurrentMusic().getMusic_path());
-//        System.out.println(mDateBaseHelp.getCurrentMusic().getMusic_path());
-//        mMediaPlayerHelp.setPath(mDateBaseHelp.getCurrentMusic().getMusic_path());
+
+        MyApplication app = (MyApplication) getApplication();
+        app.setPlaying(false);
+        if (app.getMusic() != null){
+            mMediaPlayerHelp.setPath(app.getMusic().getMusic_path());
+            mMediaPlayerHelp.setOnMediaPlayerHelperListener(new MediaPlayerHelp.OnMediaPlayerHelperListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+
+                }
+
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+
+                }
+            });
+        }
+
 
     }
 

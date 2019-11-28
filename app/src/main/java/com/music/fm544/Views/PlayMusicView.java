@@ -98,14 +98,10 @@ public class PlayMusicView extends FrameLayout{
         MyApplication app = (MyApplication) myContext.getApplicationContext();
         mServiceIntent = app.getServiceIntent();
         MusicPO music = app.getMusic();
-//        Glide.with(myContext)
-//                .load(music.getMusic_pic_path())
-//                .into(mIvIcon);
         if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
-//            Glide.with(myContext)
-//                    .load(R.drawable.icon_logo)
-//                    .into(mIvIcon);
-            mIvIcon.setImageResource(R.drawable.icon_logo);
+            Glide.with(myContext)
+                    .load(R.mipmap.default_music_center)
+                    .into(mIvIcon);
 
         }else {
             Glide.with(myContext)
@@ -180,7 +176,7 @@ public class PlayMusicView extends FrameLayout{
 //                .into(mIvIcon);
         if (url == null || url.equals("")){
             Glide.with(myContext)
-                    .load(R.drawable.icon_logo)
+                    .load(R.mipmap.default_music_center)
                     .into(mIvIcon);
         }else {
             Glide.with(myContext)

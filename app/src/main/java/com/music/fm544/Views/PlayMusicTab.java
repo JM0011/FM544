@@ -1,6 +1,7 @@
 package com.music.fm544.Views;
 
 
+import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.music.fm544.Dialog.AddPlaylistDialog;
 import com.music.fm544.Helps.DateBaseHelp;
 import com.music.fm544.MyApplication;
 import com.music.fm544.PlayingMusicActivity;
@@ -35,9 +37,11 @@ public class PlayMusicTab extends RelativeLayout {
     private TextView song_txt;
     private TextView singer_txt;
     private Context mContext;
+    private FragmentManager fragmentManager;
 
-
-
+    public void setFragmentManager(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
+    }
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
@@ -99,6 +103,8 @@ public class PlayMusicTab extends RelativeLayout {
         list_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                AddPlaylistDialog playList = new AddPlaylistDialog();
+                playList.show(fragmentManager,"playList");
                 Toast toast = Toast.makeText(mContext,"显示列表",Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -117,10 +123,9 @@ public class PlayMusicTab extends RelativeLayout {
         }
         System.out.println(music.getMusic_pic_path());
         if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
-//            Glide.with(mContext)
-//                    .load(music.getMusic_pic_path())
-//                    .into(play_music_img);
-            play_music_img.setImageResource(R.drawable.icon_logo);
+            Glide.with(mContext)
+                    .load(R.mipmap.default_music_img)
+                    .into(play_music_img);
         }else {
             Glide.with(mContext)
                     .load(music.getMusic_pic_path())
@@ -159,11 +164,11 @@ public class PlayMusicTab extends RelativeLayout {
     //修改PlayingTab信息状态
     public void resetPlayTabStatus(MusicPO music){
         play_btn.setImageResource(R.mipmap.play_stop);
-        System.out.println("更新图片" + music.getMusic_pic_path());
 
         if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
-            System.out.println("更新图片1" + music.getMusic_pic_path());
-            play_music_img.setImageResource(R.drawable.icon_logo);
+            Glide.with(mContext)
+                    .load(R.mipmap.default_music_img)
+                    .into(play_music_img);
         }else {
             Glide.with(mContext)
                     .load(music.getMusic_pic_path())

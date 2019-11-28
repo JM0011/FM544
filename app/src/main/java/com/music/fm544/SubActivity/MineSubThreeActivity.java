@@ -1,5 +1,6 @@
 package com.music.fm544.SubActivity;
 
+import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +37,8 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
     private MusicService.MusicBind mMusicBind;
     private boolean isBindService;
 
+    private FragmentManager fragmentManager;
+
     //获取tab中的控件
     private PlayMusicTab mPlayMusicTab;
 
@@ -58,6 +61,7 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         //获取ListView对象
         list = this.findViewById(R.id.listview);
         mPlayMusicTab = this.findViewById(R.id.plaing_tab);
+        mPlayMusicTab.setFragmentManager(getFragmentManager());
 
         List<MusicPO> list1 = getData();
         mAdapter = new MusicItemAdapter(getApplicationContext(),list1);
