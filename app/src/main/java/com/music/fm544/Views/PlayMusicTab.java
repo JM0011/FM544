@@ -85,15 +85,17 @@ public class PlayMusicTab extends RelativeLayout {
         next_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mMusicBind != null){
-                    mMusicBind.nextMusic();
-                }
                 MyApplication app = (MyApplication)mContext.getApplicationContext();
-                resetPlayTabStatus(app.getMusic());
+                if (app.getPlayListSize() != 0){
+                    if (mMusicBind != null){
+                        mMusicBind.nextMusic();
+                    }
+                    resetPlayTabStatus(app.getMusic());
 
-                play_btn.setImageResource(R.mipmap.play_stop);
-                Toast toast = Toast.makeText(mContext,"下一首",Toast.LENGTH_SHORT);
-                toast.show();
+                    play_btn.setImageResource(R.mipmap.play_stop);
+                    Toast toast = Toast.makeText(mContext,"下一首",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
 
@@ -118,8 +120,7 @@ public class PlayMusicTab extends RelativeLayout {
         }else{
             play_btn.setImageResource(R.drawable.all_play);
         }
-        System.out.println(music.getMusic_pic_path());
-        if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
+        if (music == null || music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
             Glide.with(mContext)
                     .load(R.mipmap.default_music_img)
                     .into(play_music_img);
@@ -128,8 +129,14 @@ public class PlayMusicTab extends RelativeLayout {
                     .load(music.getMusic_pic_path())
                     .into(play_music_img);
         }
-        song_txt.setText(music.getMusic_name());
-        singer_txt.setText(music.getMusic_author());
+        if (music == null){
+            song_txt.setText("暂无歌曲");
+            singer_txt.setText("");
+        }else {
+            song_txt.setText(music.getMusic_name());
+            singer_txt.setText(music.getMusic_author());
+        }
+
 
         mServiceIntent = app.getServiceIntent();
         //绑定service
@@ -151,9 +158,13 @@ public class PlayMusicTab extends RelativeLayout {
             Toast toast = Toast.makeText(mContext,"音乐暂停",Toast.LENGTH_SHORT);
             toast.show();
         }else {
-            play_btn.setImageResource(R.mipmap.play_stop);
-            mMusicBind.playMusic();
-            Toast toast = Toast.makeText(mContext,"音乐播放",Toast.LENGTH_SHORT);
+            if (app.getMusic()!=null){
+                play_btn.setImageResource(R.mipmap.play_stop);
+                mMusicBind.playMusic();
+//                Toast toast = Toast.makeText(mContext,"音乐播放",Toast.LENGTH_SHORT);
+//                toast.show();
+            }
+            Toast toast = Toast.makeText(mContext,"暂无可播放音乐",Toast.LENGTH_SHORT);
             toast.show();
         }
     }

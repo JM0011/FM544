@@ -99,7 +99,8 @@ public class AddPlaylistDialog extends DialogFragment implements PlayListItemAda
                 if (mMusicBind != null){
                     mMusicBind.stopMusic();
                     app.deletePlayList();
-                    list = getData();
+                    list.clear();
+
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -152,6 +153,7 @@ public class AddPlaylistDialog extends DialogFragment implements PlayListItemAda
         MusicListItem music = (MusicListItem) mAdapter.getItem(i);
         if (mMusicBind != null){
             mMusicBind.insertMusic(music);
+
             mAdapter.notifyDataSetChanged();
         }
         Toast toast = Toast.makeText(mContext,"播放歌曲"+music.getMusic_name(),Toast.LENGTH_SHORT);

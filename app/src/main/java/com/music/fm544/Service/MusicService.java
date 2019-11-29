@@ -45,6 +45,9 @@ public class MusicService extends Service {
             MyApplication app = (MyApplication)getApplication();
             app.setPlaying(true);
             mMusic = app.getMusic();
+            if (mMusic != null ){
+                return;
+            }
             if (mMediaPlayerHelp.getPath() != null && mMediaPlayerHelp.getPath().equals(mMusic.getMusic_path())) {
                 mMediaPlayerHelp.start();
             } else {
