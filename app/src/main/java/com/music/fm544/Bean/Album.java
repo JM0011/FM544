@@ -1,26 +1,32 @@
 package com.music.fm544.Bean;
 
 
+import java.io.Serializable;
 
-public class Album {
-    private int imgUrl;
+public class Album implements Serializable{
     private String albumName;
     private String singer;
+    private String picPath;
+
+    public Album() {
+    }
 
 
-    public Album(int imgUrl, String albumName, String singer) {
-        this.imgUrl = imgUrl;
+
+    public Album(String albumName, String singer, String picPath) {
         this.albumName = albumName;
         this.singer = singer;
+        this.picPath = picPath;
     }
 
-    public int getImgUrl() {
-        return imgUrl;
+    public String getPicPath() {
+        return picPath;
     }
 
-    public void setImgUrl(int imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
     }
+
 
     public String getAlbumName() {
         return albumName;

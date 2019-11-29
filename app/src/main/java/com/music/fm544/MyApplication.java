@@ -122,6 +122,12 @@ public class MyApplication extends Application{
         LocalAudioUtils localAudioUtils = new LocalAudioUtils(this);
         musicDao.init_music_table(localAudioUtils.getAllSongs(this));
 
+//        List<Album> albums = musicDao.get_music_group_by_album();
+//        for (Album a : albums) {
+//            System.out.println(a.getAlbumName());
+//            System.out.println(a.getSinger());
+//            System.out.println(a.getPicPath());
+//        }
 //        musicDao.set_like_status("夜空中最亮的星");
 //        musicDao.set_like_status("荼蘼未了");
 
@@ -190,7 +196,7 @@ public class MyApplication extends Application{
     }
 
     //清空播放列表
-    public void deletePlayList(MusicListItem music){
+    public void deletePlayList(){
         isPlaying = false;
         music = null;
         playMusics = null;

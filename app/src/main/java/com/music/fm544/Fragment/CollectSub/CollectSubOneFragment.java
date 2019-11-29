@@ -1,25 +1,30 @@
 package com.music.fm544.Fragment.CollectSub;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.music.fm544.Adapter.CollectAlbumAdapter;
-import com.music.fm544.R;
 import com.music.fm544.Bean.Album;
+import com.music.fm544.Helps.MusicDao;
+import com.music.fm544.MyApplication;
+import com.music.fm544.R;
+import com.music.fm544.SubActivity.AlbumDetailActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CollectSubOneFragment extends Fragment {
+public class CollectSubOneFragment extends Fragment implements AdapterView.OnItemClickListener{
     private ListView listView;
+    private CollectAlbumAdapter mAdapter;
 
 
     public CollectSubOneFragment() {
@@ -35,20 +40,30 @@ public class CollectSubOneFragment extends Fragment {
 
         listView = view.findViewById(R.id.listView);
         List<Album> list = getData();
-        CollectAlbumAdapter adapter = new CollectAlbumAdapter(getActivity(),R.layout.album_collect,list);
-        listView.setAdapter(adapter);
+        mAdapter = new CollectAlbumAdapter(getActivity(),list);
+        listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(this);
+
+
 
         return view;
     }
 
     private List<Album> getData() {
+        MyApplication app = (MyApplication) this.getActivity().getApplication();
+        MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),this.getActivity());
 
-        List<Album> list1 = new ArrayList<Album>();
-        for (int i = 0; i < 10; i++) {
-            Album m = new Album(R.drawable.background,"FM544","by FM544");
-            list1.add(m);
-        }
-        return list1;
+        return musicDao.get_music_group_by_album();
 
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        System.out.println("点击");
+        Album album = (Album) mAdapter.getItem(i);
+        Intent intent = new Intent(getActivity().getApplicationContext(),AlbumDetailActivity.class);
+        intent.putExtra("album",album);
+        startActivity(intent);
+    }
+
 }

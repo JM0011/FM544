@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,11 +32,13 @@ import java.util.List;
 
 public class AddPlaylistDialog extends DialogFragment implements PlayListItemAdapter.InnerItemOnclickListener,AdapterView.OnItemClickListener{
     private ListView listView;
+    private ImageView ivDeleteAll;
     private PlayListItemAdapter mAdapter;
     private Context mContext;
     private Intent mServiceIntent;
     private MusicService.MusicBind mMusicBind;
     private boolean isBindService;
+    private List<MusicListItem> list;
 
 
 
@@ -78,12 +81,30 @@ public class AddPlaylistDialog extends DialogFragment implements PlayListItemAda
 
         final View view = inflater.inflate(R.layout.play_list, null);
 
+        ivDeleteAll = view.findViewById(R.id.all_delete);
         listView = view.findViewById(R.id.listview);
-        List<MusicListItem> list1 = getData();
-        mAdapter = new PlayListItemAdapter(mContext,list1);
+        list = getData();
+        mAdapter = new PlayListItemAdapter(mContext,list);
         mAdapter.setOnInnerItemOnclickListener(this);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
+
+
+
+        //有bug-------未解决
+        ivDeleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyApplication app = (MyApplication) mContext.getApplicationContext();
+                if (mMusicBind != null){
+                    mMusicBind.stopMusic();
+                    app.deletePlayList();
+                    list = getData();
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
         return view;
     }
 

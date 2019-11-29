@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.music.fm544.Bean.Album;
 import com.music.fm544.Bean.MusicPO;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -238,6 +240,46 @@ public class MusicDao{
             list.add(musicpo);
         }
         return  list;
+    }
+
+    //获取专辑列表(已测试)
+    public List<Album> get_music_group_by_album(){
+        List<Album> albums = new ArrayList<>();
+        String sql = "select * from music_table GROUP BY music_album";
+        Cursor cursor = database.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            do{
+                Album album = new Album();
+                album.setAlbumName(cursor.getString(cursor.getColumnIndex("music_album")));
+                album.setSinger(cursor.getString(cursor.getColumnIndex("music_author")));
+                album.setPicPath(cursor.getString(cursor.getColumnIndex("music_pic_path")));
+                albums.add(album);
+            }while (cursor.moveToNext());
+        }
+        return albums;
+    }
+
+    //获取对应专辑的歌曲列表
+    public List<MusicPO> get_music_by_album(Album album){
+        List<MusicPO> musics = new ArrayList<>();
+        String sql = "select * from music_table where music_album = '"+album.getAlbumName()+"' and music_pic_path = '"+album.getPicPath()+"'";
+        Cursor cursor = database.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            do{
+                MusicPO musicpo = new MusicPO();
+                musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                musicpo.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
+                musicpo.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
+                musicpo.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
+                musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
+                musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
+                musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+                musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+                musics.add(musicpo);
+
+            }while (cursor.moveToNext());
+        }
+        return musics;
     }
 
 

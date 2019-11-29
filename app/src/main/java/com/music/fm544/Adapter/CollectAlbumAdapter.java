@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.music.fm544.R;
 import com.music.fm544.Bean.Album;
 
@@ -22,7 +23,6 @@ public class CollectAlbumAdapter extends BaseAdapter {
     //data就是要显示的信息
     private List<Album> data;
     private Context context;
-    private int resid;
 
     static class Info
     {
@@ -30,11 +30,10 @@ public class CollectAlbumAdapter extends BaseAdapter {
         TextView tv1;
         TextView tv2;
     }
-    public CollectAlbumAdapter(Context context,int resid,List<Album> data)
+    public CollectAlbumAdapter(Context context,List<Album> data)
     {
         this.data = data;
         this.context = context;
-        this.resid = resid;
     }
     @Override
     public int getCount() {
@@ -58,7 +57,7 @@ public class CollectAlbumAdapter extends BaseAdapter {
             info = (CollectAlbumAdapter.Info) view.getTag();
         }
         else{
-            view = LayoutInflater.from(context).inflate(resid,null);
+            view = LayoutInflater.from(context).inflate(R.layout.album_collect,null);
             info = new CollectAlbumAdapter.Info();
             info.imgview = (ImageView)view.findViewById(R.id.album_image);
             info.tv1 = (TextView)view.findViewById(R.id.album_name);
@@ -67,10 +66,22 @@ public class CollectAlbumAdapter extends BaseAdapter {
         }
 
         Album m = (Album) getItem(i);
-        info.imgview.setImageResource(m.getImgUrl());
+        if (m.getPicPath() == null || m.getPicPath().equals("")){
+            Glide.with(context)
+                    .load(R.drawable.album_default_img)
+                    .into(info.imgview);
+        }else {
+            Glide.with(context)
+                    .load(m.getPicPath())
+                    .into(info.imgview);
+        }
+
         info.tv1.setText(m.getAlbumName());
         info.tv2.setText(m.getSinger());
         return view;
     }
+
+
+
 
 }
