@@ -98,7 +98,7 @@ public class PlayMusicView extends FrameLayout{
         MyApplication app = (MyApplication) myContext.getApplicationContext();
         mServiceIntent = app.getServiceIntent();
         MusicPO music = app.getMusic();
-        if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
+        if (music == null || music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
             Glide.with(myContext)
                     .load(R.mipmap.default_music_center)
                     .into(mIvIcon);
@@ -130,10 +130,12 @@ public class PlayMusicView extends FrameLayout{
      */
     private void trigger(){
         MyApplication app = (MyApplication) myContext.getApplicationContext();
-        if (app.isPlaying()){
-            stopMusic();
-        }else{
-            playMusic();
+        if (app.getMusic()!=null){
+            if (app.isPlaying()){
+                stopMusic();
+            }else{
+                playMusic();
+            }
         }
     }
 

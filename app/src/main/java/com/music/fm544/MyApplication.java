@@ -202,7 +202,12 @@ public class MyApplication extends Application{
     public void deletePlayList(){
         isPlaying = false;
         music = null;
-        playMusics = null;
+        playMusics.clear();
+    }
+
+    //判断返回播放列表大小
+    public int getPlayListSize(){
+        return playMusics.size();
     }
 
 //    //获取下一首歌

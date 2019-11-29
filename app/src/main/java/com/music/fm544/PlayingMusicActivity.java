@@ -57,16 +57,18 @@ public class PlayingMusicActivity extends AppCompatActivity {
     }
 
     private void initView(){
-//        MusicPO music = new MusicPO();
-//        music.setMusic_author("赵雷");
-//        music.setMusic_name("成都");
-//        music.setMusic_path(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3");
+
+        imageView = findViewById(R.id.iv_bg);
         MyApplication app = (MyApplication) getApplication();
         MusicPO music = app.getMusic();
-        mSongName.setText(music.getMusic_name());
-        mSinger.setText(music.getMusic_author());
-        imageView = findViewById(R.id.iv_bg);
-        if (music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
+        if (music == null){
+            mSongName.setText("暂无音乐");
+            mSinger.setText("");
+        }else{
+            mSongName.setText(music.getMusic_name());
+            mSinger.setText(music.getMusic_author());
+        }
+        if (music == null || music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
             Glide.with(this)
                     .load(R.mipmap.default_music_center)
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
@@ -77,28 +79,7 @@ public class PlayingMusicActivity extends AppCompatActivity {
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
                     .into(imageView);
         }
-//        Glide.with(this)
-//                .load(music.getMusic_pic_path())
-//                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
-//                .into(imageView);
 
-//        String url = "/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831377660";
-
-//        Glide.with(this)
-//                .load(url)
-//                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
-//                .into(imageView);
-
-
-
-//        mPlayMusicView = findViewById(R.id.play_music_view);
-//        mPlayMusicView.setMusicIcon(imgUrl);
-//        mPlayMusicView.playMusic("http://res.lgdsunday.club/Nostalgic%20Piano.mp3");
-//        mPlayMusicView.playMusic("http://www.170mv.com/kw/antiserver.kuwo.cn/anti.s?rid=MUSIC_11736829&response=res&format=mp3|aac&type=convert_url&br=128kmp3&agent=iPhone&callback=getlink&jpcallback=getlink.mp3");
-//        String url = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/song1.mp3";
-//        mPlayMusicView.setMusic(music);
-//        mPlayMusicView.playMusic();
-//        mPlayMusicView.initAnim();
     }
 
 
