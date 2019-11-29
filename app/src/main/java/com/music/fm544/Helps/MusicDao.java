@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.music.fm544.Bean.Album;
 import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Bean.Singer;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -259,7 +260,7 @@ public class MusicDao{
         return albums;
     }
 
-    //获取对应专辑的歌曲列表
+    //获取对应专辑的歌曲列表(已测试)
     public List<MusicPO> get_music_by_album(Album album){
         List<MusicPO> musics = new ArrayList<>();
         String sql = "select * from music_table where music_album = '"+album.getAlbumName()+"' and music_pic_path = '"+album.getPicPath()+"'";
@@ -281,6 +282,48 @@ public class MusicDao{
         }
         return musics;
     }
+
+    //获取歌手列表(已测试)
+    public List<Singer> get_singer_group_by_album(){
+        List<Singer> singers = new ArrayList<>();
+        String sql = "select music_author,COUNT(id) from music_table GROUP BY music_author";
+        Cursor cursor = database.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            do{
+                Singer singer = new Singer();
+                singer.setSingerName(cursor.getString(0));
+                int num = cursor.getInt(1);
+                singer.setMusicNum(String.valueOf(num));
+                singers.add(singer);
+            }while (cursor.moveToNext());
+        }
+        return singers;
+    }
+
+
+    //获取对应歌手的歌曲列表(已测试)
+    public List<MusicPO> get_music_by_singer(Singer singer){
+        List<MusicPO> musics = new ArrayList<>();
+        String sql = "select * from music_table where music_author = '"+singer.getSingerName()+"'";
+        Cursor cursor = database.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            do{
+                MusicPO musicpo = new MusicPO();
+                musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                musicpo.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
+                musicpo.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
+                musicpo.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
+                musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
+                musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
+                musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+                musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+                musics.add(musicpo);
+
+            }while (cursor.moveToNext());
+        }
+        return musics;
+    }
+
 
 
     //清空播放列表

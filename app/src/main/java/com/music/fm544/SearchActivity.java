@@ -204,6 +204,10 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
      * 添加到播放列表
      */
     private void addIntoPlayList(MusicPO music) {
+        MyApplication app = (MyApplication) getApplication();
+        if (music != null){
+            app.addPlayMusic(music);
+        }
         Toast toast1 = Toast.makeText(this,"添加到播放列表: "+music.getMusic_name(),Toast.LENGTH_SHORT);
         toast1.show();
     }

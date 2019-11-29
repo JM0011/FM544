@@ -59,7 +59,6 @@ public class CollectSubOneFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        System.out.println("点击");
         Album album = (Album) mAdapter.getItem(i);
         Intent intent = new Intent(getActivity().getApplicationContext(),AlbumDetailActivity.class);
         intent.putExtra("album",album);

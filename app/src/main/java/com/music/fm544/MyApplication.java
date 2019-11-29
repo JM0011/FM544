@@ -151,7 +151,10 @@ public class MyApplication extends Application{
     //添加一条播放记录(末尾)
     public void addPlayMusic(MusicPO music){
         MusicListItem musicListItem = new MusicListItem(music,false);
-        playMusics.add(musicListItem);
+        int index = findMusicIndex(musicListItem);
+        if (index == -1){
+            playMusics.add(musicListItem);
+        }
     }
 
     //插入一条播放记录

@@ -22,24 +22,16 @@
             android:src="@drawable/back"/>
 
         <TextView
-            android:id="@+id/song_name"
+            android:id="@+id/singer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/back_btn"
             android:layout_centerVertical="true"
-            android:text="成都"
+            android:text="周杰伦"
             android:textSize="20dp"
             android:textColor="@color/black"/>
 
-        <TextView
-            android:id="@+id/singer_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/song_name"
-            android:layout_centerVertical="true"
-            android:text="赵雷"/>
 
         <View
             android:id="@+id/line1"
