@@ -324,7 +324,27 @@ public class MusicDao{
         return musics;
     }
 
-
+    //搜索相关歌曲(已测试)
+    public List<MusicPO> search_music(String str){
+        List<MusicPO> musics = new ArrayList<>();
+        String sql = "select * from music_table where music_name LIKE '%"+str+"%' or music_author LIKE '%" + str +"%'";
+        Cursor cursor = database.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            do{
+                MusicPO musicpo = new MusicPO();
+                musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                musicpo.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
+                musicpo.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
+                musicpo.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
+                musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
+                musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
+                musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+                musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+                musics.add(musicpo);
+            }while (cursor.moveToNext());
+        }
+        return musics;
+    }
 
     //清空播放列表
     public void remove_all_play(){

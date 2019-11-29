@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -15,10 +14,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.music.fm544.Adapter.MusicItemAdapter;
 import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Helps.MusicDao;
 import com.music.fm544.Service.MusicService;
 import com.music.fm544.Utils.StatusBarUtils;
 
@@ -28,7 +29,9 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity implements MusicItemAdapter.InnerItemOnclickListener,AdapterView.OnItemClickListener{
 
     private ListView list;
+    private SearchView searchView;
     private MusicItemAdapter mAdapter;
+    private List<MusicPO> listDate;
 
     private Intent mServiceIntent;
     private MusicService.MusicBind mMusicBind;
@@ -53,11 +56,14 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
         initStatusBar();
 
         list = findViewById(R.id.listview);
-        List<MusicPO> list1 = getData();
-        mAdapter = new MusicItemAdapter(getApplicationContext(),list1);
+        searchView = findViewById(R.id.searchview);
+        listDate = getData();
+        mAdapter = new MusicItemAdapter(getApplicationContext(),listDate);
         mAdapter.setOnInnerItemOnclickListener(this);
         list.setAdapter(mAdapter);
         list.setOnItemClickListener(this);
+
+        setSearchListen();
 
         ImageView back =  (ImageView) this.findViewById(R.id.back);
 
@@ -70,6 +76,41 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
 
         //绑定Msuic服务
         initBind();
+    }
+
+    //设置搜索响应事件
+    private void setSearchListen() {
+        MyApplication app = (MyApplication) getApplication();
+        final MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),this);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //当点击搜索按钮时触发该方法
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query == null || query.equals("")){
+
+                }else{
+                    listDate.clear();
+                    listDate.addAll(musicDao.search_music(query));
+                    mAdapter.notifyDataSetChanged();
+                }
+                return true;
+            }
+
+            //当搜索内容改变时触发该方法
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText == null || newText.equals("")){
+
+                }else{
+                    listDate.clear();
+                    listDate.addAll(musicDao.search_music(newText));
+                    mAdapter.notifyDataSetChanged();
+                }
+                return false;
+            }
+        });
+
+
     }
 
     //绑定服务
@@ -96,27 +137,27 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
     private List<MusicPO> getData() {
 
         List<MusicPO> list1 = new ArrayList<MusicPO>();
-        for (int i = 0; i < 20; i++) {
-            MusicPO m = new MusicPO();
-            MusicPO m1 = new MusicPO();
-            String url = Environment.getExternalStorageDirectory().getAbsolutePath();
-            m.setMusic_name("成都");
-            m.setMusic_author("赵雷");
-            m.setMusic_path(url+"/Music/song.mp3");
-            m.setMusic_pic_path(url+"/Music/song.jpg");
-            m1.setMusic_name("当你");
-            m1.setMusic_author("林俊杰");
-            m1.setMusic_path(url+"/Music/song1.mp3");
-            m1.setMusic_pic_path(url+"/Music/song2.jpg");
+//        for (int i = 0; i < 20; i++) {
+//            MusicPO m = new MusicPO();
+//            MusicPO m1 = new MusicPO();
+//            String url = Environment.getExternalStorageDirectory().getAbsolutePath();
+//            m.setMusic_name("成都");
+//            m.setMusic_author("赵雷");
+//            m.setMusic_path(url+"/Music/song.mp3");
+//            m.setMusic_pic_path(url+"/Music/song.jpg");
+//            m1.setMusic_name("当你");
+//            m1.setMusic_author("林俊杰");
+//            m1.setMusic_path(url+"/Music/song1.mp3");
+//            m1.setMusic_pic_path(url+"/Music/song2.jpg");
 //            m1.setImgId(R.drawable.song3);
 //            m1.setSongName("当你");
 //            m1.setSinger("林俊杰");
 //            m.setImgId(R.drawable.song);
 //            m.setSongName("成都");
-//            m.setSinger("赵磊");
-            list1.add(m);
-            list1.add(m1);
-        }
+////            m.setSinger("赵磊");
+//            list1.add(m);
+//            list1.add(m1);
+//        }
         return list1;
 
     }
@@ -139,20 +180,7 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
             toast1.show();
             showPopupMenu(view,music);
         }
-//        switch (view.getId()){
-//            case R.id.item_music_play:
-//                music = (MusicPO) mAdapter.getItem(positon);
-//                toPlayMusic(music);
-//                break;
-//            case R.id.item_music_more:
-//                music = (MusicPO) mAdapter.getItem(positon);
-//                Toast toast1 = Toast.makeText(this,"菜单",Toast.LENGTH_SHORT);
-//                toast1.show();
-//                showPopupMenu(view,music);
-//                break;
-//            default:
-//                break;
-//        }
+
     }
 
 
@@ -185,10 +213,8 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
     private void toPlayMusic(MusicPO music){
         MyApplication app = (MyApplication) getApplication();
 
-        //设置播放音乐--------未完成
-//        app.setMusic(music);
         if (mMusicBind != null){
-            mMusicBind.nextMusic();
+            mMusicBind.insertMusic(music);
         }
         Toast toast1 = Toast.makeText(this,"播放歌曲： "+music.getMusic_name(),Toast.LENGTH_SHORT);
         toast1.show();
