@@ -19,8 +19,8 @@
 
         <com.music.fm544.Views.CircleImageView
             android:id="@+id/iv_icon"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:layout_gravity="center"
             android:src="@mipmap/song"/>
 
@@ -38,7 +38,8 @@
         android:id="@+id/iv_needle"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="5dp"
-        android:src="@mipmap/needle"/>
+        android:layout_marginLeft="30dp"
+        android:src="@mipmap/ic_needle"/>
 </FrameLayout>

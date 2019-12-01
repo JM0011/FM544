@@ -100,9 +100,9 @@ public class MusicService extends Service {
 
         }
 
-//        /**
-//         * 插入立即播放
-//         */
+        /**
+         * 插入立即播放
+         */
         public void insertMusic(MusicPO music){
             MyApplication app = (MyApplication)getApplication();
             if (music == null) {

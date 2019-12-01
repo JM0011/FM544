@@ -100,7 +100,6 @@ public class AddPlaylistDialog extends DialogFragment implements PlayListItemAda
                     mMusicBind.stopMusic();
                     app.deletePlayList();
                     list.clear();
-
                     mAdapter.notifyDataSetChanged();
                 }
             }
