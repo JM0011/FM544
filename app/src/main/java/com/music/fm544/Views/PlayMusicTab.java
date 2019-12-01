@@ -104,8 +104,8 @@ public class PlayMusicTab extends RelativeLayout {
             public void onClick(View view) {
                 AddPlaylistDialog playList = new AddPlaylistDialog();
                 playList.show(fragmentManager,"playList");
-                Toast toast = Toast.makeText(mContext,"显示列表",Toast.LENGTH_SHORT);
-                toast.show();
+//                Toast toast = Toast.makeText(mContext,"显示列表",Toast.LENGTH_SHORT);
+//                toast.show();
             }
         });
     }
@@ -161,11 +161,11 @@ public class PlayMusicTab extends RelativeLayout {
             if (app.getMusic()!=null){
                 play_btn.setImageResource(R.mipmap.play_stop);
                 mMusicBind.playMusic();
-//                Toast toast = Toast.makeText(mContext,"音乐播放",Toast.LENGTH_SHORT);
-//                toast.show();
+
+            }else{
+                Toast toast = Toast.makeText(mContext,"暂无可播放音乐",Toast.LENGTH_SHORT);
+                toast.show();
             }
-            Toast toast = Toast.makeText(mContext,"暂无可播放音乐",Toast.LENGTH_SHORT);
-            toast.show();
         }
     }
 
