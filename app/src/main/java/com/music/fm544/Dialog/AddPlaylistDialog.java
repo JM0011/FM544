@@ -91,7 +91,7 @@ public class AddPlaylistDialog extends DialogFragment implements PlayListItemAda
 
 
 
-        //有bug-------未解决
+        //删除全部播放列表
         ivDeleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

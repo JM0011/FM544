@@ -58,9 +58,11 @@
 
         <ImageView
             android:id="@+id/music_list"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
+            android:layout_marginTop="2dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_alignTop="@+id/music_name"
             android:layout_marginEnd="19dp"
             android:src="@mipmap/play_list" />

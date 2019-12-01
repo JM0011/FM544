@@ -150,8 +150,6 @@ public class SingerDetailActivity extends AppCompatActivity implements MusicItem
         MusicPO music;
         if (view.getId() == R.id.item_music_more){
             music = (MusicPO) mAdapter.getItem(positon);
-            Toast toast1 = Toast.makeText(this,"菜单",Toast.LENGTH_SHORT);
-            toast1.show();
             showPopupMenu(view,music);
         }
 //        switch (view.getId()){
