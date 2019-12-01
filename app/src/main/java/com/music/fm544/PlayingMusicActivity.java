@@ -1,8 +1,12 @@
 package com.music.fm544;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,32 +15,55 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Service.MusicService;
 import com.music.fm544.Utils.StatusBarUtils;
 import com.music.fm544.Views.PlayMusicView;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class PlayingMusicActivity extends AppCompatActivity {
-    private ImageView imageView;
+    private Intent mServiceIntent;
+    private MusicService.MusicBind mMusicBind;
+    private boolean isBindService;
+
+
+
     private PlayMusicView mPlayMusicView;
+    private ImageView imageView;
+    private ImageView playMusicBtn;
+    private ImageView previousMusicBtn;
+    private ImageView nextMusicBtn;
     private TextView mSongName;
     private TextView mSinger;
+
+
+    private ServiceConnection conn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mMusicBind = (MusicService.MusicBind) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
-        Intent intent = getIntent();
-
-
+        initBindService();
 
 
         ImageView back =  (ImageView) this.findViewById(R.id.back_btn);
         mSongName = (TextView) this.findViewById(R.id.songName);
         mSinger = (TextView) this.findViewById(R.id.singer);
         mPlayMusicView = (PlayMusicView) this.findViewById(R.id.play_music_view);
+        playMusicBtn = (ImageView) this.findViewById(R.id.play_music);
+        previousMusicBtn = (ImageView) this.findViewById(R.id.previous_music);
+        nextMusicBtn = (ImageView) this.findViewById(R.id.next_music);
 
-        initStatusBar();
         initView();
 
         back.setOnClickListener(new View.OnClickListener(){
@@ -47,19 +74,105 @@ public class PlayingMusicActivity extends AppCompatActivity {
         });
 
 
+        playMusicBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                trigger();
+            }
+        });
+
+        nextMusicBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playNextMusic();
+            }
+        });
+
+        previousMusicBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playPreviousMusic();
+            }
+        });
+
+    }
+
+    //播放上一首歌
+    private void playPreviousMusic() {
+        MyApplication app = (MyApplication)this.getApplicationContext();
+        if (app.getPlayListSize() != 0){
+            if (mMusicBind != null){
+                mMusicBind.previousMusic();
+            }
+            MusicPO music = app.getMusic();
+            mPlayMusicView.setMusicIcon(music);
+            mPlayMusicView.playMusic();
+            initView();
+        }
+    }
+
+    //播放下一首歌
+    private void playNextMusic() {
+        MyApplication app = (MyApplication)this.getApplicationContext();
+        if (app.getPlayListSize() != 0){
+            if (mMusicBind != null){
+                mMusicBind.nextMusic();
+            }
+            MusicPO music = app.getMusic();
+            mPlayMusicView.setMusicIcon(music);
+            mPlayMusicView.playMusic();
+            initView();
+        }
+
+    }
+
+
+    //歌曲暂停播放
+    private void trigger() {
+        MyApplication app = (MyApplication) this.getApplicationContext();
+        if (app.getMusic()!=null){
+            if (app.isPlaying()){
+                playMusicBtn.setImageResource(R.mipmap.music_play);
+                if (mMusicBind != null){
+                    mMusicBind.stopMusic();
+                }
+                mPlayMusicView.stopMusic();
+            }else{
+                playMusicBtn.setImageResource(R.mipmap.music_stop);
+                if (mMusicBind != null){
+                    mMusicBind.playMusic();
+                }
+                mPlayMusicView.playMusic();
+            }
+        }
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPlayMusicView.destory();
+        if (isBindService){
+            isBindService = false;
+            this.unbindService(conn);
+        }
     }
 
-    private void initView(){
 
-        imageView = findViewById(R.id.iv_bg);
+    //绑定服务
+    public void initBindService(){
         MyApplication app = (MyApplication) getApplication();
+        mServiceIntent = app.getServiceIntent();
+        //绑定service
+        if (!isBindService){
+            isBindService = true;
+            this.bindService(mServiceIntent,conn, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+
+    private void initView(){
+        MyApplication app = (MyApplication) getApplication();
+        imageView = findViewById(R.id.iv_bg);
         MusicPO music = app.getMusic();
         if (music == null){
             mSongName.setText("暂无音乐");
@@ -79,7 +192,12 @@ public class PlayingMusicActivity extends AppCompatActivity {
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,8)))
                     .into(imageView);
         }
-
+        if (app.isPlaying()){
+            playMusicBtn.setImageResource(R.mipmap.music_stop);
+        }else {
+            playMusicBtn.setImageResource(R.mipmap.music_play);
+        }
+        initStatusBar();
     }
 
 

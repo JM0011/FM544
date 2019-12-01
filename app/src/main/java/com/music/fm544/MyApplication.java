@@ -210,28 +210,6 @@ public class MyApplication extends Application{
         return playMusics.size();
     }
 
-//    //获取下一首歌
-//    public MusicPO getNextMusic(MusicPO musicpo){
-//        int index = -1;
-//        for (int i = 0; i < playMusics.size(); i++) {
-//            if (musicpo != null && playMusics.get(i).getMusic_path().equals(musicpo.getMusic_path())){
-//                index = i;
-//                break;
-//            }
-//        }
-//        index +=1;
-//        if (index == 0){
-//          return null;
-//        } else if (playMusics.size() == index){
-//            setDefault();
-//            playMusics.get(0).setPlaying(true);
-//            return playMusics.get(0);
-//        }else {
-//            setDefault();
-//            playMusics.get(index).setPlaying(true);
-//            return playMusics.get(index);
-//        }
-//    }
 
     //获取下一首歌
     public MusicPO getNextMusic(){
@@ -249,6 +227,29 @@ public class MyApplication extends Application{
             setDefault();
             playMusics.get(0).setPlaying(true);
             return playMusics.get(0);
+        }else {
+            setDefault();
+            playMusics.get(index).setPlaying(true);
+            return playMusics.get(index);
+        }
+    }
+
+    //获取上一首歌
+    public MusicPO getPreviousMusic(){
+        int index = -1;
+        for (int i = 0; i < playMusics.size(); i++) {
+            if (playMusics.get(i).isPlaying()){
+                index = i;
+                break;
+            }
+        }
+        index -= 1;
+        if (index == -2){
+            return null;
+        } else if (index == -1){
+            setDefault();
+            playMusics.get(playMusics.size()-1).setPlaying(true);
+            return playMusics.get(playMusics.size()-1);
         }else {
             setDefault();
             playMusics.get(index).setPlaying(true);

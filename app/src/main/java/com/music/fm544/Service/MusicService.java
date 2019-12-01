@@ -101,6 +101,38 @@ public class MusicService extends Service {
         }
 
         /**
+         * 播放上一首歌
+         */
+        public void previousMusic() {
+            //获取下一首歌路径
+            MyApplication app = (MyApplication)getApplication();
+            MusicPO musicPO = app.getMusic();
+            mMusic = app.getPreviousMusic();
+            if (mMusic == null) {
+                //列表播放完毕
+                return;
+            }
+            if (mMediaPlayerHelp.getPath() == null ||
+                    !mMediaPlayerHelp.getPath().equals(mMusic.getMusic_path())) {
+                mMediaPlayerHelp.setPath(mMusic.getMusic_path());
+                app.setMusic(mMusic);
+                app.setPlaying(true);
+                mMediaPlayerHelp.setOnMediaPlayerHelperListener(new MediaPlayerHelp.OnMediaPlayerHelperListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mediaPlayer) {
+                        mMediaPlayerHelp.start();
+                    }
+
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        nextMusic();
+                    }
+                });
+            }
+
+        }
+
+        /**
          * 插入立即播放
          */
         public void insertMusic(MusicPO music){

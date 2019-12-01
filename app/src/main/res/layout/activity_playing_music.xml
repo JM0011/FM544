@@ -16,12 +16,12 @@
 
     <ImageView
         android:id="@+id/back_btn"
-        android:layout_margin="5dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_margin="7dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/back"
+        android:src="@mipmap/music_back"
         />
 
     <TextView
@@ -63,7 +63,7 @@
         android:id="@+id/previous_music"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@mipmap/previous_music"
+        android:src="@mipmap/music_previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
@@ -73,11 +73,12 @@
 
 
     <ImageView
-        android:id="@+id/iv_play"
+        android:id="@+id/play_music"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_gravity="center"
-        android:src="@mipmap/play_music"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/music_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,9 +87,9 @@
 
     <ImageView
         android:id="@+id/next_music"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/next_music"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/music_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"

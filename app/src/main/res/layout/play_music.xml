@@ -24,14 +24,7 @@
             android:layout_gravity="center"
             android:src="@mipmap/song"/>
 
-        <ImageView
-            android:id="@+id/iv_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/play_music"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            />
+
     </FrameLayout>
 
     <ImageView
