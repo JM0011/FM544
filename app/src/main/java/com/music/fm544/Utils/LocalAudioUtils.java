@@ -35,8 +35,7 @@ public class LocalAudioUtils {
             do {
                 music = new MusicPO();
                 String name,singer,album,type,pic_path = null,path,file_name;
-                boolean isHighQuality = false;
-                int time,album_id;
+                int time,album_id,isHighQuality = 0;
                 Long size;
 //                System.out.println(cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
                 name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
@@ -59,7 +58,7 @@ public class LocalAudioUtils {
                 }
                 //判断是否为高品质音乐（未实现）
                 if (size > 0){
-                    isHighQuality = true;
+                    isHighQuality = 1;
                 }
 //                System.out.println(name);
 //                System.out.println(singer);

@@ -10,12 +10,12 @@ public class MusicPO {
     private String music_pic_path;
     private String music_path;
     private Integer music_like_status;
-    private boolean isHighQuality;
+    private Integer isHighQuality;
 
     public MusicPO() {
     }
 
-    public MusicPO(Integer id, String music_name, String music_album, String music_author, Integer music_time, String music_pic_path, String music_path, Integer music_like_status, boolean isHighQuality) {
+    public MusicPO(Integer id, String music_name, String music_album, String music_author, Integer music_time, String music_pic_path, String music_path, Integer music_like_status, Integer isHighQuality) {
         this.id = id;
         this.music_name = music_name;
         this.music_album = music_album;
@@ -27,11 +27,11 @@ public class MusicPO {
         this.isHighQuality = isHighQuality;
     }
 
-    public boolean isHighQuality() {
+    public Integer isHighQuality() {
         return isHighQuality;
     }
 
-    public void setHighQuality(boolean highQuality) {
+    public void setHighQuality(Integer highQuality) {
         isHighQuality = highQuality;
     }
 

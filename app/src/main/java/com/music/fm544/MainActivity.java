@@ -153,4 +153,11 @@ public class MainActivity extends AppCompatActivity {
         return super.dispatchKeyEvent(event);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        MyApplication app = (MyApplication) getApplication();
+        app.savePlayMusicList();
+        super.onDestroy();
+    }
 }

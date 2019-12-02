@@ -7,16 +7,14 @@ import android.os.Binder;
 import android.os.IBinder;
 
 import com.music.fm544.Bean.MusicListItem;
-import com.music.fm544.MyApplication;
 import com.music.fm544.Bean.MusicPO;
-import com.music.fm544.Helps.DateBaseHelp;
 import com.music.fm544.Helps.MediaPlayerHelp;
+import com.music.fm544.MyApplication;
 
 public class MusicService extends Service {
 
     private MediaPlayerHelp mMediaPlayerHelp;
     private MusicPO mMusic;
-    private DateBaseHelp mDateBaseHelp;
 
 
     public MusicService() {
@@ -207,11 +205,8 @@ public class MusicService extends Service {
 
     }
 
-
     @Override
     public void onDestroy() {
-
-        //调用数据库方法，保存最后一次播放的音乐----------未实现
 
         super.onDestroy();
     }

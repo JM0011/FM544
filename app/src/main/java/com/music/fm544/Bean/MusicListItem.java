@@ -5,7 +5,10 @@ package com.music.fm544.Bean;
 public class MusicListItem extends MusicPO {
     private boolean isPlaying;
 
-    public MusicListItem(Integer id, String music_name, String music_album, String music_author, Integer music_time, String music_pic_path, String music_path, Integer music_like_status, boolean isHighQuality, boolean isPlaying) {
+    public MusicListItem() {
+    }
+
+    public MusicListItem(Integer id, String music_name, String music_album, String music_author, Integer music_time, String music_pic_path, String music_path, Integer music_like_status, Integer isHighQuality, boolean isPlaying) {
         super(id, music_name, music_album, music_author, music_time, music_pic_path, music_path, music_like_status, isHighQuality);
         this.isPlaying = isPlaying;
     }

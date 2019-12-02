@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.music.fm544.Bean.Album;
+import com.music.fm544.Bean.MusicListItem;
 import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.Bean.Singer;
 
@@ -28,12 +29,13 @@ public class MusicDao{
     //创建歌曲行(已测试）
     public void create_music_table_row(MusicPO musicpo){
 
-        String sql = "insert into music_table(music_name,music_album,music_author,music_time,music_pic_path,music_path,music_like_status) values('" +musicpo.getMusic_name()+"','"
+        String sql = "insert into music_table(music_name,music_album,music_author,music_time,music_pic_path,music_path,isHighQuality,music_like_status) values('" +musicpo.getMusic_name()+"','"
                 +musicpo.getMusic_album()+"','"
                 +musicpo.getMusic_author()+"','"
                 +musicpo.getMusic_time()+"','"
                 +musicpo.getMusic_pic_path()+"','"
                 +musicpo.getMusic_path()+"','"
+                +musicpo.isHighQuality()+"','"
                 +musicpo.getMusic_like_status()+"')" ;
 
         database.execSQL(sql);
@@ -41,19 +43,38 @@ public class MusicDao{
     }
 
     //创建播放列表行（已测试）
-    public void create_play_table_row(MusicPO musicpo){
-
-        String sql = "insert into play_table(music_name,music_album,music_author,music_time,music_pic_path,music_path,playing,played) values('"
-                +musicpo.getMusic_name()+ "','"
-                +musicpo.getMusic_album()+"','"
-                +musicpo.getMusic_author()+"','"
-                +musicpo.getMusic_time()+"','"
-                +musicpo.getMusic_pic_path()+"','"
-                +musicpo.getMusic_path()+"','"+0+"','"+0+"')" ;
+    public void create_play_table_row(MusicListItem music){
+        int  play_status = 0;
+        if(music.isPlaying()){
+            play_status = 1;
+        }
+        String sql = "insert into play_table(music_name,music_album,music_author,music_time,music_pic_path,music_path,isHighQuality,music_like_status,isPlaying) values('"
+                +music.getMusic_name()+ "','"
+                +music.getMusic_album()+"','"
+                +music.getMusic_author()+"','"
+                +music.getMusic_time()+"','"
+                +music.getMusic_pic_path()+"','"
+                +music.getMusic_path()+"','"
+                +music.isHighQuality()+"','"
+                +music.getMusic_like_status()+"','"
+                +play_status+"')" ;
 
         database.execSQL(sql);
 
     }
+
+    //清除播放列表并初始化(已测试)
+    public void init_play_table(List<MusicListItem> musicList){
+        String sql = "delete from play_table";
+        database.execSQL(sql);
+        for (MusicListItem music : musicList) {
+            if (music != null){
+                create_play_table_row(music);
+            }
+        }
+    }
+
+
 
     //创建喜欢行
     public void create_like_table_row(MusicPO musicpo){
@@ -85,6 +106,8 @@ public class MusicDao{
         musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
         musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
         musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+        musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+        musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
         return musicpo;
     }
 
@@ -153,6 +176,7 @@ public class MusicDao{
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
             musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+            musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
             list.add(musicpo);
         }
         while(cursor.moveToNext()){
@@ -165,39 +189,54 @@ public class MusicDao{
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
             musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+            musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
             list.add(musicpo);
         }
         return  list;
     }
 
     //遍历播放列表(已测试)
-    public LinkedList<MusicPO> select_all_play_table(){
-        LinkedList<MusicPO> list = new LinkedList<>();
+    public List<MusicListItem> select_all_play_table(){
+        List<MusicListItem> list = new ArrayList<>();
         String sql = "select * from play_table";
         Cursor cursor = database.rawQuery(sql,null);
         if(cursor.moveToFirst()){
-            MusicPO musicpo = new MusicPO();
-            musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
-            musicpo.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
-            musicpo.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
-            musicpo.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
-            musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
-            musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
-            musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
-            musicpo.setMusic_like_status(get_like_status(musicpo.getMusic_name()));
-            list.add(musicpo);
+            MusicListItem music = new MusicListItem();
+            music.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            music.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
+            music.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
+            music.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
+            music.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
+            music.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
+            music.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            music.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
+            music.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+            int play_status = cursor.getInt(cursor.getColumnIndex("isPlaying"));
+            if (play_status == 1){
+                music.setPlaying(true);
+            }else {
+                music.setPlaying(false);
+            }
+            list.add(music);
         }
         while(cursor.moveToNext()){
-            MusicPO musicpo = new MusicPO();
-            musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
-            musicpo.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
-            musicpo.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
-            musicpo.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
-            musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
-            musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
-            musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
-            musicpo.setMusic_like_status(get_like_status(musicpo.getMusic_name()));
-            list.add(musicpo);
+            MusicListItem music = new MusicListItem();
+            music.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            music.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
+            music.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
+            music.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
+            music.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
+            music.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
+            music.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            music.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
+            music.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+            int play_status = cursor.getInt(cursor.getColumnIndex("isPlaying"));
+            if (play_status == 1){
+                music.setPlaying(true);
+            }else {
+                music.setPlaying(false);
+            }
+            list.add(music);
         }
         return  list;
     }
@@ -226,6 +265,7 @@ public class MusicDao{
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
             musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+            musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
             list.add(musicpo);
         }
         while(cursor.moveToNext()){
@@ -238,6 +278,7 @@ public class MusicDao{
             musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
             musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
             musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+            musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
             list.add(musicpo);
         }
         return  list;
@@ -276,6 +317,7 @@ public class MusicDao{
                 musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
                 musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
                 musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+                musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
                 musics.add(musicpo);
 
             }while (cursor.moveToNext());
@@ -317,6 +359,7 @@ public class MusicDao{
                 musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
                 musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
                 musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+                musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
                 musics.add(musicpo);
 
             }while (cursor.moveToNext());
@@ -340,6 +383,7 @@ public class MusicDao{
                 musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
                 musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
                 musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+                musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
                 musics.add(musicpo);
             }while (cursor.moveToNext());
         }

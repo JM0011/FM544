@@ -21,10 +21,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "music_name VARCHAR(30)," +
                 "music_album VARCHAR(30)," +
                 "music_author VARCHAR(30),"+
-                "music_time Integer(1000),"+
+                "music_time Integer(100),"+
                 "music_pic_path VARCHAR(600)," +
                 "music_path VARCHAR(600),"+
-                "music_like_status Integer(10))";
+                "isHighQuality Integer(2),"+
+                "music_like_status Integer(2))";
 
 
         String sql2 = "CREATE TABLE play_table(id Integer PRIMARY KEY AUTOINCREMENT," +
@@ -34,8 +35,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "music_time Integer(1000),"+
                 "music_pic_path VARCHAR(600)," +
                 "music_path VARCHAR(600)," +
-                "playing Integer(10)," +
-                "played Integer(10))";
+                "isHighQuality Integer(2)," +
+                "music_like_status Integer(2),"+
+                "isPlaying Integer(2))";
 
 //        String sql3 = "CREATE TABLE like_table(id Integer PRIMARY KEY AUTOINCREMENT," +
 //                "music_name VARCHAR(30)," +

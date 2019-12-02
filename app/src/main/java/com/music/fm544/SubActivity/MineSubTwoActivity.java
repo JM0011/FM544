@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.music.fm544.Adapter.MusicItemAdapter;
+import com.music.fm544.Bean.MusicListItem;
 import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.Helps.MusicDao;
 import com.music.fm544.MyApplication;
@@ -119,12 +120,16 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicItemAd
 
 
     private List<MusicPO> getData() {
-
-        List<MusicPO> list1 = new ArrayList<MusicPO>();
+        List<MusicPO> list = new ArrayList<>();
+        List<MusicListItem> list1 = new ArrayList<>();
         MyApplication app = (MyApplication) this.getApplication();
         MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),this);
         list1 = musicDao.select_all_play_table();
-        return list1;
+        for (MusicListItem musicListItem : list1) {
+            MusicPO music = musicListItem;
+            list.add(music);
+        }
+        return list;
 
     }
 
