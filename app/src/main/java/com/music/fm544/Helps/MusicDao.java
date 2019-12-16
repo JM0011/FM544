@@ -76,21 +76,6 @@ public class MusicDao{
 
 
 
-    //创建喜欢行
-    public void create_like_table_row(MusicPO musicpo){
-
-        String sql = "insert into like_table(music_name,music_album,music_author,music_time,music_pic_path,music_path) values('"
-                +musicpo.getMusic_name()+"','"
-                +musicpo.getMusic_album()+"','"
-                +musicpo.getMusic_author()+"','"
-                +musicpo.getMusic_time()+"','"
-                +musicpo.getMusic_pic_path()+"','"
-                +musicpo.getMusic_path()+"')" ;
-
-        database.execSQL(sql);
-
-    }
-
     //通过歌曲名查找music_table歌曲信息(已测试)
     public MusicPO search_music_table(String music_name){
         String[] args = null;
@@ -112,15 +97,15 @@ public class MusicDao{
     }
 
     //设置歌曲为喜欢（已测试）
-    public void set_like_status(String music_name){
-        String sql = "update music_table set music_like_status=1 " +"where music_name = '" + music_name +"'";
+    public void set_like_status(String music_path){
+        String sql = "update music_table set music_like_status=1 " +"where music_path = '" + music_path +"'";
         database.execSQL(sql);
 
     }
 
     //从喜欢列表取消(已测试)
-    public void cancel_like(String music_name){
-        String sql = "update music_table set music_like_status=0 " +"where music_name = '" + music_name +"'";
+    public void cancel_like(String music_path){
+        String sql = "update music_table set music_like_status=0 " +"where music_path = '" + music_path +"'";
         database.execSQL(sql);
 
     }

@@ -243,4 +243,25 @@ public class MyApplication extends Application{
             playMusic.setPlaying(false);
         }
     }
+
+    //设置歌曲喜欢状态
+    public void setMusicLikeStatus(MusicPO musicPO){
+        MusicDao musicDao = new MusicDao(datebaseHelper,this);
+        //更改歌曲数据库中相应歌曲
+        if (musicPO.getMusic_like_status() == 0){
+            musicDao.set_like_status(musicPO.getMusic_path());
+        }else {
+            musicDao.cancel_like(musicPO.getMusic_path());
+        }
+        //更改正在播放歌曲
+        if (music != null && music.getMusic_path().equals(musicPO.getMusic_path())){
+            music.setMusic_like_status(musicPO.getMusic_like_status());
+        }
+        //更改播放歌曲列表
+        for (MusicListItem playMusic : playMusics) {
+            if (playMusic.getMusic_path().equals(musicPO.getMusic_path())){
+                playMusic.setMusic_like_status(musicPO.getMusic_like_status());
+            }
+        }
+    }
 }

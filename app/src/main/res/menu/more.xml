@@ -6,8 +6,8 @@
         android:title="加入播放列表"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/music_save"
-        android:title="加入收藏"
+        android:id="@+id/music_like"
+        android:title="添加喜爱"
         app:showAsAction="never"/>
 
 </menu>
