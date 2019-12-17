@@ -3,41 +3,43 @@ package com.music.fm544.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.music.fm544.Adapter.MusicImportAdapter;
-import com.music.fm544.R;
 import com.music.fm544.Bean.MusicImport;
+import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.MyApplication;
+import com.music.fm544.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ImportFragment extends Fragment {
+public class ImportFragment extends Fragment implements MusicImportAdapter.InnerItemOnclickListener,AdapterView.OnItemClickListener{
 
     //适配器
     private MusicImportAdapter adapter;
     //数据源
-    private List<MusicImport> musics;
+    private List<MusicImport> musics = new ArrayList<>();
 
-     private RecyclerView recyclerView;
+     private ListView listView;
     //全选按钮
      private CheckBox checkBox;
     //扫描歌曲按钮
      private Button scan_btn;
     //全选文本
     private TextView chooseText;
-
+    //导入按钮
+    private Button import_btn;
     public ImportFragment() {
         // Required empty public constructor
     }
@@ -49,14 +51,27 @@ public class ImportFragment extends Fragment {
         // Inflate the layout for this fragment
 //        View view_default = inflater.inflate(R.layout.fragment_import_result, container, false);
         View view = inflater.inflate(R.layout.fragment_import,container,false);
-
-        initMusic();
-        setMusicAdapter(view);
+        listView = (ListView) view.findViewById(R.id.listView);
+        adapter = new MusicImportAdapter(getActivity(),musics);
+        adapter.setOnInnerItemOnclickListener(this);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
 
 
         scan_btn = view.findViewById(R.id.scaning_btn);
         checkBox = view.findViewById(R.id.choose_all);
         chooseText = view.findViewById(R.id.isAllChoose);
+        import_btn = view.findViewById(R.id.import_btn);
+
+        import_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<MusicImport> musicImportList = adapter.getChooseMusic();
+                for (MusicImport musicImport : musicImportList) {
+                    System.out.println(musicImport.getMusic_name());
+                }
+            }
+        });
 
         //设置扫描歌曲监听事件
         scan_btn.setOnClickListener(new View.OnClickListener() {
@@ -64,15 +79,13 @@ public class ImportFragment extends Fragment {
             public void onClick(View view) {
                 String text = (String) scan_btn.getText();
                 if (text.equals("扫描歌曲")){
-                    recyclerView.setVisibility(View.VISIBLE);
                     scan_btn.setText("重新扫描");
                 }else if(text.equals("重新扫描")){
-                    reinit();
                     checkBox.setChecked(false);
                     chooseText.setText("全选");
-                    adapter.notifyIsAllCheck(false);
                 }
-
+                reinit();
+                adapter.notifyIsAllCheck(false);
             }
         });
 
@@ -93,46 +106,32 @@ public class ImportFragment extends Fragment {
         return view;
     }
 
-    private void setMusicAdapter(View view) {
-        adapter = new MusicImportAdapter(getActivity(),musics);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void initMusic() {
-        musics = new ArrayList<>();
-        MusicImport music = new MusicImport(R.drawable.song,"成都","赵雷",false);
-        MusicImport music1 = new MusicImport(R.drawable.song2,"红色高跟鞋","蔡健雅",false);
-        MusicImport music2 = new MusicImport(R.drawable.song3,"雅俗共赏","许嵩",false);
-        for (int i = 0; i < 20; i++) {
-            musics.add(music);
-            musics.add(music1);
-            musics.add(music2);
-        }
-
-    }
 
     private void reinit(){
+        MyApplication app = (MyApplication) getActivity().getApplication();
+        List<MusicPO> musicPOS = app.getLocalMusic();
+        List<MusicImport> musicList = new ArrayList<>();
+        for (MusicPO musicPO : musicPOS) {
+            MusicImport music = new MusicImport(musicPO,false);
+            musicList.add(music);
+        }
         musics.clear();
-        Random random = new Random();
-        int num = random.nextInt(3);
-        MusicImport music2 = null;
-        switch (num){
-            case 0:
-                music2 = new MusicImport(R.drawable.song3,"雅俗共赏","许嵩",false);
-                break;
-            case 1:
-                music2 = new MusicImport(R.drawable.song2,"红色高跟鞋","蔡健雅",false);
-                break;
-            case 2:
-                music2 = new MusicImport(R.drawable.song,"成都","赵雷",false);
-                break;
+        musics.addAll(musicList);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void itemClick(View view) {
+        int positon;
+        positon = (Integer) view.getTag();
+        if (view.getId() == R.id.item_music_choose){
+            adapter.changeChooseStatus(positon);
         }
-        for (int i = 0; i < 30; i++) {
-            musics.add(music2);
-        }
+
     }
 
 }

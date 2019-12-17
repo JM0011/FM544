@@ -88,12 +88,12 @@
             app:layout_constraintTop_toBottomOf="@id/choose_all"
              />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <ListView
+        android:id="@+id/listView"
+        android:divider="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/line2"
-        android:visibility="invisible"
         />
 
     <Button

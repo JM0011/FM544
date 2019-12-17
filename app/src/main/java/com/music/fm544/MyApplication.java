@@ -107,6 +107,15 @@ public class MyApplication extends Application{
     }
 
 
+    //扫描本地歌曲
+    public List<MusicPO> getLocalMusic(){
+        MediaScannerConnection.scanFile(this, new String[] { Environment
+                .getExternalStorageDirectory().getAbsolutePath() }, null, null);
+        LocalAudioUtils localAudioUtils = new LocalAudioUtils(this);
+        return localAudioUtils.getAllSongs(this);
+    }
+
+
     //保存播放列表记录到数据库
     public void savePlayMusicList(){
         MusicDao musicDao = new MusicDao(datebaseHelper,this);

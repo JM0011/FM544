@@ -1,40 +1,34 @@
 package com.music.fm544.Adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.music.fm544.R;
+import com.bumptech.glide.Glide;
 import com.music.fm544.Bean.MusicImport;
+import com.music.fm544.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class MusicImportAdapter extends RecyclerView.Adapter<MusicImportAdapter.ViewHolder>{
+public class MusicImportAdapter extends BaseAdapter implements View.OnClickListener{
     Context context;
     private List<MusicImport> musics;
     private Boolean isAllCheck = false;
+    private InnerItemOnclickListener listener;
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+
+    static class Info {
         ImageView img;
         TextView songName;
         TextView singer;
         CheckBox check;
-
-        public ViewHolder (View view)
-        {
-            super(view);
-            img = (ImageView) view.findViewById(R.id.item_music_img1);
-            songName = (TextView) view.findViewById(R.id.item_music_name1);
-            singer = (TextView) view.findViewById(R.id.item_music_name2);
-            check = (CheckBox) view.findViewById(R.id.item_music_choose);
-        }
-
     }
 
 
@@ -43,34 +37,99 @@ public class MusicImportAdapter extends RecyclerView.Adapter<MusicImportAdapter.
         this.musics = musicList;
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_import_music,parent,false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
-    }
+
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        MusicImport songs = musics.get(position);
-        holder.img.setImageResource(songs.getImgId());
-        holder.songName.setText(songs.getSongName());
-        holder.singer.setText(songs.getSinger());
-        if(isAllCheck){
-            holder.check.setChecked(true);
-        }else{
-            holder.check.setChecked(false);
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        Info info = null;
+        if (view != null) {
+            info = (Info) view.getTag();
         }
+        else{
+            view = LayoutInflater.from(context).inflate(R.layout.item_import_music,null);
+            info = new Info();
+            info.img = (ImageView) view.findViewById(R.id.item_music_img1);
+            info.songName = (TextView) view.findViewById(R.id.item_music_name1);
+            info.singer = (TextView) view.findViewById(R.id.item_music_name2);
+            info.check = (CheckBox) view.findViewById(R.id.item_music_choose);
+            view.setTag(info);
+        }
+
+        MusicImport songs = (MusicImport) getItem(i);
+        if (songs.getMusic_pic_path() == null || songs.getMusic_pic_path().equals("")){
+            Glide.with(context)
+                    .load(R.mipmap.default_music_img)
+                    .into(info.img);
+        }else {
+            Glide.with(context)
+                    .load(songs.getMusic_pic_path())
+                    .into(info.img);
+        }
+        info.songName.setText(songs.getMusic_name());
+        info.singer.setText(songs.getMusic_author());
+        if(isAllCheck){
+            info.check.setChecked(true);
+        }else{
+            info.check.setChecked(false);
+        }
+        info.check.setOnClickListener(this);
+        info.check.setTag(i);
+        return view;
     }
 
     //刷新所有的checkBox
     public void notifyIsAllCheck(boolean isAllCheck) {
         this.isAllCheck = isAllCheck;
+        for (MusicImport music : musics) {
+            music.setChoose(isAllCheck);
+        }
         notifyDataSetChanged();
     }
 
+    public List<MusicImport> getChooseMusic(){
+        List<MusicImport> musicChoose = new ArrayList<>();
+        for (MusicImport music : musics) {
+            if (music.getChoose()){
+                musicChoose.add(music);
+            }
+        }
+        return musicChoose;
+    }
+
+    //改变单个数据源
+    public void changeChooseStatus(int position){
+        if(musics.get(position).getChoose()){
+            musics.get(position).setChoose(false);
+        }else {
+            musics.get(position).setChoose(true);
+        }
+    }
+
     @Override
-    public int getItemCount() {
+    public Object getItem(int i) {
+        return musics.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public int getCount() {
         return musics.size();
+    }
+
+    public interface InnerItemOnclickListener{
+        void itemClick(View view);
+    }
+
+    public void setOnInnerItemOnclickListener(InnerItemOnclickListener listener){
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        listener.itemClick(view);
     }
 }
