@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.music.fm544.Bean.MusicImport;
+import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.R;
 
 import java.util.ArrayList;
@@ -86,11 +87,11 @@ public class MusicImportAdapter extends BaseAdapter implements View.OnClickListe
         notifyDataSetChanged();
     }
 
-    public List<MusicImport> getChooseMusic(){
-        List<MusicImport> musicChoose = new ArrayList<>();
+    public List<MusicPO> getChooseMusic(){
+        List<MusicPO> musicChoose = new ArrayList<>();
         for (MusicImport music : musics) {
             if (music.getChoose()){
-                musicChoose.add(music);
+                musicChoose.add((MusicPO)music);
             }
         }
         return musicChoose;

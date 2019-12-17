@@ -21,6 +21,8 @@ public class WelcomeActivity extends AppCompatActivity {
         init();
     }
 
+
+
     @Override
     protected void onPause() {
         super.onPause();

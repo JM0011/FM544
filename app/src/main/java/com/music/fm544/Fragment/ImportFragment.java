@@ -49,7 +49,6 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        View view_default = inflater.inflate(R.layout.fragment_import_result, container, false);
         View view = inflater.inflate(R.layout.fragment_import,container,false);
         listView = (ListView) view.findViewById(R.id.listView);
         adapter = new MusicImportAdapter(getActivity(),musics);
@@ -66,10 +65,9 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
         import_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<MusicImport> musicImportList = adapter.getChooseMusic();
-                for (MusicImport musicImport : musicImportList) {
-                    System.out.println(musicImport.getMusic_name());
-                }
+                //导入后存入数据库
+                MyApplication app = (MyApplication) getActivity().getApplication();
+                app.importMusicList(adapter.getChooseMusic());
             }
         });
 
@@ -112,7 +110,7 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
         List<MusicPO> musicPOS = app.getLocalMusic();
         List<MusicImport> musicList = new ArrayList<>();
         for (MusicPO musicPO : musicPOS) {
-            MusicImport music = new MusicImport(musicPO,false);
+            MusicImport music = new MusicImport(musicPO,false,false);
             musicList.add(music);
         }
         musics.clear();
@@ -131,7 +129,6 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
         if (view.getId() == R.id.item_music_choose){
             adapter.changeChooseStatus(positon);
         }
-
     }
 
 }

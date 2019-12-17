@@ -91,10 +91,10 @@ public class MyApplication extends Application{
         playMusics =  new ArrayList<>();
 
     // 测试本地音乐扫描
-        MediaScannerConnection.scanFile(this, new String[] { Environment
-                .getExternalStorageDirectory().getAbsolutePath() }, null, null);
-        LocalAudioUtils localAudioUtils = new LocalAudioUtils(this);
-        musicDao.init_music_table(localAudioUtils.getAllSongs(this));
+//        MediaScannerConnection.scanFile(this, new String[] { Environment
+//                .getExternalStorageDirectory().getAbsolutePath() }, null, null);
+//        LocalAudioUtils localAudioUtils = new LocalAudioUtils(this);
+//        musicDao.init_music_table(localAudioUtils.getAllSongs(this));
 
         playMusics.addAll(musicDao.select_all_play_table());
         for (MusicListItem playMusic : playMusics) {
@@ -106,6 +106,42 @@ public class MyApplication extends Application{
 
     }
 
+    //导入歌曲到数据库
+    public void importMusicList(List<MusicPO> musicPOLists){
+        MusicDao musicDao = new MusicDao(datebaseHelper,this);
+        musicDao.init_music_table(musicPOLists);
+        //删除播放列表中不存在于导入音乐集的歌曲
+        for (int i = 0; i < playMusics.size(); i++) {
+            boolean exist = false;
+            for (MusicPO musicPOList : musicPOLists) {
+                if (musicPOList.getMusic_path().equals(playMusics.get(i).getMusic_path())){
+                    exist = true;
+                    break;
+                }
+            }
+            if (!exist){
+                System.out.println("删除"+playMusics.get(i).getMusic_name());
+                playMusics.remove(i);
+            }
+        }
+        //若正在播放歌曲不存在与播放列表中，则更改正在播放歌曲为第一首歌
+        int index = -1;
+        for (int i = 0; i < playMusics.size(); i++) {
+            if (playMusics.get(i).getMusic_path().equals(music.getMusic_path())){
+                index = i;
+                break;
+            }
+        }
+        if(index == -1){
+            if (playMusics.size() == 0){
+                music = null;
+            }else {
+                music = playMusics.get(0);
+                setDefault();
+                playMusics.get(0).setPlaying(true);
+            }
+        }
+    }
 
     //扫描本地歌曲
     public List<MusicPO> getLocalMusic(){

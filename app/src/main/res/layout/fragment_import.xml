@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:theme="@style/My_CheckBox"
             android:layout_marginTop="8dp"
+            android:checked="false"
             app:layout_constraintTop_toBottomOf="@id/music_logo"/>
 
         <TextView

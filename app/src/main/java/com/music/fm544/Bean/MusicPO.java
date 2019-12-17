@@ -2,7 +2,7 @@ package com.music.fm544.Bean;
 
 
 public class MusicPO {
-    private Integer id;
+    private Integer id = 0;
     private String music_name;
     private String music_album;
     private String music_author;

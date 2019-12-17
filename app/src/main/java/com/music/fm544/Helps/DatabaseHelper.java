@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql1);
         sqLiteDatabase.execSQL(sql2);
 //        sqLiteDatabase.execSQL(sql3);
-        Toast.makeText(mContext,"数据库创建成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext,"初始化成功",Toast.LENGTH_SHORT).show();
     }
 
     //对数据库进行变更，i、i1为数据库的老版本和新版本
