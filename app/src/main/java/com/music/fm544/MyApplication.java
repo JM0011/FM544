@@ -107,7 +107,9 @@ public class MyApplication extends Application{
     }
 
     //导入歌曲到数据库
-    public void importMusicList(List<MusicPO> musicPOLists){
+    public boolean importMusicList(List<MusicPO> musicPOLists){
+        //记录被播放列表被移出歌曲是否是正在播放的歌曲
+        boolean status = false;
         MusicDao musicDao = new MusicDao(datebaseHelper,this);
         musicDao.init_music_table(musicPOLists);
         //删除播放列表中不存在于导入音乐集的歌曲
@@ -120,7 +122,6 @@ public class MyApplication extends Application{
                 }
             }
             if (!exist){
-                System.out.println("删除"+playMusics.get(i).getMusic_name());
                 playMusics.remove(i);
             }
         }
@@ -139,8 +140,10 @@ public class MyApplication extends Application{
                 music = playMusics.get(0);
                 setDefault();
                 playMusics.get(0).setPlaying(true);
+                status = true;
             }
         }
+        return status;
     }
 
     //扫描本地歌曲

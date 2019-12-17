@@ -30,6 +30,9 @@
             android:layout_centerVertical="true"
             android:text="成都"
             android:textSize="20dp"
+            android:ellipsize="end"
+            android:maxEms="8"
+            android:maxLines="1"
             android:textColor="@color/black"/>
 
         <TextView
@@ -39,6 +42,9 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/song_name"
             android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxEms="8"
+            android:maxLines="1"
             android:text="赵雷"/>
 
         <View

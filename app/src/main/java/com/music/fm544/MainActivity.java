@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     //页卡适配器
     private PagerAdapter adapter;
 
+    private PlayMusicTab musicTab;
+
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.tab_layout)
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     //退出时间
     private long exitTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        PlayMusicTab musicTab = findViewById(R.id.music_tab);
+        musicTab = findViewById(R.id.music_tab);
         musicTab.initView();
     }
 

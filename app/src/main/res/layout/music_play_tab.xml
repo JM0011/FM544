@@ -25,6 +25,9 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/music_img"
             android:text="成都"
+            android:ellipsize="end"
+            android:maxEms="11"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="12dp" />
 
@@ -35,6 +38,9 @@
             android:layout_alignStart="@+id/music_name"
             android:layout_below="@+id/music_name"
             android:text="赵雷"
+            android:ellipsize="end"
+            android:maxEms="17"
+            android:maxLines="1"
             android:textSize="8dp" />
 
         <ImageView
