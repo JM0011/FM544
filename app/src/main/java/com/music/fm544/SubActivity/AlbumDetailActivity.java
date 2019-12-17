@@ -37,6 +37,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements MusicItemA
     private TextView tvSongName;
     private TextView tvSingerName;
     private MusicItemAdapter mAdapter;
+    List<MusicPO> dataList;
+
 
     private Album mAlbum;
     private Intent mServiceIntent;
@@ -75,8 +77,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements MusicItemA
 
         initView();
 
-        List<MusicPO> list1 = getData();
-        mAdapter = new MusicItemAdapter(getApplicationContext(),list1);
+        dataList = getData();
+        mAdapter = new MusicItemAdapter(getApplicationContext(),dataList);
         mAdapter.setOnInnerItemOnclickListener(this);
         list.setAdapter(mAdapter);
         list.setOnItemClickListener(this);
@@ -174,14 +176,20 @@ public class AlbumDetailActivity extends AppCompatActivity implements MusicItemA
     {
         PopupMenu menu = new PopupMenu(this,view);
         menu.getMenuInflater().inflate(R.menu.more,menu.getMenu());
+        MenuItem menuItem = menu.getMenu().findItem(R.id.music_like);
+        if (music.getMusic_like_status() == 1){
+            menuItem.setTitle("取消喜爱");
+        }
         //设置点击事件
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 if (menuItem.getTitle().equals("加入播放列表")){
                     addIntoPlayList(music);
-                }else{
-                    addLikeMusic(music);
+                }else if(menuItem.getTitle().equals("取消喜爱")){
+                    setLikeMusic(music);
+                }else if(menuItem.getTitle().equals("添加喜爱")){
+                    setLikeMusic(music);
                 }
                 return false;
             }
@@ -208,11 +216,33 @@ public class AlbumDetailActivity extends AppCompatActivity implements MusicItemA
         toast1.show();
     }
 
-    //添加喜爱歌曲
-    private void addLikeMusic(MusicPO music) {
-        Toast toast1 = Toast.makeText(this,"添加喜爱歌曲: "+music.getMusic_name(),Toast.LENGTH_SHORT);
+    //设置喜爱歌曲
+    private void setLikeMusic(MusicPO music) {
+        String str = "";
+        MyApplication app = (MyApplication) getApplication();
+        app.setMusicLikeStatus(music);
+        //music为对象引用
+        for (MusicPO musicPO : dataList) {
+            if (musicPO.getMusic_path().equals(music.getMusic_path())){
+                if (music.getMusic_like_status() == 0){
+                    musicPO.setMusic_like_status(1);
+                    break;
+                }else if (music.getMusic_like_status() == 1){
+                    musicPO.setMusic_like_status(0);
+                    break;
+                }
+            }
+        }
+        mAdapter.notifyDataSetChanged();
+        if (music.getMusic_like_status() == 1){
+            str = "添加喜爱歌曲：";
+        }else {
+            str = "取消歌曲喜爱：";
+        }
+        Toast toast1 = Toast.makeText(this,str + music.getMusic_name(),Toast.LENGTH_SHORT);
         toast1.show();
     }
+
 
     /**
      * 添加到播放列表
