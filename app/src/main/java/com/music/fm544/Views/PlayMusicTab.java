@@ -2,11 +2,14 @@ package com.music.fm544.Views;
 
 
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +27,15 @@ import com.music.fm544.R;
 import com.music.fm544.Service.MusicService;
 
 public class PlayMusicTab extends RelativeLayout {
+    //音乐服务
     private Intent mServiceIntent;
     private MusicService.MusicBind mMusicBind;
     private boolean isBindService;
+
+    //本地广播
+    private IntentFilter intentFilter;
+    private LocalBroadcastManager localBroadcastManager;
+    private LocalReciver localReciver;
 
     //基本控件
     private ImageView play_music_img;
@@ -64,6 +73,13 @@ public class PlayMusicTab extends RelativeLayout {
         list_btn = (ImageView) findViewById(R.id.music_list);
         song_txt = (TextView) findViewById(R.id.music_name);
         singer_txt = (TextView) findViewById(R.id.music_singer);
+
+        //注册本地广播监听器
+        localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("com.fm544.broadcast.REFRESH_MUSIC");
+        localReciver = new LocalReciver();
+        localBroadcastManager.registerReceiver(localReciver, intentFilter);
 
         initView();
 
@@ -194,6 +210,15 @@ public class PlayMusicTab extends RelativeLayout {
         if (isBindService){
             isBindService = false;
             mContext.unbindService(conn);
+        }
+        localBroadcastManager.unregisterReceiver(localReciver);
+    }
+
+    //本地广播监听
+    class LocalReciver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initView();
         }
     }
 }

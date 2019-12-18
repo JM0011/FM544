@@ -35,10 +35,14 @@ public class AddPlaylistDialog extends DialogFragment implements PlayListItemAda
     private ImageView ivDeleteAll;
     private PlayListItemAdapter mAdapter;
     private Context mContext;
+    //音乐服务
     private Intent mServiceIntent;
     private MusicService.MusicBind mMusicBind;
     private boolean isBindService;
+
     private List<MusicListItem> list;
+
+
 
 
 
@@ -76,6 +80,7 @@ public class AddPlaylistDialog extends DialogFragment implements PlayListItemAda
         lp.windowAnimations = R.style.mystyle;
         window.setAttributes(lp);
         window.setBackgroundDrawable(new ColorDrawable());
+
 
         initBind();
 
@@ -179,6 +184,7 @@ public class AddPlaylistDialog extends DialogFragment implements PlayListItemAda
             Toast toast = Toast.makeText(mContext,"删除歌曲"+music.getMusic_name(),Toast.LENGTH_SHORT);
             toast.show();
         }
+
     }
 
 }

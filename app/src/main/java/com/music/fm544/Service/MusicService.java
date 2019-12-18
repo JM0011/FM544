@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.music.fm544.Bean.MusicListItem;
 import com.music.fm544.Bean.MusicPO;
@@ -15,6 +16,9 @@ public class MusicService extends Service {
 
     private MediaPlayerHelp mMediaPlayerHelp;
     private MusicPO mMusic;
+
+    //本地广播
+    private LocalBroadcastManager localBroadcastManager;
 
 
     public MusicService() {
@@ -64,6 +68,9 @@ public class MusicService extends Service {
 
                 });
             }
+            //发送本地广播，刷新正在播放歌曲信息
+            Intent intent = new Intent("com.fm544.broadcast.REFRESH_MUSIC");
+            localBroadcastManager.sendBroadcast(intent);
         }
 
         /**
@@ -95,7 +102,9 @@ public class MusicService extends Service {
                     }
                 });
             }
-
+            //发送本地广播，刷新正在播放歌曲信息
+            Intent intent = new Intent("com.fm544.broadcast.REFRESH_MUSIC");
+            localBroadcastManager.sendBroadcast(intent);
         }
 
         /**
@@ -127,7 +136,9 @@ public class MusicService extends Service {
                     }
                 });
             }
-
+            //发送本地广播，刷新正在播放歌曲信息
+            Intent intent = new Intent("com.fm544.broadcast.REFRESH_MUSIC");
+            localBroadcastManager.sendBroadcast(intent);
         }
 
         /**
@@ -162,6 +173,9 @@ public class MusicService extends Service {
                     }
                 });
             }
+            //发送本地广播，刷新正在播放歌曲信息
+            Intent intent = new Intent("com.fm544.broadcast.REFRESH_MUSIC");
+            localBroadcastManager.sendBroadcast(intent);
         }
 
 
@@ -184,6 +198,8 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         mMediaPlayerHelp = MediaPlayerHelp.getInstance(this);
+        //获取广播单例
+        localBroadcastManager = LocalBroadcastManager.getInstance(getBaseContext());
 
         MyApplication app = (MyApplication) getApplication();
         app.setPlaying(false);
