@@ -1,7 +1,9 @@
 package com.music.fm544.Bean;
 
 
-public class MusicPO {
+import java.io.Serializable;
+
+public class MusicPO implements Serializable{
     private Integer id = 0;
     private String music_name;
     private String music_album;

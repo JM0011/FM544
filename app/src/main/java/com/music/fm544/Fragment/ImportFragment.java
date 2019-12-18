@@ -103,6 +103,10 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
                     toPlayMusic(musicPOList.get(0));
                 }
                 Toast.makeText(getActivity(),musicPOList.size()+"首歌曲导入成功",Toast.LENGTH_SHORT).show();
+                listView.setVisibility(View.INVISIBLE);
+                checkBox.setChecked(false);
+                chooseText.setText("全选");
+
                 //发送本地广播，刷新导入数据
                 Intent intent = new Intent("com.fm544.broadcast.MUSIC_IMPORT");
                 localBroadcastManager.sendBroadcast(intent);
@@ -120,6 +124,7 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
                     checkBox.setChecked(false);
                     chooseText.setText("全选");
                 }
+                listView.setVisibility(View.VISIBLE);
                 reinit();
                 adapter.notifyIsAllCheck(false);
             }

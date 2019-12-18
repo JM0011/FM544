@@ -50,7 +50,7 @@
         <activity android:name=".PlayingMusicActivity" />
         <activity android:name=".SubActivity.AlbumDetailActivity" />
         <activity android:name=".SubActivity.SingerDetailActivity" />
-        <activity android:name=".Views.MusicDetailActivity"></activity>
+        <activity android:name=".MusicDetailActivity"></activity>
     </application>
 
 </manifest>

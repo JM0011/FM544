@@ -1,12 +1,15 @@
 package com.music.fm544;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +40,11 @@ public class PlayingMusicActivity extends AppCompatActivity {
     private TextView mSinger;
 
 
+    //本地广播
+    private IntentFilter intentFilter;
+    private LocalBroadcastManager localBroadcastManager;
+    private LocalReciver localReciver;
+
     private ServiceConnection conn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
@@ -65,6 +73,13 @@ public class PlayingMusicActivity extends AppCompatActivity {
         nextMusicBtn = (ImageView) this.findViewById(R.id.next_music);
 
         initView();
+
+        //注册本地广播监听器
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("com.fm544.broadcast.REFRESH_MUSIC");
+        localReciver = new LocalReciver();
+        localBroadcastManager.registerReceiver(localReciver, intentFilter);
 
         back.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -155,6 +170,7 @@ public class PlayingMusicActivity extends AppCompatActivity {
             isBindService = false;
             this.unbindService(conn);
         }
+        localBroadcastManager.unregisterReceiver(localReciver);
     }
 
 
@@ -201,6 +217,8 @@ public class PlayingMusicActivity extends AppCompatActivity {
     }
 
 
+
+
     //设置状态栏颜色
     private void initStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -209,4 +227,14 @@ public class PlayingMusicActivity extends AppCompatActivity {
             StatusBarUtils.setStatusBarColor(PlayingMusicActivity.this, R.color.statusTab);
         }
     }
+
+    //本地广播监听
+    class LocalReciver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initView();
+            mPlayMusicView.initAnim();
+        }
+    }
+
 }

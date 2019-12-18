@@ -112,6 +112,9 @@ public class MyApplication extends Application{
         //记录被播放列表被移出歌曲是否是正在播放的歌曲
         boolean status = false;
         MusicDao musicDao = new MusicDao(datebaseHelper,this);
+        for (MusicPO musicPOList : musicPOLists) {
+            musicPOList.setMusic_like_status(musicDao.get_like_status(musicPOList.getMusic_path()));
+        }
         musicDao.init_music_table(musicPOLists);
         //删除播放列表中不存在于导入音乐集的歌曲
         for (int i = 0; i < playMusics.size(); i++) {

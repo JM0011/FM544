@@ -86,8 +86,21 @@ public class PlayMusicTab extends RelativeLayout {
         play_music_img.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context,PlayingMusicActivity.class);
-                context.startActivity(i);
+                gotoPlayActivity();
+            }
+        });
+
+        song_txt.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoPlayActivity();
+            }
+        });
+
+        singer_txt.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoPlayActivity();
             }
         });
 
@@ -126,7 +139,10 @@ public class PlayMusicTab extends RelativeLayout {
         });
     }
 
-
+    private void gotoPlayActivity(){
+        Intent i = new Intent(mContext,PlayingMusicActivity.class);
+        mContext.startActivity(i);
+    }
 
     public void initView() {
         MyApplication app = (MyApplication) mContext.getApplicationContext();

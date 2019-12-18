@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.music.fm544.Bean.MusicDetail;
 import com.music.fm544.Bean.MusicPO;
 
 import java.util.ArrayList;
@@ -18,24 +19,72 @@ public class LocalAudioUtils {
         this.context = context;
     }
 
-    public List<MusicPO> getAllSongs(Context context){
+    //获取指定歌曲信息
+    public MusicDetail getMusicMessage(MusicPO music) {
+        MusicDetail musicDetail = new MusicDetail();
+
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null,
+                MediaStore.Audio.Media.DATA + "=? and "
+                        + MediaStore.Audio.Media.MIME_TYPE + "=? or "
+                        + MediaStore.Audio.Media.MIME_TYPE + "=?",
+                new String[]{ music.getMusic_path(),"audio/mpeg", "audio/x-ms-wma"}, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        if (cursor == null) {
+            return null;
+        }
+        if (cursor.moveToFirst()) {
+            String name, singer, album, type, pic_path = null, path, file_name;
+            int time, album_id;
+            Integer size;
+            name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+            singer = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+            time = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
+            album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
+            type = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE));
+            size = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
+            path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+            file_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+            album_id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
+            if ("audio/mpeg".equals(type)) {
+                type = "mp3";
+            } else if ("audio/x-ms-wma".equals(type)) {
+                type = "wma";
+            }
+            pic_path = getAlbumArt(album_id);
+            if (pic_path == "" || pic_path == null || pic_path.equals("null")) {
+                pic_path = "";
+            }
+            musicDetail.setMusic_name(name);
+            musicDetail.setMusic_album(album);
+            musicDetail.setMusic_author(singer);
+            musicDetail.setMusic_time(time);
+            musicDetail.setMusic_pic_path(pic_path);
+            musicDetail.setMusic_path(path);
+            musicDetail.setMusic_size(size);
+            cursor.close();
+        }
+        return musicDetail;
+    }
+
+    //获取所有歌曲
+    public List<MusicPO> getAllSongs(Context context) {
         List<MusicPO> songs = new ArrayList<>();
 
         Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 null,
                 MediaStore.Audio.Media.MIME_TYPE + "=? or "
                         + MediaStore.Audio.Media.MIME_TYPE + "=?",
-                new String[] { "audio/mpeg", "audio/x-ms-wma" }, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
-        if (cursor == null){
+                new String[]{"audio/mpeg", "audio/x-ms-wma"}, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        if (cursor == null) {
             return songs;
         }
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             MusicPO music = null;
 
             do {
                 music = new MusicPO();
-                String name,singer,album,type,pic_path = null,path,file_name;
-                int time,album_id,isHighQuality = 0;
+                String name, singer, album, type, pic_path = null, path, file_name;
+                int time, album_id, isHighQuality = 0;
                 Long size;
 //                System.out.println(cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
                 name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
@@ -47,17 +96,17 @@ public class LocalAudioUtils {
                 path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
                 file_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
                 album_id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
-                if ("audio/mpeg".equals(type) ){
+                if ("audio/mpeg".equals(type)) {
                     type = "mp3";
-                } else if ("audio/x-ms-wma".equals(type) ){
+                } else if ("audio/x-ms-wma".equals(type)) {
                     type = "wma";
                 }
                 pic_path = getAlbumArt(album_id);
-                if (pic_path == "" || pic_path == null || pic_path.equals("null")){
-                    pic_path="";
+                if (pic_path == "" || pic_path == null || pic_path.equals("null")) {
+                    pic_path = "";
                 }
                 //判断是否为高品质音乐（未实现）
-                if (size > 0){
+                if (size > 0) {
                     isHighQuality = 1;
                 }
 //                System.out.println(name);
@@ -66,6 +115,8 @@ public class LocalAudioUtils {
 //                System.out.println(time);
 //                System.out.println(pic_path);
 //                System.out.println(path);
+//                System.out.println("长度"+size);
+//                System.out.println("时间" +time);
                 music.setMusic_name(name);
                 music.setMusic_author(singer);
                 music.setMusic_album(album);
@@ -74,7 +125,7 @@ public class LocalAudioUtils {
                 music.setMusic_path(path);
                 music.setHighQuality(isHighQuality);
                 songs.add(music);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
             cursor.close();
         }
 
@@ -84,7 +135,7 @@ public class LocalAudioUtils {
     //获取专辑封面图片路径(若没有返回为空)
     private String getAlbumArt(int album_id) {
         String mUriAlbums = "content://media/external/audio/albums";
-        String[] projection = new String[] { "album_art" };
+        String[] projection = new String[]{"album_art"};
         Cursor cur = context.getContentResolver().query(
                 Uri.parse(mUriAlbums + "/" + Integer.toString(album_id)),
                 projection, null, null, null);

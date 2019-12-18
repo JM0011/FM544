@@ -10,4 +10,9 @@
         android:title="添加喜爱"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/music_more"
+        android:title="歌曲详情"
+        app:showAsAction="never"/>
+
 </menu>

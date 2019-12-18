@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.music.fm544.Adapter.MusicItemAdapter;
 import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.Helps.MusicDao;
+import com.music.fm544.MusicDetailActivity;
 import com.music.fm544.MyApplication;
 import com.music.fm544.R;
 import com.music.fm544.Service.MusicService;
@@ -169,6 +170,8 @@ public class MineSubOneActivity extends AppCompatActivity implements MusicItemAd
                     setLikeMusic(music);
                 }else if(menuItem.getTitle().equals("添加喜爱")){
                     setLikeMusic(music);
+                }else if(menuItem.getTitle().equals("歌曲详情")){
+                    gotoMusicDetail(music);
                 }
                 return false;
             }
@@ -182,6 +185,13 @@ public class MineSubOneActivity extends AppCompatActivity implements MusicItemAd
         });
         menu.show();
     }
+
+    private void gotoMusicDetail(MusicPO music) {
+        Intent intent = new Intent(this, MusicDetailActivity.class);
+        intent.putExtra("musicDetail", music);
+        startActivity(intent);
+    }
+
 
     private void toPlayMusic(MusicPO music){
         MyApplication app = (MyApplication) getApplication();

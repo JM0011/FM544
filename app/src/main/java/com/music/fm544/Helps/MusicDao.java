@@ -128,12 +128,11 @@ public class MusicDao{
         database.execSQL(sql);
         for (MusicPO music : musics) {
             if (music != null){
-                music.setMusic_like_status(0);
                 create_music_table_row(music);
             }
         }
-
     }
+
 
     //播放完毕移除播放列表第一行
     public void after_playing(){
@@ -143,7 +142,6 @@ public class MusicDao{
         String music_name = cursor.getString(cursor.getColumnIndex("music_name"));
         String sql2 = "delete from play_table where music_name = '"+music_name+"'";
         database.execSQL(sql2);
-
     }
 
     //遍历歌曲列表,返回对象列表(已测试)
@@ -228,11 +226,15 @@ public class MusicDao{
 
 
     //根据音乐名，查询是否喜爱（已测试）
-    public Integer get_like_status(String music_name){
-        String sql = "select music_like_status from music_table where music_name = '"+ music_name +"'";
+    public Integer get_like_status(String music_path){
+        String sql = "select music_like_status from music_table where music_path = '"+ music_path +"'";
         Cursor cursor = database.rawQuery(sql,null);
-        cursor.moveToFirst();
-        return cursor.getInt(cursor.getColumnIndex("music_like_status"));
+        if (cursor.moveToFirst()){
+            return cursor.getInt(cursor.getColumnIndex("music_like_status"));
+        }else {
+            return 0;
+        }
+
     }
 
     //遍历喜爱列表(已测试)
