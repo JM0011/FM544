@@ -17,7 +17,7 @@ import java.util.List;
 
 public class MyApplication extends Application{
     private boolean isPlaying;
-    private MusicPO music;
+    private MusicPO music = null;
     private List<MusicListItem> playMusics;
     private Intent serviceIntent;
     private DatabaseHelper datebaseHelper;
@@ -70,36 +70,37 @@ public class MyApplication extends Application{
 
 
 
-        //测试Musicdao
-        MusicPO music1 = new MusicPO(0,"荼蘼未了","热门华语268","樱九",218570,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831373551",
-                "/storage/emulated/0/Music/music/荼蘼未了.mp3",0,0);
-        MusicPO music2 = new MusicPO(0,"为龙","唱给你的歌","河图",247879,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831351858",
-                "/storage/emulated/0/Music/music/河图 - 为龙.mp3",0,0);
-        MusicPO music3 = new MusicPO(0,"夜空中最亮的星","世界","逃跑计划",252268,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831381793",
-                "/storage/emulated/0/Music/music/夜空中最亮的星.mp3",0,0);
-        MusicDao musicDao = new MusicDao(datebaseHelper,this);
+//        //测试Musicdao
+//        MusicPO music1 = new MusicPO(0,"荼蘼未了","热门华语268","樱九",218570,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831373551",
+//                "/storage/emulated/0/Music/music/荼蘼未了.mp3",0,0);
+//        MusicPO music2 = new MusicPO(0,"为龙","唱给你的歌","河图",247879,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831351858",
+//                "/storage/emulated/0/Music/music/河图 - 为龙.mp3",0,0);
+//        MusicPO music3 = new MusicPO(0,"夜空中最亮的星","世界","逃跑计划",252268,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831381793",
+//                "/storage/emulated/0/Music/music/夜空中最亮的星.mp3",0,0);
+//
+//
+//
+//
+//        MusicListItem music4 = new MusicListItem(0,"荼蘼未了","热门华语268","樱九",218570,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831373551",
+//                "/storage/emulated/0/Music/music/荼蘼未了.mp3",0,0,false);
+//        MusicListItem music5 = new MusicListItem(0,"为龙","唱给你的歌","河图",247879,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831351858",
+//                "/storage/emulated/0/Music/music/河图 - 为龙.mp3",0,0,false);
+//        MusicListItem music6 = new MusicListItem(0,"夜空中最亮的星","世界","逃跑计划",252268,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831381793",
+//                "/storage/emulated/0/Music/music/夜空中最亮的星.mp3",0,0,true);
 
-
-
-
-        MusicListItem music4 = new MusicListItem(0,"荼蘼未了","热门华语268","樱九",218570,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831373551",
-                "/storage/emulated/0/Music/music/荼蘼未了.mp3",0,0,false);
-        MusicListItem music5 = new MusicListItem(0,"为龙","唱给你的歌","河图",247879,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831351858",
-                "/storage/emulated/0/Music/music/河图 - 为龙.mp3",0,0,false);
-        MusicListItem music6 = new MusicListItem(0,"夜空中最亮的星","世界","逃跑计划",252268,"/storage/emulated/0/Android/data/com.android.providers.media/albumthumbs/1574831381793",
-                "/storage/emulated/0/Music/music/夜空中最亮的星.mp3",0,0,true);
-        playMusics =  new ArrayList<>();
-
-    // 测试本地音乐扫描
+        // 测试本地音乐扫描
 //        MediaScannerConnection.scanFile(this, new String[] { Environment
 //                .getExternalStorageDirectory().getAbsolutePath() }, null, null);
 //        LocalAudioUtils localAudioUtils = new LocalAudioUtils(this);
 //        musicDao.init_music_table(localAudioUtils.getAllSongs(this));
 
+
+        playMusics =  new ArrayList<>();
+        MusicDao musicDao = new MusicDao(datebaseHelper,this);
         playMusics.addAll(musicDao.select_all_play_table());
         for (MusicListItem playMusic : playMusics) {
             if (playMusic.isPlaying()){
-                music = music1;
+                music = playMusic;
             }
         }
 

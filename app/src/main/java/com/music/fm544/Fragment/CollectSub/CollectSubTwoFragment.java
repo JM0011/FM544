@@ -1,9 +1,13 @@
 package com.music.fm544.Fragment.CollectSub;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +30,13 @@ public class CollectSubTwoFragment extends Fragment implements AdapterView.OnIte
     private ListView listView;
     private CollectSingerAdapter mAdapter;
 
+    List<Singer> listData;
+
+    //本地广播
+    private IntentFilter intentFilter;
+    private LocalBroadcastManager localBroadcastManager;
+    private LocalReciver localReciver;
+
 
     public CollectSubTwoFragment() {
         // Required empty public constructor
@@ -39,12 +50,17 @@ public class CollectSubTwoFragment extends Fragment implements AdapterView.OnIte
         View view = inflater.inflate(R.layout.fragment_collect_sub_two, container, false);
 
         listView = view.findViewById(R.id.listView);
-        List<Singer> list = getData();
-        mAdapter = new CollectSingerAdapter(getActivity(),list);
+        listData = getData();
+        mAdapter = new CollectSingerAdapter(getActivity(),listData);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
 
-
+        //注册本地广播监听器
+        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("com.fm544.broadcast.MUSIC_IMPORT");
+        localReciver = new LocalReciver();
+        localBroadcastManager.registerReceiver(localReciver, intentFilter);
 
         return view;
     }
@@ -57,6 +73,12 @@ public class CollectSubTwoFragment extends Fragment implements AdapterView.OnIte
 
     }
 
+    public void refresh(){
+        listData.clear();
+        listData.addAll(getData());
+        mAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Singer singers = (Singer) mAdapter.getItem(i);
@@ -65,5 +87,12 @@ public class CollectSubTwoFragment extends Fragment implements AdapterView.OnIte
         startActivity(intent);
     }
 
+    //本地广播监听
+    class LocalReciver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refresh();
+        }
+    }
 
 }

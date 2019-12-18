@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,9 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
     //导入按钮
     private Button import_btn;
 
+    //本地广播
+    private LocalBroadcastManager localBroadcastManager;
+
 
     //音乐服务相关
     private Intent mServiceIntent;
@@ -81,6 +85,8 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
+        //获取本地广播单例
+        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
 
         scan_btn = view.findViewById(R.id.scaning_btn);
         checkBox = view.findViewById(R.id.choose_all);
@@ -97,6 +103,9 @@ public class ImportFragment extends Fragment implements MusicImportAdapter.Inner
                     toPlayMusic(musicPOList.get(0));
                 }
                 Toast.makeText(getActivity(),musicPOList.size()+"首歌曲导入成功",Toast.LENGTH_SHORT).show();
+                //发送本地广播，刷新数据
+                Intent intent = new Intent("com.fm544.broadcast.MUSIC_IMPORT");
+                localBroadcastManager.sendBroadcast(intent);
             }
         });
 

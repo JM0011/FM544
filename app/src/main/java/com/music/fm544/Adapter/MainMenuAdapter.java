@@ -14,31 +14,19 @@ import com.music.fm544.Fragment.MineFragment;
 
 public class MainMenuAdapter extends FragmentPagerAdapter{
 
+    Fragment[] fragments = {new MineFragment(),new CollectFragment(),new ImportFragment()};
+
     public MainMenuAdapter(FragmentManager fm){
         super(fm);
     }
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = null;
-        switch (position) {
-            case 0:
-                fragment = new MineFragment();
-                break;
-            case 1:
-                fragment = new CollectFragment();
-                break;
-            case 2:
-                fragment = new ImportFragment();
-                break;
-            default:
-                break;
-        }
-        return fragment;
+        return fragments[position];
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return fragments.length;
     }
 }
