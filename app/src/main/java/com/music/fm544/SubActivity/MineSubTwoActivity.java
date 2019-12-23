@@ -20,9 +20,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.music.fm544.Adapter.MusicItemAdapter;
-import com.music.fm544.Bean.MusicListItem;
 import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.Helps.MusicDao;
+import com.music.fm544.MusicDetailActivity;
 import com.music.fm544.MyApplication;
 import com.music.fm544.R;
 import com.music.fm544.Service.MusicService;
@@ -123,14 +123,18 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicItemAd
 
     private List<MusicPO> getData() {
         List<MusicPO> list = new ArrayList<>();
-        List<MusicListItem> list1 = new ArrayList<>();
+//        List<MusicListItem> list1 = new ArrayList<>();
+//        MyApplication app = (MyApplication) this.getApplication();
+//        MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),this);
+//        list1 = musicDao.select_all_play_table();
+//        for (MusicListItem musicListItem : list1) {
+//            MusicPO music = musicListItem;
+//            list.add(music);
+//        }
+
         MyApplication app = (MyApplication) this.getApplication();
         MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),this);
-        list1 = musicDao.select_all_play_table();
-        for (MusicListItem musicListItem : list1) {
-            MusicPO music = musicListItem;
-            list.add(music);
-        }
+        list = musicDao.select_recent_music_table();
         return list;
 
     }
@@ -186,6 +190,8 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicItemAd
                     setLikeMusic(music);
                 }else if(menuItem.getTitle().equals("添加喜爱")){
                     setLikeMusic(music);
+                }else if(menuItem.getTitle().equals("歌曲详情")){
+                    gotoMusicDetail(music);
                 }
                 return false;
             }
@@ -198,6 +204,12 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicItemAd
             }
         });
         menu.show();
+    }
+
+    private void gotoMusicDetail(MusicPO music) {
+        Intent intent = new Intent(this, MusicDetailActivity.class);
+        intent.putExtra("musicDetail", music);
+        startActivity(intent);
     }
 
     private void toPlayMusic(MusicPO music){

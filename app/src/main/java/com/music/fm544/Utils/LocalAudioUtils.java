@@ -117,6 +117,7 @@ public class LocalAudioUtils {
 //                System.out.println(path);
 //                System.out.println("长度"+size);
 //                System.out.println("时间" +time);
+                music.setId(0);
                 music.setMusic_name(name);
                 music.setMusic_author(singer);
                 music.setMusic_album(album);

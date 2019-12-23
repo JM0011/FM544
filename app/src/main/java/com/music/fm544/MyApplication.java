@@ -159,6 +159,7 @@ public class MyApplication extends Application{
     }
 
 
+
     //保存播放列表记录到数据库
     public void savePlayMusicList(){
         MusicDao musicDao = new MusicDao(datebaseHelper,this);
@@ -207,6 +208,7 @@ public class MyApplication extends Application{
         }
         isPlaying = true;
         this.music = music;
+
     }
 
     //播放列表中的歌曲（播放列表中）

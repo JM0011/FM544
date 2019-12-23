@@ -39,17 +39,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "music_like_status Integer(2),"+
                 "isPlaying Integer(2))";
 
-//        String sql3 = "CREATE TABLE like_table(id Integer PRIMARY KEY AUTOINCREMENT," +
-//                "music_name VARCHAR(30)," +
-//                "music_album VARCHAR(30)," +
-//                "music_author VARCHAR(30),"+
-//                "music_time Integer(1000),"+
-//                "music_pic_path VARCHAR(600)," +
-//                "music_path VARCHAR(600))";
+        String sql3 = "CREATE TABLE recent_play(id Integer PRIMARY KEY AUTOINCREMENT," +
+                "recent_music_id Integer(2))";
+
 
         sqLiteDatabase.execSQL(sql1);
         sqLiteDatabase.execSQL(sql2);
-//        sqLiteDatabase.execSQL(sql3);
+        sqLiteDatabase.execSQL(sql3);
         Toast.makeText(mContext,"初始化成功",Toast.LENGTH_SHORT).show();
     }
 

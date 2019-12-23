@@ -200,6 +200,8 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
                     setLikeMusic(music);
                 }else if(menuItem.getTitle().equals("添加喜爱")){
                     setLikeMusic(music);
+                }else if(menuItem.getTitle().equals("歌曲详情")){
+                    gotoMusicDetail(music);
                 }
                 return false;
             }
@@ -212,6 +214,12 @@ public class SearchActivity extends AppCompatActivity implements MusicItemAdapte
             }
         });
         menu.show();
+    }
+
+    private void gotoMusicDetail(MusicPO music) {
+        Intent intent = new Intent(this, MusicDetailActivity.class);
+        intent.putExtra("musicDetail", music);
+        startActivity(intent);
     }
 
     private void toPlayMusic(MusicPO music){

@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.music.fm544.Bean.MusicListItem;
 import com.music.fm544.Bean.MusicPO;
 import com.music.fm544.Helps.MediaPlayerHelp;
+import com.music.fm544.Helps.MusicDao;
 import com.music.fm544.MyApplication;
 
 public class MusicService extends Service {
@@ -105,6 +106,8 @@ public class MusicService extends Service {
             //发送本地广播，刷新正在播放歌曲信息
             Intent intent = new Intent("com.fm544.broadcast.REFRESH_MUSIC");
             localBroadcastManager.sendBroadcast(intent);
+            MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),getApplicationContext());
+            musicDao.create_recent_music_row(mMusic);
         }
 
         /**
@@ -139,6 +142,8 @@ public class MusicService extends Service {
             //发送本地广播，刷新正在播放歌曲信息
             Intent intent = new Intent("com.fm544.broadcast.REFRESH_MUSIC");
             localBroadcastManager.sendBroadcast(intent);
+            MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),getApplicationContext());
+            musicDao.create_recent_music_row(mMusic);
         }
 
         /**
@@ -176,6 +181,8 @@ public class MusicService extends Service {
             //发送本地广播，刷新正在播放歌曲信息
             Intent intent = new Intent("com.fm544.broadcast.REFRESH_MUSIC");
             localBroadcastManager.sendBroadcast(intent);
+            MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),getApplicationContext());
+            musicDao.create_recent_music_row(mMusic);
         }
 
 

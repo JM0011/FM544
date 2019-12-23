@@ -152,7 +152,9 @@ public class PlayMusicTab extends RelativeLayout {
         }else{
             play_btn.setImageResource(R.drawable.all_play);
         }
-        if (music == null || music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
+        if (play_music_img == null){
+
+        }else if (music == null || music.getMusic_pic_path() == null || music.getMusic_pic_path().equals("")){
             Glide.with(mContext)
                     .load(R.mipmap.default_music_img)
                     .into(play_music_img);

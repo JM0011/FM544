@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/back_btn"
-            android:text="音乐详情"
+            android:text="歌曲详情"
             android:textColor="@color/black"
             android:textSize="20dp" />
 

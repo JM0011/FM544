@@ -63,6 +63,112 @@ public class MusicDao{
 
     }
 
+    //创建最近音乐列表行(已测试)（最近播放记录限制40条）
+    public void create_recent_music_row(MusicPO musicpo){
+        MusicPO music = new MusicPO();
+        if (musicpo.getId() != 0 && musicpo != null && !musicpo.getMusic_path().equals("")){
+            music = get_music_from_table(musicpo.getMusic_name(),musicpo.getMusic_path());
+            if (music != null && music.getId() > 0){
+                //最近歌曲中已经存在此歌曲
+                if(is_exist_in_recent_music(music.getId())){
+                    delete_recent_music(music.getId());
+                }else if (get_count_recent_music() >= 40){
+                    delete_first_recent_music();
+                }
+                String sql = "insert into recent_play(recent_music_id) values('" +music.getId()+"')";
+                database.execSQL(sql);
+            }
+        }
+    }
+
+    //删除最近歌曲表中的第一条记录（已测试）
+    public void delete_first_recent_music(){
+        String sql = "delete from recent_play where recent_music_id = (select recent_music_id from recent_play order by id limit 0,1)";
+        database.execSQL(sql);
+    }
+
+    //计算最近歌曲中记录的个数（已测试）
+    public Integer get_count_recent_music(){
+        String sql = "select COUNT(*) from recent_play";
+        Cursor cursor = database.rawQuery(sql,null);
+        if (cursor.moveToFirst()){
+            return cursor.getInt(0);
+        }
+        return -1;
+    }
+
+    //删除最近歌曲根据id（已测试）
+    public void delete_recent_music(Integer id){
+        String sql = "delete from recent_play where recent_music_id = '" + id + "'";
+        database.execSQL(sql);
+    }
+
+    //判断最近歌曲表中是否已存在（已测试）
+    public boolean is_exist_in_recent_music(Integer id){
+        List<Integer> lists =  new ArrayList<>();
+        String sql = "select * from recent_play";
+        Cursor cursor = database.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            do{
+                lists.add(cursor.getInt(cursor.getColumnIndex("recent_music_id")));
+            }while (cursor.moveToNext());
+        }
+        for (Integer list : lists) {
+            if (list == id){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+
+
+    //获取最近音乐列表(已测试)
+    public List<MusicPO> select_recent_music_table(){
+        List<MusicPO> musicPoList = new ArrayList<>();
+        List<Integer> lists =  new ArrayList<>();
+        String sql = "select * from recent_play";
+        Cursor cursor = database.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            do{
+                lists.add(cursor.getInt(cursor.getColumnIndex("recent_music_id")));
+            }while (cursor.moveToNext());
+        }
+        for (Integer list : lists) {
+            MusicPO musicPO = get_music_by_id(list);
+            if (musicPO != null){
+                musicPoList.add(musicPO);
+            }
+        }
+        return musicPoList;
+    }
+
+    //通过id查找music_table歌曲信息(已测试)
+    public MusicPO get_music_by_id(Integer id){
+        String[] args = null;
+        args = new String[]{id.toString()};
+        String sql = "select * from music_table where id = ? ";
+        Cursor cursor = database.rawQuery(sql,args);
+        MusicPO musicpo = new MusicPO();
+        if (cursor.moveToFirst()){
+                musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                musicpo.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
+                musicpo.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
+                musicpo.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
+                musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
+                musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
+                musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+                musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+                musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
+                return musicpo;
+        }
+        return null;
+    }
+
+
+
+
     //清除播放列表并初始化(已测试)
     public void init_play_table(List<MusicListItem> musicList){
         String sql = "delete from play_table";
@@ -77,23 +183,25 @@ public class MusicDao{
 
 
     //通过歌曲名查找music_table歌曲信息(已测试)
-    public MusicPO search_music_table(String music_name){
+    public MusicPO get_music_from_table(String music_name,String music_path){
         String[] args = null;
-        args = new String[]{music_name};
-        String sql = "select * from music_table where music_name = ?";
+        args = new String[]{music_name,music_path};
+        String sql = "select * from music_table where music_name = ? and music_path = ?";
         Cursor cursor = database.rawQuery(sql,args);
-        cursor.moveToFirst();
         MusicPO musicpo = new MusicPO();
-        musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
-        musicpo.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
-        musicpo.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
-        musicpo.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
-        musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
-        musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
-        musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
-        musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
-        musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
-        return musicpo;
+        if (cursor.moveToFirst()){
+            musicpo.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            musicpo.setMusic_name(cursor.getString(cursor.getColumnIndex("music_name")));
+            musicpo.setMusic_album(cursor.getString(cursor.getColumnIndex("music_album")));
+            musicpo.setMusic_author(cursor.getString(cursor.getColumnIndex("music_author")));
+            musicpo.setMusic_time(cursor.getInt(cursor.getColumnIndex("music_time")));
+            musicpo.setMusic_pic_path(cursor.getString(cursor.getColumnIndex("music_pic_path")));
+            musicpo.setMusic_path(cursor.getString(cursor.getColumnIndex("music_path")));
+            musicpo.setMusic_like_status(cursor.getInt(cursor.getColumnIndex("music_like_status")));
+            musicpo.setHighQuality(cursor.getInt(cursor.getColumnIndex("isHighQuality")));
+            return musicpo;
+        }
+        return null;
     }
 
     //设置歌曲为喜欢（已测试）
