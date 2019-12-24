@@ -13,6 +13,7 @@ import com.music.fm544.Bean.Singer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class MusicDao{
 
@@ -63,6 +64,7 @@ public class MusicDao{
 
     }
 
+
     //创建最近音乐列表行(已测试)（最近播放记录限制40条）
     public void create_recent_music_row(MusicPO musicpo){
         MusicPO music = new MusicPO();
@@ -79,6 +81,13 @@ public class MusicDao{
                 database.execSQL(sql);
             }
         }
+    }
+
+
+    //当重新导入时，最近音乐重置（已测试）
+    public void init_recent_music(){
+        String sql = "delete from recent_play";
+        database.execSQL(sql);
     }
 
     //删除最近歌曲表中的第一条记录（已测试）
@@ -114,7 +123,7 @@ public class MusicDao{
             }while (cursor.moveToNext());
         }
         for (Integer list : lists) {
-            if (list == id){
+            if (list == id || Objects.equals(list,id)){
                 return true;
             }
         }

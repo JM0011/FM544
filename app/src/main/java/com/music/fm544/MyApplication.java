@@ -147,6 +147,8 @@ public class MyApplication extends Application{
                 status = true;
             }
         }
+        //初始化最近播放
+        musicDao.init_recent_music();
         return status;
     }
 
@@ -157,8 +159,6 @@ public class MyApplication extends Application{
         LocalAudioUtils localAudioUtils = new LocalAudioUtils(this);
         return localAudioUtils.getAllSongs(this);
     }
-
-
 
     //保存播放列表记录到数据库
     public void savePlayMusicList(){

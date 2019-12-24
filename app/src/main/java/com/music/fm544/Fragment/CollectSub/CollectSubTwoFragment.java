@@ -66,8 +66,8 @@ public class CollectSubTwoFragment extends Fragment implements AdapterView.OnIte
     }
 
     private List<Singer> getData() {
-        MyApplication app = (MyApplication) this.getActivity().getApplication();
-        MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),this.getActivity());
+        MyApplication app = (MyApplication) getActivity().getApplication();
+        MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),getActivity());
 
         return musicDao.get_singer_group_by_album();
 

@@ -3,6 +3,7 @@ package com.music.fm544;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.music.fm544.Adapter.MainMenuAdapter;
 import com.music.fm544.Utils.PermissionsUtils;
 import com.music.fm544.Utils.StatusBarUtils;
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private final int[] menu_title = new int[]{R.string.menu_mine,R.string.menu_collect,R.string.menu_import};
     //菜单图标
     private final int[] menu_img = new int[]{R.drawable.tab_main_mine_selector,R.drawable.tab_main_collect_selector,R.drawable.tab_main_import_selector};
+    //记录tabLayout中的每个item的View
+    private View[] imgViews = new View[3];
+
 
     //页卡适配器
     private PagerAdapter adapter;
@@ -47,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView playingBtn;
 
     FragmentManager fragmentManager;
+
 
     //退出时间
     private long exitTime;
@@ -80,10 +87,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //获取读取本地文件的权限
         String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
         PermissionsUtils.showSystemSetting = true;//是否支持显示系统设置权限设置窗口跳转
         //这里的this是Activity对象！
         PermissionsUtils.getInstance().chekPermissions(this, permissions, permissionsResult);
+
+
 
     }
 
@@ -92,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void passPermissons() {
 //            Toast.makeText(MainActivity.this, "权限通过", Toast.LENGTH_SHORT).show();
+            SharedPreferences sp = getSharedPreferences("share",MODE_PRIVATE);
+            boolean isFirst = sp.getBoolean("isFirstIn",true);
+            if (isFirst){
+                targetView();
+            }
         }
 
         @Override
@@ -136,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             tab.setCustomView(view);
 
             ImageView imgTab = (ImageView) view.findViewById(R.id.img_tab);
+            imgViews[i] = view.findViewById(R.id.img_tab);
             imgTab.setImageResource(tabImgs[i]);
             tabLayout.addTab(tab);
         }
@@ -178,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             // 重写键盘事件分发，onKeyDown方法某些情况下捕获不到，只能在这里写
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 Snackbar snackbar = Snackbar.make(viewPager, "再按一次退出程序", Snackbar.LENGTH_SHORT);
-                snackbar.getView().setBackgroundResource(R.color.colorPrimary);
+                snackbar.getView().setBackgroundResource(R.color.main_back);
                 snackbar.show();
                 exitTime = System.currentTimeMillis();
             } else {
@@ -189,6 +205,57 @@ public class MainActivity extends AppCompatActivity {
         return super.dispatchKeyEvent(event);
     }
 
+    //用户引导
+    public void targetView(){
+        TapTargetSequence sequence = new TapTargetSequence(this)
+                .targets(
+                        TapTarget.forView(imgViews[0], "FM544：音乐主界面","在这里你可以看到导入的歌曲、最近播放和喜爱的歌曲哦")
+                                .outerCircleAlpha(0.94f)
+                                .tintTarget(false)
+                                .drawShadow(true)
+                                .cancelable(false)
+                                .id(1),
+                        TapTarget.forView(imgViews[1], "FM544：歌曲分类", "在这里你可以看到歌曲按专辑和歌手的分类")
+                                .outerCircleAlpha(0.94f)
+                                .tintTarget(false)
+                                .drawShadow(true)
+                                .cancelable(false)
+                                .id(2),
+                        TapTarget.forView(findViewById(R.id.search_img),"FM544: 搜索界面","在这里你可以搜索本地歌曲")
+                                .outerCircleAlpha(0.94f)
+                                .tintTarget(false)
+                                .drawShadow(true)
+                                .cancelable(false)
+                                .id(3),
+                        TapTarget.forView(imgViews[2],"FM544: 导入界面","在这里你可以导入全部或特定的本地歌曲\n"+"快来导入歌曲开始使用吧!")
+                                .outerCircleAlpha(0.94f)
+                                .tintTarget(false)
+                                .drawShadow(true)
+                                .cancelable(false)
+                                .id(4)
+                )
+                .listener(new TapTargetSequence.Listener() {
+
+                    @Override
+                    public void onSequenceFinish() {
+                        //第一次进入显示引导后，将isFirstIn置为false
+                        SharedPreferences sp = getSharedPreferences("share", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putBoolean("isFirstIn",false);
+                        editor.commit();
+                    }
+
+                    @Override
+                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {
+                    }
+
+                    @Override
+                    public void onSequenceCanceled(TapTarget lastTarget) {
+
+                    }
+                });
+        sequence.start();
+    }
 
     @Override
     protected void onDestroy() {
