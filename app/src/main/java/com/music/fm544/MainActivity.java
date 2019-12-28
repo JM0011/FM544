@@ -205,7 +205,9 @@ public class MainActivity extends AppCompatActivity {
         return super.dispatchKeyEvent(event);
     }
 
-    //用户引导
+    /**
+     *用户引导
+     */
     public void targetView(){
         TapTargetSequence sequence = new TapTargetSequence(this)
                 .targets(

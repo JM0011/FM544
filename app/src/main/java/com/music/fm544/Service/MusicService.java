@@ -23,9 +23,25 @@ public class MusicService extends Service {
 
 
     public MusicService() {
+
     }
 
     public class MusicBind extends Binder {
+
+        /**
+         * 跳转到指定音乐位置
+         * @param position
+         */
+        public void seekTo(Integer position){
+            mMediaPlayerHelp.SeekTo(position);
+        }
+        /**
+         * 获取当前音乐播放进度
+         * @return
+         */
+        public Integer getCurrentPostion(){
+            return mMediaPlayerHelp.getCurrentPostition();
+        }
         /**
          * 获取当前播放的音乐对象
          */

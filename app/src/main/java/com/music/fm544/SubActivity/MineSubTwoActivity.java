@@ -230,10 +230,10 @@ public class MineSubTwoActivity extends AppCompatActivity implements MusicItemAd
         for (MusicPO musicPO : dataList) {
             if (musicPO.getMusic_path().equals(music.getMusic_path())){
                 if (music.getMusic_like_status() == 0){
-                    musicPO.setMusic_like_status(1);
+                    musicPO.setMusic_like_status(0);
                     break;
                 }else if (music.getMusic_like_status() == 1){
-                    musicPO.setMusic_like_status(0);
+                    musicPO.setMusic_like_status(1);
                     break;
                 }
             }

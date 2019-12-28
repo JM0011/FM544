@@ -119,6 +119,15 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         mPlayMusicTab.destory();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dataList.clear();
+        dataList.addAll(getData());
+        mAdapter.notifyDataSetChanged();
+
+    }
+
     private List<MusicPO> getData() {
 
         List<MusicPO> list1 = new ArrayList<MusicPO>();
@@ -146,9 +155,7 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         MyApplication app = (MyApplication) this.getApplication();
         MusicDao musicDao = new MusicDao(app.getDatebaseHelper(),this);
         list1 = musicDao.select_all_like_table();
-        System.out.println(list1.size());
         return list1;
-
     }
 
 
@@ -228,10 +235,10 @@ public class MineSubThreeActivity extends AppCompatActivity implements MusicItem
         for (MusicPO musicPO : dataList) {
             if (musicPO.getMusic_path().equals(music.getMusic_path())){
                 if (music.getMusic_like_status() == 0){
-                    musicPO.setMusic_like_status(1);
+                    musicPO.setMusic_like_status(0);
                     break;
                 }else if (music.getMusic_like_status() == 1){
-                    musicPO.setMusic_like_status(0);
+                    musicPO.setMusic_like_status(1);
                     //从数据堆栈中删除
                     dataList.remove(musicPO);
                     break;

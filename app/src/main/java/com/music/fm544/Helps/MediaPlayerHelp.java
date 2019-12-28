@@ -7,7 +7,6 @@ import android.net.Uri;
 import java.io.IOException;
 
 
-
 public class MediaPlayerHelp {
 
     private static MediaPlayerHelp instance;
@@ -36,6 +35,34 @@ public class MediaPlayerHelp {
     private MediaPlayerHelp(Context context){
         mContext = context;
         mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+            @Override
+            public void onSeekComplete(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+            }
+        });
+    }
+
+    /**
+     * 跳转到指定播放位置
+     * @param position
+     */
+    public void SeekTo(Integer position){
+        if(mPath == null){
+            return;
+        }
+        mMediaPlayer.seekTo(position);
+    }
+
+    /**
+     * 获取歌曲播放进度
+     * @return
+     */
+    public Integer getCurrentPostition(){
+        if (mPath==null){
+            return 0;
+        }
+        return mMediaPlayer.getCurrentPosition();
     }
 
     //设置需要播放的音乐路径

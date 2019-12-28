@@ -307,6 +307,12 @@ public class MyApplication extends Application{
         }else {
             musicDao.cancel_like(musicPO.getMusic_path());
         }
+        if (musicPO.getMusic_like_status() == 0){
+            musicPO.setMusic_like_status(1);
+        }else {
+            musicPO.setMusic_like_status(0);
+        }
+
         //更改正在播放歌曲
         if (music != null && music.getMusic_path().equals(musicPO.getMusic_path())){
             music.setMusic_like_status(musicPO.getMusic_like_status());

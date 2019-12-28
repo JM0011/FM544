@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.music.fm544.Bean.MusicDetail;
 import com.music.fm544.Bean.MusicPO;
+import com.music.fm544.Utils.FormatUtils;
 import com.music.fm544.Utils.LocalAudioUtils;
 import com.music.fm544.Utils.StatusBarUtils;
 
@@ -145,21 +146,7 @@ public class MusicDetailActivity extends AppCompatActivity {
                 }
             }
             if (musicDetail.getMusic_time() > 0 && musicDetail.getMusic_time() != null){
-                if (musicDetail.getMusic_time()/1000 > 1){
-                    int s = musicDetail.getMusic_time()/1000;
-                    if (s/60 > 1){
-                        int m = s/60;
-                        if (m/60 > 1 ){
-                            timeMsg = m/60+":"+ m%60 + ":" + s%60;
-                        }else {
-                            timeMsg = m + ":" + s%60;
-                        }
-                    }else{
-                        timeMsg = s + "s";
-                    }
-                }else {
-                    timeMsg = musicDetail.getMusic_time() + "ms";
-                }
+                timeMsg = FormatUtils.formatTime(musicDetail.getMusic_time());
             }
             if (musicDetail.getMusic_size() != null && musicDetail.getMusic_size() > 0 && musicDetail.getMusic_time() > 0 && musicDetail.getMusic_time() != null){
                 int bits = musicDetail.getMusic_size()/1024 * 8 / (musicDetail.getMusic_time()/1000);
